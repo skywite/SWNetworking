@@ -71,6 +71,9 @@
 @property (readonly, nonatomic, strong) NSMutableData *responseData;
 
 
+/**
+ *  response statuscdoe
+ */
 @property(readonly, nonatomic, assign) int statusCode;
 
 
@@ -91,10 +94,17 @@
  */
 @property (nonatomic, retain) SWResponseDataType <SWResponseDataType> *responseDataType;
 
-
+/**
+ *  this is only use for add loading view
+ */
 @property (nonatomic, retain) UIView    *parentView;
 
+
 @property (nonatomic, retain) NSDate *requestSavedDate;
+/**
+ *  set custom time out (seconds) default 60 seconds
+ */
+@property (nonatomic, assign) int timeOut;
 -(NSString *)responseString;
 
 -(void)createConnection;

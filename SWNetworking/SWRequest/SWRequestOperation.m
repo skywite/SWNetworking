@@ -25,6 +25,8 @@
 //
 
 #import "SWRequestOperation.h"
+#import "SWReachability.h"
+#import "SWOfflineRequestManger.h"
 
 NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking-----------14737809831466499882746641449";
 
@@ -39,7 +41,6 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 @property(readwrite, nonatomic, assign) int                     statusCode;
 
-@property (nonatomic, assign) float timeOut;
 @property (nonatomic, retain) NSURLConnection                   *connection;
 @property (nonatomic, retain) NSString                          *method;
 @property (nonatomic, retain) NSSet                             *availableInURLMethods;
@@ -64,6 +65,25 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 @implementation SWRequestOperation
 
+static NSString * SWEscapedQueryStringKeyFromStringWithEncoding(NSString *string){
+    
+    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
+                                                                                   NULL,
+                                                                                   (CFStringRef)string,
+                                                                                   NULL,
+                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#",
+                                                                                   kCFStringEncodingUTF8 );
+}
+
+static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *string){
+    
+    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
+                                                                                   NULL,
+                                                                                   (CFStringRef)string,
+                                                                                   NULL,
+                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                   kCFStringEncodingUTF8 );
+}
 - (void)start {
     
     // Always check for cancellation before launching the task.
@@ -156,7 +176,6 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
         self.isMultipart = NO;
         self.sendRequestLaterWhenOnline = NO;
         self.timeOut = 60;
-        
 
     }
     return self;
@@ -188,7 +207,7 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
     NSArray *nib = nil;
     BOOL found = YES;
     @try {
-        nib = [[NSBundle mainBundle] loadNibNamed:@"loadingView" owner:self options:nil];
+        nib = [[NSBundle mainBundle] loadNibNamed:@"sw_loadingView" owner:self options:nil];
     }
     @catch (NSException *exception) {
         found = NO;
@@ -279,7 +298,7 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
             NSMutableArray *paramArray = [[NSMutableArray alloc]init];
             
             for (NSString *key in param.allKeys) {
-                [paramArray addObject:[NSString stringWithFormat:@"%@=%@", key , [param objectForKey:key]]];
+                [paramArray addObject:[NSString stringWithFormat:@"%@=%@", SWEscapedQueryStringKeyFromStringWithEncoding(key) , SWEscapedQueryStringValueFromStringWithEncoding([param objectForKey:key])]];
             }
             
             if ([self.availableInURLMethods containsObject:[[self.request HTTPMethod] uppercaseString]]) {
@@ -317,11 +336,6 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
     [self.request setTimeoutInterval:self.timeOut];
     [self.request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[self.request.HTTPBody length]] forHTTPHeaderField:@"Content-Length"];
     
-    
-    if (self.parentView) {
-        [self addLoadingView];
-    }
-    
     if (self.responseDataType) {
         self.responseDataType = self.responseDataType;
     }else{
@@ -338,7 +352,20 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
         }
     }
     
+    if ([SWReachability getCurrentNetworkStatus] == SWNetworkReachabilityStatusNotReachable) {
+        
+        if (self.sendRequestLaterWhenOnline) {
+            [[SWOfflineRequestManger sharedInstance] addRequestForSendLater:self];
+        }
+        
+        self.error = [NSError errorWithDomain:@"Connection not available" code:NSURLErrorNotConnectedToInternet userInfo:nil];
+        self.failBlock(self, self.error);
+        return;
+    }
     
+    if (self.parentView) {
+        [self addLoadingView];
+    }
     
     [self createConnection];
     
@@ -468,7 +495,7 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 - (id)initWithCoder:(NSCoder *)coder{
     self = [self init];
     _request        = [coder decodeObjectForKey:@"request"];
-    _timeOut        = [coder decodeFloatForKey:@"timeOut"];
+    _timeOut        = [coder decodeIntForKey:@"timeOut"];
     _method         = [coder decodeObjectForKey:@"method"];
     _availableInURLMethods = [coder decodeObjectForKey:@"availableInURLMethods"];
     _isMultipart    = [coder decodeBoolForKey:@"isMultipart"];
@@ -495,7 +522,6 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
     if (self.requestSavedDate != nil) [coder encodeObject:self.requestSavedDate forKey:@"requestSavedDate"];
     
     [coder encodeInt:self.tag forKey:@"tag"];
-    [coder encodeBool:self.isMultipart forKey:@"isMultipart"];
     [coder encodeBool:self.sendRequestLaterWhenOnline forKey:@"sendRequestLaterWhenOnline"];
     
     if (self.responseDataType != nil) [coder encodeObject:self.responseDataType forKey:@"responseDataType"];

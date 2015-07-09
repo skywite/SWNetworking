@@ -53,7 +53,7 @@ static dispatch_once_t onceToken;
     
     instance.expireTime = seconds;
 
-    //[instance startReachabilityStatus];
+    [instance startReachabilityStatus];
     
     return instance;
 }
