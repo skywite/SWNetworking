@@ -50,6 +50,7 @@ If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetwor
     - `SWPATCHRequest`
     - `SWDELETERequest`
     - `SWHEADRequest`
+ - `SWOfflineRequestManger`
 * `ResponseType`
     - `SWResponseDataType`
         - `SWResponseJSONDataType`
@@ -58,8 +59,6 @@ If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetwor
         - `SWResponseUIImageType`
 * `Reachability`
     - `SWReachability`
-* `OfflineRequest`
-    - `SWOfflineRequestManger`
 * `File`
     - `SWMedia`
 * `UIKit+SWNetworking`

@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 
 #import "UIImageView+SWNetworking.h"
-#import "SWNetworking.h"
+#import "SWRequestOperation.h"
 
 @implementation UIImageView (SWNetworking)
 @dynamic complete;

@@ -25,6 +25,7 @@
 
 #import "SWOfflineRequestManger.h"
 #import "SWReachability.h"
+#import "SWRequestOperation.h"
 #import "SWOperationManger.h"
 
 NSString *const USER_DEFAULT_KEY = @"SWOfflineReqeustsOnUserDefault";

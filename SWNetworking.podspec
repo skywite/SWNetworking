@@ -6,19 +6,39 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/skywite/SWNetworking"
   s.license          = 'MIT'
   s.author           = { "saman kumara" => "me@isamankumara.com" }
-  s.source           = { :git => "https://github.com/skywite/SWNetworking.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/skywite/SWNetworking.git", :tag => s.version.to_s, :submodules => true }
 
   s.platform     = :ios, '7.0'
   s.requires_arc = true
 
   s.source_files = 'SWNetworking/SWNetworking.h'
-
   s.public_header_files = 'SWNetworking/*.h'
   
-  s.source_files = 'SWNetworking/**/*'
-  s.resource_bundles = {
-    'SWReachability' => ['Pod/Assets/*.png']
-  }
+  s.subspec 'File' do |ss|
+  	ss.source_files		= 'SWNetworking/File'
+  end
+  
+  s.subspec 'ResponseType' do |ss|
+  	ss.source_files		= 'SWNetworking/ResponseType'
+  end
+  
+  s.subspec 'Reachability' do |ss|
+  	ss.source_files		= 'SWNetworking/Reachability'
+  end
+  
+  s.subspec 'SWRequest' do |ss|
+  	ss.source_files		= 'SWNetworking/SWRequest'
+  	ss.dependency 'SWNetworking/ResponseType'
+  	ss.dependency 'SWNetworking/File'
+  	ss.dependency 'SWNetworking/Reachability'
+  end
+
+  s.subspec 'UIKit+SWNetworking' do |ss|
+  	ss.source_files		= 'SWNetworking/UIKit+SWNetworking'
+  	ss.dependency 'SWNetworking/SWRequest'
+  	ss.dependency 'SWNetworking/ResponseType'
+  end
+  
 
   s.frameworks = 'SystemConfiguration'
 end

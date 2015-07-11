@@ -25,7 +25,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "SWNetworking.h"
+#import "SWRequestOperation.h"
 
 @interface UIProgressView (SWNetworking)
 -(void)setRequestForDownload:(SWRequestOperation *) request;
