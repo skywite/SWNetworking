@@ -74,41 +74,47 @@ static dispatch_once_t onceToken;
 -(void)startReachabilityStatus{
     
     [SWReachability checkCurrentStatus:^(SWNetworingReachabilityStatus currentStatus) {
-        
+        if (currentStatus != SWNetworkReachabilityStatusNotReachable) {
+            [self createOperations];
+        }
     } statusChange:^(SWNetworingReachabilityStatus changedStatus) {
         
         if (changedStatus != SWNetworkReachabilityStatusNotReachable) {
-            SWOperationManger *operationManager = [[SWOperationManger alloc]init];
-            [operationManager setMaxOperationCount:3];
-            for (SWRequestOperation *operetion in [self offlineOparations]) {
-                
-                __weak SWRequestOperation *weakOperation = operetion;
-               [operationManager.operationQueue addOperationWithBlock:^{
-                   
-                   [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
-                       
-                       [operetion createConnection];
-
-                       [operetion setSuccess:^(SWRequestOperation *operationResponse, id responseObject) {
-                           
-                           if (self.requestSuccessBlock) {
-                               self.requestSuccessBlock(operationResponse, responseObject);
-                           }
-                           
-                           [self removeRequest:weakOperation];
-                           
-                       } failure:^(SWRequestOperation *operationResponse, NSError *error) {
-                           if (self.requestFailBlock) {
-                               self.requestFailBlock(operationResponse, error);
-                           }
-                       }];
-                   }];
-                }];
-            }
+            [self createOperations];
         }
     }];
 }
 
+-(void)createOperations{
+    SWOperationManger *operationManager = [[SWOperationManger alloc]init];
+    [operationManager setMaxOperationCount:3];
+    for (SWRequestOperation *operetion in [self offlineOparations]) {
+        
+        __weak SWRequestOperation *weakOperation = operetion;
+        [operationManager addOperationWithBlock:^{
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
+                
+                [operetion createConnection];
+                
+                [operetion setSuccess:^(SWRequestOperation *operationResponse, id responseObject) {
+                    
+                    if (self.requestSuccessBlock) {
+                        self.requestSuccessBlock(operationResponse, responseObject);
+                    }
+                    
+                    [self removeRequest:weakOperation];
+                    
+                } failure:^(SWRequestOperation *operationResponse, NSError *error) {
+                    if (self.requestFailBlock) {
+                        self.requestFailBlock(operationResponse, error);
+                    }
+                }];
+            }];
+        }];
+    }
+
+}
 
 -(void)removeRequest:(SWRequestOperation *)requestOperation{
     

@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F268A4EB1B4EE6C8003C6403 /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F268A4D81B4EE6C8003C6403 /* SWMedia.m */; };
+		F245E56D1B512EEF00DE6BA0 /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F245E56C1B512EEF00DE6BA0 /* SWMedia.m */; };
+		F245E5701B51844D00DE6BA0 /* UIProgressView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F245E56F1B51844D00DE6BA0 /* UIProgressView+SWNetworking.m */; };
 		F268A4EC1B4EE6C8003C6403 /* SWOfflineRequestManger.m in Sources */ = {isa = PBXBuildFile; fileRef = F268A4DB1B4EE6C8003C6403 /* SWOfflineRequestManger.m */; };
 		F268A4ED1B4EE6C8003C6403 /* SWReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F268A4DE1B4EE6C8003C6403 /* SWReachability.m */; };
 		F268A4EE1B4EE6C8003C6403 /* SWResponseDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F268A4E11B4EE6C8003C6403 /* SWResponseDataType.m */; };
@@ -37,8 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F268A4D71B4EE6C8003C6403 /* SWMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMedia.h; sourceTree = "<group>"; };
-		F268A4D81B4EE6C8003C6403 /* SWMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMedia.m; sourceTree = "<group>"; };
+		F245E56B1B512EEF00DE6BA0 /* SWMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMedia.h; sourceTree = "<group>"; };
+		F245E56C1B512EEF00DE6BA0 /* SWMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMedia.m; sourceTree = "<group>"; };
+		F245E56E1B51844D00DE6BA0 /* UIProgressView+SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+SWNetworking.h"; sourceTree = "<group>"; };
+		F245E56F1B51844D00DE6BA0 /* UIProgressView+SWNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+SWNetworking.m"; sourceTree = "<group>"; };
 		F268A4DA1B4EE6C8003C6403 /* SWOfflineRequestManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWOfflineRequestManger.h; sourceTree = "<group>"; };
 		F268A4DB1B4EE6C8003C6403 /* SWOfflineRequestManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWOfflineRequestManger.m; sourceTree = "<group>"; };
 		F268A4DD1B4EE6C8003C6403 /* SWReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWReachability.h; sourceTree = "<group>"; };
@@ -89,10 +92,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F245E56A1B512EEF00DE6BA0 /* File */ = {
+			isa = PBXGroup;
+			children = (
+				F245E56B1B512EEF00DE6BA0 /* SWMedia.h */,
+				F245E56C1B512EEF00DE6BA0 /* SWMedia.m */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
 		F268A4D51B4EE6C8003C6403 /* SWNetworking */ = {
 			isa = PBXGroup;
 			children = (
-				F268A4D61B4EE6C8003C6403 /* model */,
+				F245E56A1B512EEF00DE6BA0 /* File */,
 				F268A4D91B4EE6C8003C6403 /* OfflineRequest */,
 				F268A4DC1B4EE6C8003C6403 /* Reachability */,
 				F268A4DF1B4EE6C8003C6403 /* ResponseType */,
@@ -102,15 +114,6 @@
 			);
 			name = SWNetworking;
 			path = ../SWNetworking;
-			sourceTree = "<group>";
-		};
-		F268A4D61B4EE6C8003C6403 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				F268A4D71B4EE6C8003C6403 /* SWMedia.h */,
-				F268A4D81B4EE6C8003C6403 /* SWMedia.m */,
-			);
-			path = model;
 			sourceTree = "<group>";
 		};
 		F268A4D91B4EE6C8003C6403 /* OfflineRequest */ = {
@@ -156,6 +159,8 @@
 			children = (
 				F268A4E91B4EE6C8003C6403 /* UIImageView+SWNetworking.h */,
 				F268A4EA1B4EE6C8003C6403 /* UIImageView+SWNetworking.m */,
+				F245E56E1B51844D00DE6BA0 /* UIProgressView+SWNetworking.h */,
+				F245E56F1B51844D00DE6BA0 /* UIProgressView+SWNetworking.m */,
 			);
 			path = "UIKit+SWNetworking";
 			sourceTree = "<group>";
@@ -329,10 +334,11 @@
 				F2A4386B1B4A3AC3004B7735 /* AppDelegate.m in Sources */,
 				F268A4EC1B4EE6C8003C6403 /* SWOfflineRequestManger.m in Sources */,
 				F2A4386E1B4A3AC3004B7735 /* MasterViewController.m in Sources */,
+				F245E56D1B512EEF00DE6BA0 /* SWMedia.m in Sources */,
 				F268A4F11B4EE6C8003C6403 /* UIImageView+SWNetworking.m in Sources */,
-				F268A4EB1B4EE6C8003C6403 /* SWMedia.m in Sources */,
 				F268A4EE1B4EE6C8003C6403 /* SWResponseDataType.m in Sources */,
 				F268A4F01B4EE6C8003C6403 /* SWRequestOperation.m in Sources */,
+				F245E5701B51844D00DE6BA0 /* UIProgressView+SWNetworking.m in Sources */,
 				F268A4EF1B4EE6C8003C6403 /* SWOperationManger.m in Sources */,
 				F2A438681B4A3AC3004B7735 /* main.m in Sources */,
 				F268A4ED1B4EE6C8003C6403 /* SWReachability.m in Sources */,

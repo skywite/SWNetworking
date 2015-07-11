@@ -59,6 +59,14 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 @property (nonatomic, retain) NSArray   *files;
 
+@property (nonatomic, assign) long      expectedBytes;
+
+@property (nonatomic, assign) long      receivedData;
+
+@property(nonatomic, copy) void (^uploadProgressBlock)(long  bytes, long  totalBytes,  long totalBytesExpected);
+
+@property(nonatomic, copy) void (^downloadProgressBlock)(long bytes, long totalBytes,  long totalBytesExpected);
+
 -(NSString *)responseString;
 
 @end
@@ -176,10 +184,14 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         self.isMultipart = NO;
         self.sendRequestLaterWhenOnline = NO;
         self.timeOut = 60;
+        self.wantToUseQueue = NO;
 
     }
     return self;
 }
+
+//-(void)setDownloadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) downloadProgressBlock;
+
 
 -(void)createConnection{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -367,8 +379,9 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         [self addLoadingView];
     }
     
-    [self createConnection];
-    
+    if (!self.wantToUseQueue) {
+        [self createConnection];
+    }
 }
 
 
@@ -446,12 +459,23 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     self.response =  (NSHTTPURLResponse*)response;
     self.statusCode = (int)[self.response statusCode];
     [self.responseData setLength:0];
+    self.expectedBytes = [response expectedContentLength];
 }
 
 - (void)connection:(NSURLConnection __unused *)connection didReceiveData:(NSData *)data{
     [self.responseData appendData:data];
+    self.receivedData = [self.responseData length];
+
+    if (self.downloadProgressBlock) {
+        self.downloadProgressBlock([data length], self.receivedData, self.expectedBytes);
+    }
 }
 
+- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite{
+    if (self.uploadProgressBlock) {
+        self.uploadProgressBlock(bytesWritten, totalBytesExpectedToWrite, totalBytesExpectedToWrite);
+    }
+}
 
 - (void)connectionDidFinishLoading:(NSURLConnection __unused *)connection {
    

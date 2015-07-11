@@ -133,7 +133,7 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
             if ((flags & kSCNetworkReachabilityFlagsReachable) == 0){
                 // if target host is not reachable
                 self.networkReachabilityStatus = SWNetworkReachabilityStatusNotReachable;
-                return self.networkReachabilityStatus;
+                //return self.networkReachabilityStatus;
             }
             
             self.networkReachabilityStatus = SWNetworkReachabilityStatusNotReachable;

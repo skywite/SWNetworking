@@ -105,12 +105,19 @@
  *  set custom time out (seconds) default 60 seconds
  */
 @property (nonatomic, assign) int timeOut;
+
+@property (nonatomic, assign) BOOL wantToUseQueue;
+
+
 -(NSString *)responseString;
 
 -(void)createConnection;
 
 
 #pragma mark request methods
+
+-(void)setUploadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) duploadProgressBlock;
+-(void)setDownloadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) downloadProgressBlock;
 
 -(void)setSuccess:(void (^)(SWRequestOperation *operation, id responseObject))success
 failure:(void (^)(SWRequestOperation *operation, NSError *error))failure;

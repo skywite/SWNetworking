@@ -39,7 +39,7 @@
 
 - (void)viewDidLoad {
     
-    self.objects = @[@{@"GET" : @[@"Simple Get", @"With response Type", @"With Loading View", @"With parameter", @"With Cache Data"]}, @{@"POST" : @[@"Simple Post", @"With Multipart"]}, @{@"PUT" : @[@"Simple Put"]}, @{@"PATCH" : @[@"Simple Patch"]}, @{@"DELETE" : @[@"Simple Delete"]}, @{@"HEAD" : @[@"Simple Head"]}, @{@"Feataures" : @[@"Auto Loading View", @"Progress", @"Custom Header", @"Custom Content Type", @"Custom time out", @"Offline request", @"Response Encoding", @"Access Cache Data", @"UIImageView with url", @"Network availability"]}];
+    self.objects = @[@{@"GET" : @[@"Simple Get", @"With response Type", @"With Loading View", @"With parameter", @"With Cache Data"]}, @{@"POST" : @[@"Simple Post", @"With Multipart"]}, @{@"PUT" : @[@"Simple Put"]}, @{@"PATCH" : @[@"Simple Patch"]}, @{@"DELETE" : @[@"Simple Delete"]}, @{@"HEAD" : @[@"Simple Head"]}, @{@"Feataures" : @[@"Auto Loading View", @"Download Progress", @"Upload progress", @"Custom Header", @"Custom Content Type", @"Custom time out", @"Offline request", @"Response Encoding", @"Access Cache Data", @"UIImageView with url", @"Network availability", @"Multiple Opearations", @"Download Progress with UIProgressView", @"Upload Progress with UIProgressView"]}];
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
@@ -57,6 +57,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        //[[[segue destinationViewController] detailDescriptionLabel] setText:[[[self.objects objectAtIndex:indexPath.section] objectForKey:[[[self.objects objectAtIndex:indexPath.section]allKeys] objectAtIndex:0]] objectAtIndex:indexPath.row]];
         [[segue destinationViewController] setDetailItem:indexPath];
     }
 }

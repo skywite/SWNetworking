@@ -62,7 +62,7 @@
      NSLog(@"suceess");
      
      } failure:^(SWRequestOperation *operation, NSError *error) {
-     NSLog(@"fail");
+     NSLog(@"fail %@", error);
      }];
     */
     

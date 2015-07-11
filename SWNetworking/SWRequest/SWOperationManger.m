@@ -25,12 +25,9 @@
 //
 
 #import "SWOperationManger.h"
+#import "SWRequestOperation.h"
 
 @interface SWOperationManger()
-
-@property(nonatomic, copy) void (^uploadProgressBlock)(long long bytes, long long totalBytes, long long totalBytesExpected);
-
-@property(nonatomic, copy) void (^downloadProgressBlock)(long long bytes, long long totalBytes, long long totalBytesExpected);
 
 @end
 
@@ -45,6 +42,7 @@
 }
 
 - (void)addOperationWithBlock:(void (^)(void))block NS_AVAILABLE(10_6, 4_0){
+    
     [self.operationQueue addOperationWithBlock:block];
 }
 
@@ -58,6 +56,24 @@
 
 -(void)setMaxOperationCount:(NSInteger )count{
     self.operationQueue.maxConcurrentOperationCount = count;
+}
+-(void)addOperation:(NSOperation *) operation{
+    if (operation.isExecuting) {
+        NSLog(@"This Operation already executed. You can't use");
+        return;
+    }
+    if (operation.finished) {
+        NSLog(@"This Operation already finished. You can't use");
+        return;
+    }
+    
+    [self.operationQueue addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
+            if ([operation isKindOfClass:[SWRequestOperation class]]) {
+                [(SWRequestOperation *) operation createConnection];
+            }
+        }];
+    }];
 }
 
 @end

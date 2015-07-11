@@ -1,8 +1,8 @@
 //
-//  SWNetworking.h
-//  SWNetworking
+//  UIProgressView+SWNetworking.h
+//  Example
 //
-//  Created by Saman Kumara on 4/6/15.
+//  Created by Saman Kumara on 7/11/15.
 //  Copyright (c) 2015 Saman Kumara. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,23 +22,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
+
+
 #import <UIKit/UIKit.h>
-#import "SWRequestOperation.h"
-#import "SWResponseDataType.h"
-#import "SWMedia.h"
-#import "SWReachability.h"
-#import "UIImageView+SWNetworking.h"
-#import "SWOfflineRequestManger.h"
-#import "SWOperationManger.h"
-#import "UIProgressView+SWNetworking.h"
+#import "SWNetworking.h"
 
-//! Project version number for SWNetworking.
-FOUNDATION_EXPORT double SWNetworkingVersionNumber;
-
-//! Project version string for SWNetworking.
-FOUNDATION_EXPORT const unsigned char SWNetworkingVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <SWNetworking/PublicHeader.h>
-
-
+@interface UIProgressView (SWNetworking)
+-(void)setRequestForDownload:(SWRequestOperation *) request;
+-(void)setRequestForUpload:(SWRequestOperation *) request;
+@end

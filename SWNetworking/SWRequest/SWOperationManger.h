@@ -38,7 +38,8 @@
 
 -(NSArray *)getOperations;
 -(NSInteger)getOperationCount;
-- (void)addOperationWithBlock:(void (^)(void))block NS_AVAILABLE(10_6, 4_0);
+-(void)addOperationWithBlock:(void (^)(void))block NS_AVAILABLE(10_6, 4_0);
 -(void)setMaxOperationCount:(NSInteger )count;
+-(void)addOperation:(NSOperation *) operation;
 
 @end
