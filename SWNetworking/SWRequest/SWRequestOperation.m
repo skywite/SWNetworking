@@ -59,13 +59,13 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 @property (nonatomic, retain) NSArray   *files;
 
-@property (nonatomic, assign) long      expectedBytes;
+@property (nonatomic, assign) long long expectedBytes;
 
-@property (nonatomic, assign) long      receivedData;
+@property (nonatomic, assign) long long  receivedData;
 
-@property(nonatomic, copy) void (^uploadProgressBlock)(long  bytes, long  totalBytes,  long totalBytesExpected);
+@property(nonatomic, copy) void (^uploadProgressBlock)(long long  bytes, long long  totalBytes,  long long totalBytesExpected);
 
-@property(nonatomic, copy) void (^downloadProgressBlock)(long bytes, long totalBytes,  long totalBytesExpected);
+@property(nonatomic, copy) void (^downloadProgressBlock)(long long bytes, long long totalBytes,  long long totalBytesExpected);
 
 -(NSString *)responseString;
 
@@ -540,7 +540,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     
     if (self.method != nil) [coder encodeObject:self.method forKey:@"method"];
     
-    [coder encodeBool:self.availableInURLMethods forKey:@"availableInURLMethods"];
+    [coder encodeObject:self.availableInURLMethods forKey:@"availableInURLMethods"];
     [coder encodeBool:self.isMultipart forKey:@"isMultipart"];
     
     if (self.requestSavedDate != nil) [coder encodeObject:self.requestSavedDate forKey:@"requestSavedDate"];

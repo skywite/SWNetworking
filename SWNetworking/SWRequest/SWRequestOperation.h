@@ -116,8 +116,8 @@
 
 #pragma mark request methods
 
--(void)setUploadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) duploadProgressBlock;
--(void)setDownloadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) downloadProgressBlock;
+-(void)setUploadProgressBlock:(void (^)(long long  bytes,  long long totalBytes,  long long totalBytesExpected)) duploadProgressBlock;
+-(void)setDownloadProgressBlock:(void (^)(long long  bytes,  long long totalBytes,  long long totalBytesExpected)) downloadProgressBlock;
 
 -(void)setSuccess:(void (^)(SWRequestOperation *operation, id responseObject))success
 failure:(void (^)(SWRequestOperation *operation, NSError *error))failure;

@@ -28,12 +28,12 @@
 @implementation UIProgressView (SWNetworking)
 
 -(void)setRequestForDownload:(SWRequestOperation *) request{
-    [request setDownloadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
+    [request setDownloadProgressBlock:^(long long bytes, long long totalBytes, long long totalBytesExpected) {
         self.progress = ((float)totalBytes / totalBytesExpected);
     }];
 }
 -(void)setRequestForUpload:(SWRequestOperation *) request{
-    [request setUploadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
+    [request setUploadProgressBlock:^(long long bytes, long long totalBytes, long long totalBytesExpected) {
         self.progress = ((float)totalBytes / totalBytesExpected);
     }];
 }

@@ -437,8 +437,8 @@
         NSLog(@"fail %@", error);
     }];
     
-    [getR setDownloadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
-        NSLog(@"%ld -%ld -%ld", bytes, totalBytes, totalBytesExpected);
+    [getR setDownloadProgressBlock:^(long long bytes,long long totalBytes,long long totalBytesExpected) {
+        NSLog(@"%lld -%lld -%lld", bytes, totalBytes, totalBytesExpected);
     }];
     
 }
@@ -468,8 +468,8 @@
         
     }];
     
-    [postRequest setUploadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
-        NSLog(@"%ld -%ld -%ld", bytes, totalBytes, totalBytesExpected);
+    [postRequest setUploadProgressBlock:^(long long bytes,long long totalBytes,long long totalBytesExpected) {
+        NSLog(@"%lld -%lld -%lld", bytes, totalBytes, totalBytesExpected);
     }];
 
 }
