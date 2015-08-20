@@ -173,7 +173,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
 
 -(id)init{
    
-    if(self == [super init]){
+    if(self = [super init]){
         
         self.request = [[NSMutableURLRequest alloc] init];
         self.responseData = [NSMutableData data];
