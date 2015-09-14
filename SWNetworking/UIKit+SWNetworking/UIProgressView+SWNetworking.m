@@ -22,6 +22,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 #import "UIProgressView+SWNetworking.h"
 
@@ -35,6 +37,18 @@
 -(void)setRequestForUpload:(SWRequestOperation *) request{
     [request setUploadProgressBlock:^(long long bytes, long long totalBytes, long long totalBytesExpected) {
         self.progress = ((float)totalBytes / totalBytesExpected);
+    }];
+}
+
+-(void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
+    [downloadTask setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
+    }];
+}
+
+-(void)setUploadTask:(NSURLSessionUploadTask *)downloadTask{
+    [downloadTask setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+         self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
 

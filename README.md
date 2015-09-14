@@ -40,6 +40,8 @@ pod "SWNetworking"
 If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetworking/wiki/CocoaPods-in-to-Xcode-Project) page.
 
 #Architecture
+* `Session`
+    - `SWSessionManager`
 * `SWRequest`
  - `SWOperationManger`
  - `SWRequestOperation`
@@ -57,13 +59,17 @@ If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetwor
         - `SWResponseXMLDataType`
         - `SWResponseStringDataType`
         - `SWResponseUIImageType`
+    - `SWRequestDataType`
+        - `SWRequestFormData`
+        - `SWRequestMulitFormData`
+        - `SWRequestJSONData`
 * `Reachability`
     - `SWReachability`
 * `File`
     - `SWMedia`
 * `UIKit+SWNetworking`
     - `UIImageView+SWNetworking`
-
+    - `UIProgressView+SWNetworking`
 # How to Use
 
 ## Use HTTP Request Operation
@@ -540,6 +546,95 @@ If you want catch offline request you need to use following methods. Better to a
 
 Please note you need to set `tag` or `userObject` to identify the request. `userObject` should be `'NSCordering' support object 
 
+### Session managare
+All the Sessions will handle using session manger. NSURLSessionUploadTask, NSURLSessionDataTask, NSURLSessionDownloadTask with many options  and blocks for progress/sucess/faileure
+
+### Add Download Task
+
+```objective-c
+SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    
+    NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
+        NSLog(@"%@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    [ts resume];
+
+```
+
+### Add Data Task
+
+```objective-c
+SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    
+    NSURLSessionDataTask *ts = [sm dataTaskWithGetURL:@"" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    
+    [ts resume];
+```
+
+### Add Upload Task
+
+```objective-c
+SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    sm.requestDataType = [SWRequestMulitFormData type];
+
+    UIImage *image = [UIImage imageNamed:@"skywite.png"];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
+    
+    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    [ts resume];
+
+```
+
+### Set download progress block
+```objective-c
+NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
+        NSLog(@"%@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    
+    [ts setDownloadProgressBlock:^(long long totalBytes, long long totalBytesExpected) {
+        NSLog(@"%lld %lld", totalBytes, totalBytesExpected);
+    }];
+    [ts resume];
+```
+
+### Set upload progress block
+```objective-c
+UIImage *image = [UIImage imageNamed:@"skywite.png"];
+
+    NSData *imageData = UIImagePNGRepresentation(image);
+
+    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
+
+    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    [ts resume];
+    [ts setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"%lld - %lld", bytesWritten, totalBytesExpectedToWrite);
+    }];
+```
+these blocks can use for any task.
+
+### Set Task for UIProgressView
+Please use following method to set task for UIProgressView
+
+```objective-c
+-(void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask;
+-(void)setUploadTask:(NSURLSessionUploadTask *)downloadTask;
+```
 # Credits
 
 `SWNetworking` is owned and maintained bye the [SkyWite](http://www.skywite.com)

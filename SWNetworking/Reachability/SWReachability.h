@@ -22,6 +22,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFT
+//https://github.com/skywite
+//
 
 #import <Foundation/Foundation.h>
 
@@ -39,18 +41,51 @@ typedef NS_ENUM(NSInteger, SWNetworingReachabilityStatus) {
 
 @interface SWReachability : NSObject
 
+/**
+ *  Reachamitly status, three states available.SWNetworkReachabilityStatusNotReachable,SWNetworkReachabilityStatusReachableViaWWAN,SWNetworkReachabilityStatusReachableViaWiFi are the status
+ */
 @property (readonly, nonatomic, assign) SWNetworingReachabilityStatus networkReachabilityStatus;
 
+/**
+ *  Calling this current status will return - Class methods
+ *
+ *  @return Currnt Status
+ */
 +(SWNetworingReachabilityStatus)getCurrentNetworkStatus;
 
+/**
+ *  Check simply network availabily - Class methods
+ *
+ *  @return If network available will return YES, else NO
+ */
 +(BOOL)connected;
 
+/**
+ *  This will work like notification. When Change states this will automatically comes to the block - Class methods
+ *
+ *  @param currentStatus current network status
+ *  @param changedStatus changed network status
+ */
 +(void)checkCurrentStatus:(void (^)(SWNetworingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworingReachabilityStatus changedStatus))changedStatus;
 
+
+/**
+ *  Check simply network availabily - Instance methods
+ *
+ *  @return If network available will return YES, else NO
+ */
 -(BOOL)connected;
 
+/**
+ *  Calling this current status will return - Instance methods
+ *
+ *  @return Currnt Status
+ */
 -(SWNetworingReachabilityStatus)getCurrentNetworkStatus;
 
+/**
+ *  calling this method will start notification will start .
+ */
 -(void)startNotifying;
 
 @end

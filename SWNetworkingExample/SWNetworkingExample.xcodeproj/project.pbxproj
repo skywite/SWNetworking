@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F27E66ED1B58D19900A3FE6B /* SWSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F27E66EC1B58D19900A3FE6B /* SWSessionManager.m */; };
 		F2B065161B51AEC4005356F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065151B51AEC4005356F3 /* main.m */; };
 		F2B065191B51AEC4005356F3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065181B51AEC4005356F3 /* AppDelegate.m */; };
 		F2B0651C1B51AEC4005356F3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B0651B1B51AEC4005356F3 /* MasterViewController.m */; };
@@ -17,6 +18,7 @@
 		F2B065331B51AEC4005356F3 /* SWNetworkingExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065321B51AEC4005356F3 /* SWNetworkingExampleTests.m */; };
 		F2B0653D1B51AEEF005356F3 /* sw_loadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2B0653C1B51AEEF005356F3 /* sw_loadingView.xib */; };
 		F2B0653F1B51AEF8005356F3 /* skywite.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B0653E1B51AEF8005356F3 /* skywite.png */; };
+		F2CBAF751B553FFE008404C6 /* SWRequestDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CBAF741B553FFE008404C6 /* SWRequestDataType.m */; };
 		F2F485C81B51B1D8004E97BA /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F485B41B51B1D8004E97BA /* SWMedia.m */; };
 		F2F485C91B51B1D8004E97BA /* SWReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F485B71B51B1D8004E97BA /* SWReachability.m */; };
 		F2F485CA1B51B1D8004E97BA /* SWResponseDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F485BA1B51B1D8004E97BA /* SWResponseDataType.m */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F27E66EB1B58D19900A3FE6B /* SWSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWSessionManager.h; path = Session/SWSessionManager.h; sourceTree = "<group>"; };
+		F27E66EC1B58D19900A3FE6B /* SWSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWSessionManager.m; path = Session/SWSessionManager.m; sourceTree = "<group>"; };
 		F2B065101B51AEC4005356F3 /* SWNetworkingExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWNetworkingExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B065141B51AEC4005356F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2B065151B51AEC4005356F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -55,6 +59,8 @@
 		F2B065321B51AEC4005356F3 /* SWNetworkingExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWNetworkingExampleTests.m; sourceTree = "<group>"; };
 		F2B0653C1B51AEEF005356F3 /* sw_loadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = sw_loadingView.xib; sourceTree = "<group>"; };
 		F2B0653E1B51AEF8005356F3 /* skywite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skywite.png; sourceTree = "<group>"; };
+		F2CBAF731B553FFE008404C6 /* SWRequestDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequestDataType.h; sourceTree = "<group>"; };
+		F2CBAF741B553FFE008404C6 /* SWRequestDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequestDataType.m; sourceTree = "<group>"; };
 		F2F485B31B51B1D8004E97BA /* SWMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMedia.h; sourceTree = "<group>"; };
 		F2F485B41B51B1D8004E97BA /* SWMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMedia.m; sourceTree = "<group>"; };
 		F2F485B61B51B1D8004E97BA /* SWReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWReachability.h; sourceTree = "<group>"; };
@@ -92,6 +98,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F27E66EA1B58C29C00A3FE6B /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				F27E66EB1B58D19900A3FE6B /* SWSessionManager.h */,
+				F27E66EC1B58D19900A3FE6B /* SWSessionManager.m */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
 		F2B065071B51AEC4005356F3 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +174,7 @@
 		F2F485B11B51B1D8004E97BA /* SWNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				F27E66EA1B58C29C00A3FE6B /* Session */,
 				F2F485B21B51B1D8004E97BA /* File */,
 				F2F485B51B51B1D8004E97BA /* Reachability */,
 				F2F485B81B51B1D8004E97BA /* ResponseType */,
@@ -193,6 +209,8 @@
 			children = (
 				F2F485B91B51B1D8004E97BA /* SWResponseDataType.h */,
 				F2F485BA1B51B1D8004E97BA /* SWResponseDataType.m */,
+				F2CBAF731B553FFE008404C6 /* SWRequestDataType.h */,
+				F2CBAF741B553FFE008404C6 /* SWRequestDataType.m */,
 			);
 			path = ResponseType;
 			sourceTree = "<group>";
@@ -333,8 +351,10 @@
 				F2F485CF1B51B1D8004E97BA /* UIProgressView+SWNetworking.m in Sources */,
 				F2F485CC1B51B1D8004E97BA /* SWOperationManger.m in Sources */,
 				F2F485C91B51B1D8004E97BA /* SWReachability.m in Sources */,
+				F27E66ED1B58D19900A3FE6B /* SWSessionManager.m in Sources */,
 				F2B0651F1B51AEC4005356F3 /* DetailViewController.m in Sources */,
 				F2F485CA1B51B1D8004E97BA /* SWResponseDataType.m in Sources */,
+				F2CBAF751B553FFE008404C6 /* SWRequestDataType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

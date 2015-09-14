@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SWNetworking"
-  s.version          = "0.9"
+  s.version          = "0.9.1"
   s.summary          = "Open Source Request handeling/managing on iOS"
   s.description      = "SWNetworking is a open-source and highly versatile multi-purpose frameworks. Clean code and sleek features make SkyWite an ideal choice. Powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use. Achieve your deadlines by using SkyWite. You will save Hundred hours. Start development using Skywite. Definitely you will be happy....! yeah.."
   s.homepage         = "https://github.com/skywite/SWNetworking"
@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'ResponseType' do |ss|
   	ss.source_files		= 'SWNetworking/ResponseType'
+    ss.dependency 'SWNetworking/File'
   end
   
   s.subspec 'Reachability' do |ss|
@@ -33,10 +34,19 @@ Pod::Spec.new do |s|
   	ss.dependency 'SWNetworking/Reachability'
   end
 
+  s.subspec 'Session' do |ss|
+    ss.source_files    = 'SWNetworking/Session'
+    ss.dependency 'SWNetworking/ResponseType'
+    ss.dependency 'SWNetworking/File'
+    ss.dependency 'SWNetworking/Reachability'
+  end
+
   s.subspec 'UIKit+SWNetworking' do |ss|
   	ss.source_files		= 'SWNetworking/UIKit+SWNetworking'
   	ss.dependency 'SWNetworking/SWRequest'
   	ss.dependency 'SWNetworking/ResponseType'
+    ss.dependency 'SWNetworking/Session'
+
   end
   
 

@@ -22,24 +22,69 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
 //
+
 #import <Foundation/Foundation.h>
 #import "SWRequestOperation.h"
 
+/**
+ *  SWOperationManger created for handle operation queue
+ */
 @interface SWOperationManger : NSObject
 
+/**
+ *  NSOperationQueue object
+ */
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 
-
+/**
+ *  Operation Count on NSOperationQueue
+ */
 @property (readonly) NSUInteger operationCount NS_AVAILABLE(10_6, 4_0);
 
+/**
+ *  This need to YES if you want to send offline request
+ */
 @property (readonly, assign) BOOL sendOfflineRequestLater;
+
+/**
+ * SWResponseDataType object need to set to response serialization. Default is SWResponseStringDataType type  
+ */
 @property (nonatomic, retain) SWResponseDataType <SWResponseDataType> *responseDataType;
 
+/**
+ *  When calling this method user can get all the running operations
+ *
+ *  @return SWRequestOperation object array
+ */
 -(NSArray *)getOperations;
+
+/**
+ *  Calling this user can get operation count
+ *
+ *  @return operation count
+ */
 -(NSInteger)getOperationCount;
+/**
+ *  User can add new opearation to operation manger. SWRequestOperation property (wantToUseQueue) need to YES before add this manager.
+ *
+ *  @param block Opearation bolck
+ */
 -(void)addOperationWithBlock:(void (^)(void))block NS_AVAILABLE(10_6, 4_0);
+
+/**
+ *  Set max operation count for the NSOperationQueue
+ *
+ *  @param count NSInteger count
+ */
 -(void)setMaxOperationCount:(NSInteger )count;
+
+/**
+*  User can add new opearation to operation manger. SWRequestOperation property (wantToUseQueue) need to YES before add this manager.
+ *
+ *  @param operation NSOperation object (SWRequestOperation)
+ */
 -(void)addOperation:(NSOperation *) operation;
 
 @end

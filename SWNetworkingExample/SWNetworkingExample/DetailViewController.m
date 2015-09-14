@@ -40,7 +40,6 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-            
         // Update the view.
     }
 }
@@ -122,8 +121,7 @@
             [self simpleHEAD];
             break;
         }
-        case 6:
-            
+        case 7:
         {
             switch (indexPath.row) {
                 case 0:
@@ -192,10 +190,39 @@
                     [self uploadProgressWithProgressView];
                     break;
                 }
+                case 14:{
+                    [self startdownloadSession];
+                    break;
+                }
+                case 15:{
+                    [self startUploadSession];
+                    break;
+                }
+               
                 default:
                     break;
             }
             break;
+        }
+        case 6: {
+            switch (indexPath.row) {
+                case 0:
+                {
+                    [self startdownloadSession];
+                    break;
+                }
+                case 1:{
+                    [self startUploadSession];
+
+                    break;
+                }
+                    
+                case 2:{
+                    [self startdataSession];
+                    break;
+                }
+               
+            }
         }
         default:
             break;
@@ -735,5 +762,58 @@
     
     [progressView setRequestForDownload:postRequest];
 
+}
+
+#pragma mark session method
+
+-(void)startUploadSession{
+    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    sm.requestDataType = [SWRequestMulitFormData type];
+    
+    UIImage *image = [UIImage imageNamed:@"skywite.png"];
+    
+    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    
+    
+    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
+    
+    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    [ts resume];
+    [ts setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"%lld - %lld", bytesWritten, totalBytesExpectedToWrite);
+    }];
+}
+
+
+-(void)startdownloadSession{
+    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    
+    NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
+        NSLog(@"%@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    
+    [ts setDownloadProgressBlock:^(long long totalBytes, long long totalBytesExpected) {
+        NSLog(@"%lld %lld", totalBytes, totalBytesExpected);
+    }];
+    [ts resume];
+}
+
+
+-(void)startdataSession{
+    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
+    
+    NSURLSessionDataTask *ts = [sm dataTaskWithGetURL:@"" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        
+    }];
+    
+    [ts resume];
 }
 @end

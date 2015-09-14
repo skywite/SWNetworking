@@ -22,6 +22,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 #import "SWResponseDataType.h"
 
@@ -58,9 +60,7 @@
 {
     if(self = [super init])
     {
-
         self.responseCode = [aDecoder decodeIntForKey:@"responseCode"];
-     
     }
     
     return self ;
@@ -68,7 +68,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-
     [encoder encodeInt:self.responseCode forKey:@"responseCode"];
 }
 
@@ -133,6 +132,18 @@
 
 
 @implementation SWResponseStringDataType
+
+-(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
+    
+    self.responseCode = (int)[response statusCode];
+    
+    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    
+}
+-(id)responseOjbectFromdData:(NSData *)data{
+    
+    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+}
 
 @end
 

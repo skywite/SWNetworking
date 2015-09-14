@@ -22,6 +22,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 #import "SWOfflineRequestManger.h"
 #import "SWReachability.h"
@@ -131,9 +133,10 @@ static dispatch_once_t onceToken;
     if (selectedData) {
         NSMutableArray *array = [self getSavedArray];
         [array removeObject:selectedData];
-        [self saveRequests:array];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:array forKey:USER_DEFAULT_KEY];
+        [[NSUserDefaults standardUserDefaults]synchronize];
     }
-
 }
 -(NSArray *)offlineOparations{
     

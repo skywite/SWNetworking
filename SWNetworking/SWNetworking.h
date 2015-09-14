@@ -22,7 +22,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
 //
+
 #import <UIKit/UIKit.h>
 #import "SWRequestOperation.h"
 #import "SWResponseDataType.h"
@@ -32,6 +34,7 @@
 #import "SWOfflineRequestManger.h"
 #import "SWOperationManger.h"
 #import "UIProgressView+SWNetworking.h"
+#import "SWSessionManager.h"
 
 //! Project version number for SWNetworking.
 FOUNDATION_EXPORT double SWNetworkingVersionNumber;

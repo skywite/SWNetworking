@@ -22,13 +22,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
 //
+
 
 #import "SWRequestOperation.h"
 #import "SWReachability.h"
 #import "SWOfflineRequestManger.h"
 
-NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking-----------14737809831466499882746641449";
+//NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking-----------14737809831466499882746641449";
 
 @interface SWRequestOperation(){
     BOOL        executing;
@@ -73,25 +75,6 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 @implementation SWRequestOperation
 
-static NSString * SWEscapedQueryStringKeyFromStringWithEncoding(NSString *string){
-    
-    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
-                                                                                   NULL,
-                                                                                   (CFStringRef)string,
-                                                                                   NULL,
-                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#",
-                                                                                   kCFStringEncodingUTF8 );
-}
-
-static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *string){
-    
-    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
-                                                                                   NULL,
-                                                                                   (CFStringRef)string,
-                                                                                   NULL,
-                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                   kCFStringEncodingUTF8 );
-}
 - (void)start {
     
     // Always check for cancellation before launching the task.
@@ -170,10 +153,16 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     [self didChangeValueForKey:@"isFinished"];
 }
 
+-(void)cancel{
+    if(self.connection){
+        [self.connection cancel];
+        self.connection = nil;
+    }
+}
 
 -(id)init{
    
-    if(self == [super init]){
+    if(self = [super init]){
         
         self.request = [[NSMutableURLRequest alloc] init];
         self.responseData = [NSMutableData data];
@@ -181,6 +170,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         executing = NO;
         finished = NO;
         self.responseDataType = [SWResponseDataType type];
+        self.requestDataType = [SWRequestFormData type];
         self.isMultipart = NO;
         self.sendRequestLaterWhenOnline = NO;
         self.timeOut = 60;
@@ -204,7 +194,6 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     self.backgroundView = [[UIView alloc]initWithFrame:self.parentView.frame];
     self.backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     UIView *roundedView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
-    roundedView.center = self.parentView.center;
     roundedView.backgroundColor = [UIColor blackColor];
     
     [[roundedView layer] setCornerRadius:5.0];
@@ -226,17 +215,17 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     }
     @finally {
         if (found) {
-            self.backgroundView =[nib objectAtIndex:0];
+            roundedView = [nib objectAtIndex:0];
             self.backgroundView.center = self.parentView.center;
-            [self.parentView insertSubview:self.backgroundView atIndex:1000];
         }else{
             [roundedView addSubview:indicator];
-            [self.backgroundView addSubview:roundedView];
-            [self.parentView insertSubview:self.backgroundView atIndex:1000];
         }
+        roundedView.center = self.parentView.center;
+        [self.backgroundView addSubview:roundedView];
+        [self.parentView insertSubview:self.backgroundView atIndex:1000];
     }
 }
-
+/*
 
 -(NSMutableData *)getBodyDataWithParameters:(NSDictionary *)parameters{
     
@@ -278,7 +267,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     return body;
 }
 
-
+*/
 -(void )startWithURL:(NSString *)url
           parameters:(id)parameters{
     
@@ -290,18 +279,33 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         NSParameterAssert(url);
     }
     
+    [self.requestDataType dataWithFile:self.files paremeters:parameters];
+
     if (![self.availableInURLMethods containsObject:[[self.request HTTPMethod] uppercaseString]]) {
-        if (self.isMultipart) {
+        /*if (self.isMultipart) {
             NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", SW_MULTIPART_REQUEST_BOUNDARY];
             [self.request setValue:contentType forHTTPHeaderField: @"Content-Type"];
         }else{
             if (![self.request valueForHTTPHeaderField:@"Content-Type"]) {
-                [self.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+                [self.request setValue:[self.requestDataType getContentType] forHTTPHeaderField:@"Content-Type"];
             }
-        }
+        }*/
         
+        if (![self.request valueForHTTPHeaderField:@"Content-Type"]) {
+            [self.request setValue:[self.requestDataType getContentType] forHTTPHeaderField:@"Content-Type"];
+        }
+        [self.request setHTTPBody:[self.requestDataType getRequestBodyData]];
+
+    }else{
+        NSString *quearyString = [(SWRequestFormData *)self.requestDataType getQueryString];
+        if ([url localizedCaseInsensitiveContainsString:@"?"]) {
+            [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
+        }else{
+            [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
+        }
     }
     
+    /*
     if (parameters) {
         
         if ([parameters isKindOfClass:[NSDictionary class]]) {
@@ -338,10 +342,11 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         }
     }
     
+    
     if (self.isMultipart) {
         [self.request setHTTPBody:[self getBodyDataWithParameters:parameters]];
     }
-    
+    */
     [self.request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
 
     
@@ -371,8 +376,11 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
         }
         
         self.error = [NSError errorWithDomain:@"Connection not available" code:NSURLErrorNotConnectedToInternet userInfo:nil];
-        self.failBlock(self, self.error);
+        if (self.failBlock) {
+            self.failBlock(self, self.error);
+        }
         return;
+
     }
     
     if (self.parentView) {
@@ -528,6 +536,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     _sendRequestLaterWhenOnline = [coder decodeBoolForKey:@"sendRequestLaterWhenOnline"];
     _responseDataType = [coder decodeObjectForKey:@"responseDataType"];
     _userObject     = [coder decodeObjectForKey:@"userObject"];
+    _requestDataType= [coder decodeObjectForKey:@"requestDataType"];
     
     return self;
 }
@@ -551,6 +560,9 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     if (self.responseDataType != nil) [coder encodeObject:self.responseDataType forKey:@"responseDataType"];
     if (self.userObject != nil) [coder encodeObject:self.userObject forKey:@"userObject"];
     
+    [coder encodeObject:self.requestDataType forKey:@"requestDataType"];
+
+    
 }
 
 
@@ -568,6 +580,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     operation->_sendRequestLaterWhenOnline = self.sendRequestLaterWhenOnline;
     operation->_responseDataType= self.responseDataType;
     operation->_userObject      = self.userObject;
+    operation->_requestDataType = self.requestDataType;
     
     return operation;
 }
@@ -615,7 +628,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     self.failBlock = failure;
     self.isMultipart = YES;
     self.files = files;
-    
+    self.requestDataType = [SWRequestMulitFormData type];
     [self startWithURL:url parameters:parameters];
 }
 

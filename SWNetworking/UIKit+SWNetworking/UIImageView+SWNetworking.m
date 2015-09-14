@@ -22,12 +22,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 #import "UIImageView+SWNetworking.h"
-#import "SWRequestOperation.h"
+#import <objc/runtime.h>
 
 @implementation UIImageView (SWNetworking)
 @dynamic complete;
+@dynamic imageRequest;
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -50,16 +53,17 @@
     
     //self.complete = complete;
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicator.color = [UIColor grayColor];
     activityIndicator.alpha = 1.0;
     activityIndicator.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     activityIndicator.hidesWhenStopped = NO;
     [activityIndicator startAnimating];
     [self addSubview:activityIndicator];
     
-    SWGETRequest *imageRequest = [[SWGETRequest alloc]init];
-    imageRequest.responseDataType = [SWResponseUIImageType type];
+    self.imageRequest = [[SWGETRequest alloc]init];
+    self.imageRequest.responseDataType = [SWResponseUIImageType type];
     
-    [imageRequest startWithURL:url parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [self.imageRequest startWithURL:url parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         if (status) {
             self.image = (UIImage *)responseObject;
         }
@@ -67,11 +71,32 @@
     } success:^(SWRequestOperation *operation, id responseObject) {
         [activityIndicator removeFromSuperview];
         self.image = (UIImage *)responseObject;
-        complete(self.image);
+        if (complete) {
+            complete(self.image);
+        }
         
     } failure:nil];
-    
-    
+}
+
+-(void)cancelLoading{
+    if (self.imageRequest) {
+        if (![self.imageRequest isCancelled]) {
+            [self.imageRequest cancel];
+        }
+    }
+    for (UIView *v in self.subviews) {
+        if ([v isKindOfClass:[UIActivityIndicatorView class]]) {
+            [v removeFromSuperview];
+            break;
+        }
+    }
+}
+-(SWGETRequest *)imageRequest{
+    return objc_getAssociatedObject(self, @selector(imageRequest));
+}
+
+-(void)setImageRequest:(SWGETRequest *)obj{
+    objc_setAssociatedObject(self, @selector(imageRequest), obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

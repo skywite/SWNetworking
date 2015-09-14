@@ -39,7 +39,7 @@
 
 - (void)viewDidLoad {
     
-    self.objects = @[@{@"GET" : @[@"Simple Get", @"With response Type", @"With Loading View", @"With parameter", @"With Cache Data"]}, @{@"POST" : @[@"Simple Post", @"With Multipart"]}, @{@"PUT" : @[@"Simple Put"]}, @{@"PATCH" : @[@"Simple Patch"]}, @{@"DELETE" : @[@"Simple Delete"]}, @{@"HEAD" : @[@"Simple Head"]}, @{@"Feataures" : @[@"Auto Loading View", @"Download Progress", @"Upload progress", @"Custom Header", @"Custom Content Type", @"Custom time out", @"Offline request", @"Response Encoding", @"Access Cache Data", @"UIImageView with url", @"Network availability", @"Multiple Opearations", @"Download Progress with UIProgressView", @"Upload Progress with UIProgressView"]}];
+    self.objects = @[@{@"GET" : @[@"Simple Get", @"With response Type", @"With Loading View", @"With parameter", @"With Cache Data"]}, @{@"POST" : @[@"Simple Post", @"With Multipart"]}, @{@"PUT" : @[@"Simple Put"]}, @{@"PATCH" : @[@"Simple Patch"]}, @{@"DELETE" : @[@"Simple Delete"]}, @{@"HEAD" : @[@"Simple Head"]}, @{@"Session": @[@"Downlod file task", @"Upload file Task", @"Download Data task", @"Set Download progress", @"Set Upload progress"]}, @{@"Feataures" : @[@"Auto Loading View", @"Download Progress", @"Upload progress", @"Custom Header", @"Custom Content Type", @"Custom time out", @"Offline request", @"Response Encoding", @"Access Cache Data", @"UIImageView with url", @"Network availability", @"Multiple Opearations", @"Download Progress with UIProgressView", @"Upload Progress with UIProgressView", @"Session Maneger with Dowload progress", @"Session Maneger with Upload progress", ]}];
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 

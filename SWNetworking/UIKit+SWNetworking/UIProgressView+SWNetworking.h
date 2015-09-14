@@ -22,12 +22,43 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 
 #import <UIKit/UIKit.h>
 #import "SWRequestOperation.h"
-
+#import "SWSessionManager.h"
+/**
+ *  This category created to use UIProgressView with upload and download request.
+ */
 @interface UIProgressView (SWNetworking)
+
+/**
+ *  Using this method will set download progress block on the SWReqeustOperation request
+ *
+ *  @param request Then download request
+ */
 -(void)setRequestForDownload:(SWRequestOperation *) request;
+
+/**
+ *  Using this method will set Upload progress block on the SWReqeustOperation request
+ *
+ *  @param request Then download request
+ */
 -(void)setRequestForUpload:(SWRequestOperation *) request;
+
+/**
+ *  Using this method will set download progress block on the NSURLSessionDownloadTask task
+ *
+ *  @param downloadTask task
+ */
+-(void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask;
+
+/**
+ *  Using this method will set Upload progress block on the NSURLSessionUploadTask task
+ *
+ *  @param uploadTask task
+ */
+-(void)setUploadTask:(NSURLSessionUploadTask *)downloadTask;
 @end

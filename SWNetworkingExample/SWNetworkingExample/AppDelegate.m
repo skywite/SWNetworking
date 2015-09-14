@@ -35,27 +35,30 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Override point for customization after application launch.
     
     //[[SWOfflineRequestManger requestExpireTime:1300 ] startReachabilityStatus];
     
-    
+    /*
     [SWOfflineRequestManger requestExpireTime:1300 ];
 
     
     [[SWOfflineRequestManger sharedInstance] requestSuccessBlock:^(SWRequestOperation *oparation, id responseObject) {
         
-        NSLog(@"%@", oparation.responseString);
+        NSLog(@"%d", oparation.tag);
         
     } requestFailBlock:^(SWRequestOperation *oparation, NSError *error) {
         
     }];
+     */
     
     
     //[[SWOfflineRequestManger sharedInstance]removeAllRequests];
-    
     /*
+    
      SWGETRequest *getR = [[SWGETRequest alloc]init];
+    getR.tag = 400;
      [getR startWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
      
      } success:^(SWRequestOperation *operation, id responseObject) {
@@ -63,10 +66,18 @@
      
      } failure:^(SWRequestOperation *operation, NSError *error) {
      NSLog(@"fail %@", error);
-     }];
+     }];*/
+    
+   /* NSURL *url = [[NSURL alloc] initWithString:@"http://www.google.com?wwww=ttt" ];
+    
+    NSData *personEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:url];
+    
+    [[NSUserDefaults standardUserDefaults]setObject:personEncodedObject forKey:@"url"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    NSData *u = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]objectForKey:@"url"]];
+    NSLog(@"%@", u);
     */
-    
-    
     NSLog(@"%lu", (unsigned long)[[[SWOfflineRequestManger sharedInstance] offlineOparations] count]);
     return YES;
 }

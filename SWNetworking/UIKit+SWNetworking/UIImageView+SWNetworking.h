@@ -22,15 +22,57 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//https://github.com/skywite
+//
 
 #import <UIKit/UIKit.h>
-
+#import "SWRequestOperation.h"
+/**
+ *  THis is for category for UIImageView. IT wil help to load image from  GET request.
+ */
 @interface UIImageView (SWNetworking)
+/**
+ *  The complete block when done the download.
+ */
 @property(nonatomic, copy) void (^complete)(UIImage *image) ;
+/**
+ *  The GET request that use to download image.
+ */
+@property (nonatomic, strong) SWGETRequest *imageRequest;
 
-
+/**
+ *  This method will help to downlaod image from URL.
+ *
+ *  @param url      The url that user want to downlaod.
+ */
 -(void)loadWithURLString:(NSString *)url;
+/**
+ *  This method will help to downlaod image without complete block.
+ *
+ *  @param url      The url that user want to downlaod.
+ *  @param status   IF yes, image will load from cache first. Then will load from downloading.
+ */
 -(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status;
+
+/**
+ *  This method will help to downlaod image with complete block. Block response will be an image.
+ *
+ *  @param url      The url that user want to downlaod.
+ *  @param complete Complete block as an image
+ */
 -(void)loadWithURLString:(NSString *)url complete:(void(^)(UIImage *image))complete;
+
+/**
+ *  This method will help to downlaod image with complete block. Block response will be an image.
+ *
+ *  @param url      The url that user want to downlaod.
+ *  @param status   IF yes, image will load from cache first. Then will load from downloading.
+ *  @param complete Complete block as an image
+ */
 -(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status complete:(void(^)(UIImage *image))complete;
+
+/**
+ *  This method can use to cancle image downloading.
+ */
+-(void)cancelLoading;
 @end
