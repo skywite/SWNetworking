@@ -638,7 +638,7 @@ Please use following method to set task for UIProgressView
 # Credits
 
 `SWNetworking` is owned and maintained bye the [SkyWite](http://www.skywite.com)
-`SWNetworking` was originally created by [saman kumara](http://www.isamankumara.com). If you want to contact [me@isamankuamra.com](mailto:isamankumara.com)
+`SWNetworking` was originally created by [saman kumara](http://www.isamankumara.com). If you want to contact [me@isamankuamra.com](mailto:me@isamankumara.com)
 
 # Security disclosure
 
