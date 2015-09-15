@@ -282,14 +282,6 @@
     [self.requestDataType dataWithFile:self.files paremeters:parameters];
 
     if (![self.availableInURLMethods containsObject:[[self.request HTTPMethod] uppercaseString]]) {
-        /*if (self.isMultipart) {
-            NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", SW_MULTIPART_REQUEST_BOUNDARY];
-            [self.request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-        }else{
-            if (![self.request valueForHTTPHeaderField:@"Content-Type"]) {
-                [self.request setValue:[self.requestDataType getContentType] forHTTPHeaderField:@"Content-Type"];
-            }
-        }*/
         
         if (![self.request valueForHTTPHeaderField:@"Content-Type"]) {
             [self.request setValue:[self.requestDataType getContentType] forHTTPHeaderField:@"Content-Type"];
@@ -298,57 +290,14 @@
 
     }else{
         NSString *quearyString = [(SWRequestFormData *)self.requestDataType getQueryString];
-        if ([url localizedCaseInsensitiveContainsString:@"?"]) {
+        if (!([url rangeOfString:@"?"].location == NSNotFound)) {
             [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
         }else{
             [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
         }
     }
-    
-    /*
-    if (parameters) {
-        
-        if ([parameters isKindOfClass:[NSDictionary class]]) {
-            
-            NSDictionary *param = (NSDictionary *)parameters;
-            NSMutableArray *paramArray = [[NSMutableArray alloc]init];
-            
-            for (NSString *key in param.allKeys) {
-                [paramArray addObject:[NSString stringWithFormat:@"%@=%@", SWEscapedQueryStringKeyFromStringWithEncoding(key) , SWEscapedQueryStringValueFromStringWithEncoding([param objectForKey:key])]];
-            }
-            
-            if ([self.availableInURLMethods containsObject:[[self.request HTTPMethod] uppercaseString]]) {
-                if ([url localizedCaseInsensitiveContainsString:@"?"]) {
-                    [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,[paramArray componentsJoinedByString:@"&"]]]];
-                }else{
-                    [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,[paramArray componentsJoinedByString:@"&"]]]];
-                }
-            }else{
-                
-                [self.request setHTTPBody:[(NSString *)[paramArray componentsJoinedByString:@"&"] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-            }
-            
-        }else{
-            if ([self.availableInURLMethods containsObject:[[self.request HTTPMethod] uppercaseString]]) {
-                
-                if ([url localizedCaseInsensitiveContainsString:@"?"]) {
-                    [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,parameters]]];
-                }else{
-                    [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,parameters]]];
-                }
-            }else{
-                [self.request setHTTPBody:[(NSString *)parameters dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
-            }
-        }
-    }
-    
-    
-    if (self.isMultipart) {
-        [self.request setHTTPBody:[self getBodyDataWithParameters:parameters]];
-    }
-    */
+   
     [self.request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-
     
     [self.request setTimeoutInterval:self.timeOut];
     [self.request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[self.request.HTTPBody length]] forHTTPHeaderField:@"Content-Length"];

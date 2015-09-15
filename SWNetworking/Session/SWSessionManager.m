@@ -148,10 +148,10 @@
     }else{
         NSString *quearyString = [(SWRequestFormData *)self.requestDataType getQueryString];
         
-        if ([url localizedCaseInsensitiveContainsString:@"?"]) {
-            [request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
-        }else{
+        if ([url rangeOfString:@"?"].location == NSNotFound) {
             [request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
+        }else{
+            [request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
         }
     }
     
@@ -234,7 +234,7 @@
     }else{
         NSString *quearyString = [(SWRequestFormData *)self.requestDataType getQueryString];
         
-        if ([url localizedCaseInsensitiveContainsString:@"?"]) {
+        if (!([url rangeOfString:@"?"].location == NSNotFound)) {
             [request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
         }else{
             [request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
