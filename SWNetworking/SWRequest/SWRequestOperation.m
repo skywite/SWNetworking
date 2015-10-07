@@ -184,7 +184,9 @@
 
 
 -(void)createConnection{
+#if  !TARGET_OS_TV
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+#endif
     self.connection = [[NSURLConnection alloc]initWithRequest:self.request delegate:self startImmediately:YES];
     [self start];
 }
@@ -435,9 +437,9 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection __unused *)connection {
-   
+#if  !TARGET_OS_TV 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
+#endif
     [self.backgroundView removeFromSuperview];
     if (self.successBlock) {
         self.successBlock(self, [self.responseDataType responseOjbect:self.response data:self.responseData]);
@@ -450,8 +452,9 @@
     
     self.error = error;
     [self.backgroundView removeFromSuperview];
-
+#if  !TARGET_OS_TV
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+#endif
     if (self.failBlock) {
         self.failBlock(self, self.error);
     }
