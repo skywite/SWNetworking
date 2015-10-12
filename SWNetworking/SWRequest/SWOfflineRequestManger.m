@@ -76,13 +76,13 @@ static dispatch_once_t onceToken;
 }
 -(void)startReachabilityStatus{
     
-    [SWReachability checkCurrentStatus:^(SWNetworingReachabilityStatus currentStatus) {
-        if (currentStatus != SWNetworkReachabilityStatusNotReachable) {
+    [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
+        if (currentStatus != SWNetworkingReachabilityStatusNotReachable) {
             [self createOperations];
         }
-    } statusChange:^(SWNetworingReachabilityStatus changedStatus) {
+    } statusChange:^(SWNetworkingReachabilityStatus changedStatus) {
         
-        if (changedStatus != SWNetworkReachabilityStatusNotReachable) {
+        if (changedStatus != SWNetworkingReachabilityStatusNotReachable) {
             [self createOperations];
         }
     }];

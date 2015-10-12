@@ -36,7 +36,7 @@
 
 @interface SWReachabilityHandler : NSObject
 
-@property (nonatomic , copy) void (^changedStatus)(SWNetworingReachabilityStatus changedStatus);
+@property (nonatomic , copy) void (^changedStatus)(SWNetworkingReachabilityStatus changedStatus);
 
 @end
 
@@ -72,12 +72,12 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 }
 @property (nonatomic, assign)  SCNetworkReachabilityRef reachability;
 ;
-@property (readwrite, nonatomic, assign) SWNetworingReachabilityStatus networkReachabilityStatus;
+@property (readwrite, nonatomic, assign) SWNetworkingReachabilityStatus networkReachabilityStatus;
 
 @end
 @implementation SWReachability
 
-+(SWNetworingReachabilityStatus)getCurrentNetworkStatus{
++(SWNetworkingReachabilityStatus)getCurrentNetworkStatus{
     SWReachability *reachability = [[SWReachability alloc]init];
     return [reachability getCurrentNetworkStatus];
 }
@@ -87,7 +87,7 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     return [reachability connected];
 }
 
-+(void)checkCurrentStatus:(void (^)(SWNetworingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworingReachabilityStatus changedStatus))changedStatus{
++(void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus{
     
     SWReachabilityHandler *handler = [[SWReachabilityHandler alloc]init];
     
@@ -109,13 +109,13 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
 }
 
 -(BOOL)connected{
-    if ([self getCurrentNetworkStatus] == SWNetworkReachabilityStatusNotReachable) {
+    if ([self getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         return NO;
     }
     return YES;
 }
 
--(SWNetworingReachabilityStatus)getCurrentNetworkStatus{
+-(SWNetworkingReachabilityStatus)getCurrentNetworkStatus{
     
     struct sockaddr_in zeroAddress;
     
@@ -134,16 +134,16 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
         if (SCNetworkReachabilityGetFlags(self.reachability, &flags)) {
             if ((flags & kSCNetworkReachabilityFlagsReachable) == 0){
                 // if target host is not reachable
-                self.networkReachabilityStatus = SWNetworkReachabilityStatusNotReachable;
+                self.networkReachabilityStatus = SWNetworkingReachabilityStatusNotReachable;
                 //return self.networkReachabilityStatus;
             }
             
-            self.networkReachabilityStatus = SWNetworkReachabilityStatusNotReachable;
+            self.networkReachabilityStatus = SWNetworkingReachabilityStatusNotReachable;
             
             if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0){
                 // if target host is reachable and no connection is required
                 //  then we'll assume (for now) that your on Wi-Fi
-                self.networkReachabilityStatus = SWNetworkReachabilityStatusReachableViaWiFi;
+                self.networkReachabilityStatus = SWNetworkingReachabilityStatusReachableViaWiFi;
             }
             
             
@@ -161,7 +161,7 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
             if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN){
                 // ... but WWAN connections are OK if the calling application
                 //     is using the CFNetwork (CFSocketStream?) APIs.
-                self.networkReachabilityStatus = SWNetworkReachabilityStatusReachableViaWWAN;
+                self.networkReachabilityStatus = SWNetworkingReachabilityStatusReachableViaWWAN;
             }
         }
     }
