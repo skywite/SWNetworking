@@ -676,15 +676,15 @@
 
 -(void)netWorkAvailibity{
     
-    if ([SWReachability getCurrentNetworkStatus] == SWNetworkReachabilityStatusNotReachable) {
+    if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         //connection not available.
     }
     
     //if you want to get status change notification
     
-    [SWReachability checkCurrentStatus:^(SWNetworingReachabilityStatus currentStatus) {
+    [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
         //current status when call method
-    } statusChange:^(SWNetworingReachabilityStatus changedStatus) {
+    } statusChange:^(SWNetworkingReachabilityStatus changedStatus) {
         //every time when change status
     }];
 }

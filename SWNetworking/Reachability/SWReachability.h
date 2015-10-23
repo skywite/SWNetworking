@@ -33,10 +33,10 @@
 extern NSString *kSWReachabilityChangedNotification;
 
 
-typedef NS_ENUM(NSInteger, SWNetworingReachabilityStatus) {
-    SWNetworkReachabilityStatusNotReachable = 0,
-    SWNetworkReachabilityStatusReachableViaWWAN = 1,
-    SWNetworkReachabilityStatusReachableViaWiFi = 2,
+typedef NS_ENUM(NSInteger, SWNetworkingReachabilityStatus) {
+    SWNetworkingReachabilityStatusNotReachable = 0,
+    SWNetworkingReachabilityStatusReachableViaWWAN = 1,
+    SWNetworkingReachabilityStatusReachableViaWiFi = 2,
 };
 
 @interface SWReachability : NSObject
@@ -44,14 +44,14 @@ typedef NS_ENUM(NSInteger, SWNetworingReachabilityStatus) {
 /**
  *  Reachamitly status, three states available.SWNetworkReachabilityStatusNotReachable,SWNetworkReachabilityStatusReachableViaWWAN,SWNetworkReachabilityStatusReachableViaWiFi are the status
  */
-@property (readonly, nonatomic, assign) SWNetworingReachabilityStatus networkReachabilityStatus;
+@property (readonly, nonatomic, assign) SWNetworkingReachabilityStatus networkReachabilityStatus;
 
 /**
  *  Calling this current status will return - Class methods
  *
  *  @return Currnt Status
  */
-+(SWNetworingReachabilityStatus)getCurrentNetworkStatus;
++(SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
 
 /**
  *  Check simply network availabily - Class methods
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, SWNetworingReachabilityStatus) {
  *  @param currentStatus current network status
  *  @param changedStatus changed network status
  */
-+(void)checkCurrentStatus:(void (^)(SWNetworingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworingReachabilityStatus changedStatus))changedStatus;
++(void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus;
 
 
 /**
@@ -81,7 +81,7 @@ typedef NS_ENUM(NSInteger, SWNetworingReachabilityStatus) {
  *
  *  @return Currnt Status
  */
--(SWNetworingReachabilityStatus)getCurrentNetworkStatus;
+-(SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
 
 /**
  *  calling this method will start notification will start .

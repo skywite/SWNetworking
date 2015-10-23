@@ -320,7 +320,7 @@
         }
     }
     
-    if ([SWReachability getCurrentNetworkStatus] == SWNetworkReachabilityStatusNotReachable) {
+    if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         
         if (self.sendRequestLaterWhenOnline) {
             [[SWOfflineRequestManger sharedInstance] addRequestForSendLater:self];
