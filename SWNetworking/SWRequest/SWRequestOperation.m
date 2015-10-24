@@ -70,6 +70,7 @@
 @property(nonatomic, copy) void (^downloadProgressBlock)(long long bytes, long long totalBytes,  long long totalBytesExpected);
 
 -(NSString *)responseString;
+-(void)showNetworkActivityIndicator:(BOOL)show;
 
 @end
 
@@ -182,12 +183,20 @@
 
 //-(void)setDownloadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) downloadProgressBlock;
 
+- (void)showNetworkActivityIndicator:(BOOL)show {
+	if ( ![[UIApplication class] respondsToSelector:@selector(sharedApplication) ] ) {
+		return;
+	}
+
+	UIApplication *application = [[UIApplication class] performSelector:@selector(sharedApplication)];
+	application.networkActivityIndicatorVisible = show;
+}
 
 -(void)createConnection{
-#if  !TARGET_OS_TV
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-#endif
-    self.connection = [[NSURLConnection alloc]initWithRequest:self.request delegate:self startImmediately:YES];
+
+	[self showNetworkActivityIndicator:YES];
+
+	self.connection = [[NSURLConnection alloc]initWithRequest:self.request delegate:self startImmediately:YES];
     [self start];
 }
 
@@ -437,10 +446,10 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection __unused *)connection {
-#if  !TARGET_OS_TV 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-#endif
-    [self.backgroundView removeFromSuperview];
+
+	[self showNetworkActivityIndicator:NO];
+
+	[self.backgroundView removeFromSuperview];
     if (self.successBlock) {
         self.successBlock(self, [self.responseDataType responseOjbect:self.response data:self.responseData]);
     }
@@ -452,9 +461,9 @@
     
     self.error = error;
     [self.backgroundView removeFromSuperview];
-#if  !TARGET_OS_TV
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-#endif
+
+	[self showNetworkActivityIndicator:NO];
+	
     if (self.failBlock) {
         self.failBlock(self, self.error);
     }
