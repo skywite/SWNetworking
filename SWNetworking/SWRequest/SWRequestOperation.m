@@ -70,7 +70,6 @@
 @property(nonatomic, copy) void (^downloadProgressBlock)(long long bytes, long long totalBytes,  long long totalBytesExpected);
 
 -(NSString *)responseString;
--(void)showNetworkActivityIndicator:(BOOL)show;
 
 @end
 
@@ -184,12 +183,14 @@
 //-(void)setDownloadProgressBlock:(void (^)(long  bytes,  long totalBytes,  long totalBytesExpected)) downloadProgressBlock;
 
 - (void)showNetworkActivityIndicator:(BOOL)show {
+#ifndef TARGET_OS_TV
 	if ( ![[UIApplication class] respondsToSelector:@selector(sharedApplication) ] ) {
 		return;
 	}
 
 	UIApplication *application = [[UIApplication class] performSelector:@selector(sharedApplication)];
 	application.networkActivityIndicatorVisible = show;
+#endif
 }
 
 -(void)createConnection{
