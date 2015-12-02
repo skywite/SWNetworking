@@ -237,49 +237,7 @@
         [self.parentView insertSubview:self.backgroundView atIndex:1000];
     }
 }
-/*
 
--(NSMutableData *)getBodyDataWithParameters:(NSDictionary *)parameters{
-    
-    
-    NSMutableData *body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", SW_MULTIPART_REQUEST_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    
-    NSString *endoundary = [NSString stringWithFormat:@"\r\n--%@\r\n",SW_MULTIPART_REQUEST_BOUNDARY];
-    int i=0;
-    for (NSString *key in parameters.allKeys) {
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"%@",[parameters objectForKey:key]] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        i++;
-        
-        if ((i != [parameters.allKeys count]) || ([self.files count] > 0)) { //Only add the boundary if this is not the last item in the post body
-            [body appendData:[endoundary dataUsingEncoding:NSUTF8StringEncoding]];
-        }
-    }
-    
-    i=0;
-    
-    for (SWMedia *file in self.files) {
-        
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", file.key, file.fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", file.MIMEType] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:file.data];
-        i++;
-        
-        // Only add the boundary if this is not the last item in the post body
-        if (i != [self.files count]) {
-            [body appendData:[endoundary dataUsingEncoding:NSUTF8StringEncoding]];
-        }
-    }
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",SW_MULTIPART_REQUEST_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    return body;
-}
-
-*/
 -(void )startWithURL:(NSString *)url
           parameters:(id)parameters{
     
@@ -302,13 +260,15 @@
 
     }else{
         NSString *quearyString = [(SWRequestFormData *)self.requestDataType getQueryString];
-        if (!([url rangeOfString:@"?"].location == NSNotFound)) {
-            [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
-        }else{
-            [self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
-        }
+		if (quearyString.length > 0) {
+			if (!([url rangeOfString:@"?"].location == NSNotFound)) {
+				[self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@&%@",url,quearyString]]];
+			}else{
+				[self.request setURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@?%@",url,quearyString]]];
+			}
+		}
     }
-   
+
     [self.request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     
     [self.request setTimeoutInterval:self.timeOut];
