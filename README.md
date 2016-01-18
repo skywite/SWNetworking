@@ -41,13 +41,13 @@ it, simply add the following line to your Podfile:
 ### Communication
 
 - If you **need any help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/swnetworking). (Tag 'swnetworking') or you can send a mail with details ( we will provide fast feedback )
-- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking).
+- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/SWNetworking).
 - If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue or you can contribute.
 - If you **have a feature request**, send a request mail we will add as soon as possible.
 - If you **want to contribute**, submit a pull request.
 
 ### Using CocoaPods
-- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.2.
+- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.3
 
 ```ruby
 pod "SWNetworking"
