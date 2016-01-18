@@ -29,14 +29,14 @@
 
 @implementation UIProgressView (SWNetworking)
 
--(void)setRequestForDownload:(SWRequestOperation *) request{
-    [request setDownloadProgressBlock:^(long long bytes, long long totalBytes, long long totalBytesExpected) {
-        self.progress = ((float)totalBytes / totalBytesExpected);
+-(void)setRequestForDownload:(SWRequest *) request{
+    [request setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
--(void)setRequestForUpload:(SWRequestOperation *) request{
-    [request setUploadProgressBlock:^(long long bytes, long long totalBytes, long long totalBytesExpected) {
-        self.progress = ((float)totalBytes / totalBytesExpected);
+-(void)setRequestForUpload:(SWRequest *) request{
+    [request setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
 

@@ -26,15 +26,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRequestOperation.h"
+#import "SWRequest.h"
 #import "SWResponseDataType.h"
 #import "SWMedia.h"
 #import "SWReachability.h"
 #import "UIImageView+SWNetworking.h"
-#import "SWOfflineRequestManger.h"
-#import "SWOperationManger.h"
 #import "UIProgressView+SWNetworking.h"
-#import "SWSessionManager.h"
+#import "SWOfflineRequestManger.h"
 
 //! Project version number for SWNetworking.
 FOUNDATION_EXPORT double SWNetworkingVersionNumber;

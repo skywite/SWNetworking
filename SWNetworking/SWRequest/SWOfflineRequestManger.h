@@ -26,7 +26,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SWRequestOperation.h"
+#import "SWRequest.h"
 @interface SWOfflineRequestManger : NSObject
 
 /**
@@ -60,14 +60,14 @@
  *
  *  @return return BOOL will return operation save status
  */
--(BOOL)addRequestForSendLater:(SWRequestOperation *)requestOperation;
+-(BOOL)addRequestForSendLater:(SWRequest *)requestOperation;
 
 /**
  *  if you want to delete reqeust from saved list you need to call this method
  *
  *  @param requestOperation requestOperation the operation request that you want to delete
  */
--(void)removeRequest:(SWRequestOperation *)requestOperation;
+-(void)removeRequest:(SWRequest *)requestOperation;
 
 /**
  *  Calling this method all the saved request will be deleted
@@ -80,5 +80,5 @@
  *  @param success success success block
  *  @param fail    fail fail block
  */
--(void)requestSuccessBlock:(void (^)(SWRequestOperation *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequestOperation *oparation,  NSError *error))fail;
+-(void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail;
 @end

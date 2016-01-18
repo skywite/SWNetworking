@@ -27,8 +27,7 @@
 
 #import "SWOfflineRequestManger.h"
 #import "SWReachability.h"
-#import "SWRequestOperation.h"
-#import "SWOperationManger.h"
+#import "SWRequest.h"
 
 NSString *const USER_DEFAULT_KEY = @"SWOfflineReqeustsOnUserDefault";
 
@@ -36,9 +35,9 @@ NSString *const USER_DEFAULT_KEY = @"SWOfflineReqeustsOnUserDefault";
 
 @property(nonatomic, assign) long expireTime;
 
-@property(nonatomic, copy) void (^requestSuccessBlock)(SWRequestOperation *oparation, id responseObject);
+@property(nonatomic, copy) void (^requestSuccessBlock)(SWRequest *oparation, id responseObject);
 
-@property(nonatomic, copy) void (^requestFailBlock)(SWRequestOperation *oparation,  NSError *error);
+@property(nonatomic, copy) void (^requestFailBlock)(SWRequest *oparation,  NSError *error);
 
 @end
 
@@ -49,20 +48,15 @@ static dispatch_once_t onceToken;
 @implementation SWOfflineRequestManger
 
 + (instancetype)requestExpireTime:(long) seconds{
-    
     dispatch_once(&onceToken, ^{
         instance = [[SWOfflineRequestManger alloc] init];
     });
-    
     instance.expireTime = seconds;
-
     [instance startReachabilityStatus];
-    
     return instance;
 }
 
 + (instancetype)sharedInstance{
-    
     dispatch_once(&onceToken, ^{
         instance = [[SWOfflineRequestManger alloc] init];
     });
@@ -70,12 +64,11 @@ static dispatch_once_t onceToken;
 }
 
 
--(void)requestSuccessBlock:(void (^)(SWRequestOperation *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequestOperation *oparation,  NSError *error))fail{
+-(void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail{
     self.requestSuccessBlock = success;
     self.requestFailBlock = fail;
 }
 -(void)startReachabilityStatus{
-    
     [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
         if (currentStatus != SWNetworkingReachabilityStatusNotReachable) {
             [self createOperations];
@@ -89,41 +82,50 @@ static dispatch_once_t onceToken;
 }
 
 -(void)createOperations{
-    SWOperationManger *operationManager = [[SWOperationManger alloc]init];
-    [operationManager setMaxOperationCount:3];
-    for (SWRequestOperation *operetion in [self offlineOparations]) {
-        
-        __weak SWRequestOperation *weakOperation = operetion;
-        [operationManager addOperationWithBlock:^{
-            
-            [[NSOperationQueue mainQueue] addOperationWithBlock: ^ {
-                
-                [operetion createConnection];
-                
-                [operetion setSuccess:^(SWRequestOperation *operationResponse, id responseObject) {
-                    
-                    if (self.requestSuccessBlock) {
-                        self.requestSuccessBlock(operationResponse, responseObject);
-                    }
-                    
-                    [self removeRequest:weakOperation];
-                    
-                } failure:^(SWRequestOperation *operationResponse, NSError *error) {
-                    if (self.requestFailBlock) {
-                        self.requestFailBlock(operationResponse, error);
-                    }
-                }];
+    for (SWRequest *operetion in [self offlineOparations]) {
+         __weak SWRequest *weakOperation = operetion;
+        [operetion createSession];
+        if (operetion.taskType == UploadTask) {
+            [operetion setUploadSuccess:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+                if (self.requestSuccessBlock) {
+                    self.requestSuccessBlock(uploadTask.swRequest,responseObject);
+                }
+                [self removeRequest:weakOperation];
+            } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+                if (self.requestFailBlock) {
+                    self.requestFailBlock(uploadTask.swRequest, error);
+                }
             }];
-        }];
+        }else if (operetion.taskType == DownloadTask) {
+            [operetion setDownloadSuccess:^(NSURLSessionDownloadTask *downloadTask, NSURL *location) {
+                if (self.requestSuccessBlock) {
+                    self.requestSuccessBlock(downloadTask.swRequest,nil);
+                }
+                [self removeRequest:weakOperation];
+            } failure:^(NSURLSessionTask *downloadTask, NSError *error) {
+                if (self.requestFailBlock) {
+                    self.requestFailBlock(downloadTask.swRequest, error);
+                }
+            }];
+        }else {
+            [operetion setDataSuccess:^(NSURLSessionDataTask *dataTask, id responseObject) {
+                if (self.requestSuccessBlock) {
+                    self.requestSuccessBlock(dataTask.swRequest,responseObject);
+                }
+                [self removeRequest:weakOperation];
+            } failure:^(NSURLSessionTask *dataTask, NSError *error) {
+                if (self.requestFailBlock) {
+                    self.requestFailBlock(dataTask.swRequest, error);
+                }
+            }];
+        }
     }
-
 }
 
--(void)removeRequest:(SWRequestOperation *)requestOperation{
-    
+-(void)removeRequest:(SWRequest *)requestOperation{
     NSData *selectedData;
     for (NSData *data in [self getSavedArray]) {
-        SWRequestOperation * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        SWRequest * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         if ([operation.requestSavedDate timeIntervalSinceReferenceDate] == [requestOperation.requestSavedDate timeIntervalSinceReferenceDate]){
             selectedData = data;
             break;
@@ -139,12 +141,9 @@ static dispatch_once_t onceToken;
     }
 }
 -(NSArray *)offlineOparations{
-    
     NSMutableArray  *array = [[NSMutableArray alloc]init];
-    
     for (NSData *data in [self getSavedArray]) {
-        SWRequestOperation * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        
+        SWRequest * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         if ([operation.requestSavedDate timeIntervalSinceReferenceDate] > self.expireTime){
             [array addObject:operation];
         }
@@ -158,28 +157,19 @@ static dispatch_once_t onceToken;
     [self saveRequests:[[NSMutableArray alloc]init]];
 }
 -(void)saveRequests:(NSMutableArray *)list{
-    
     NSMutableArray  *array = [[NSMutableArray alloc]init];
-
-    for (SWRequestOperation *operation in list) {
-        
+    for (SWRequest *operation in list) {
         NSData* archivedOperation = [NSKeyedArchiver archivedDataWithRootObject:operation];
         [array addObject:archivedOperation];
     }
-    
     [[NSUserDefaults standardUserDefaults] setObject:array forKey:USER_DEFAULT_KEY];
-    
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
--(BOOL)addRequestForSendLater:(SWRequestOperation *)requestOperation{
-    
+-(BOOL)addRequestForSendLater:(SWRequest *)requestOperation{
     requestOperation.requestSavedDate = [NSDate new];
-
     NSMutableArray *array = [self getSavedArray];
-    
     NSData* archivedOperation = [NSKeyedArchiver archivedDataWithRootObject:requestOperation];
-    
     [array addObject:archivedOperation];
     [[NSUserDefaults standardUserDefaults] setObject:array forKey:USER_DEFAULT_KEY];
     
@@ -187,7 +177,6 @@ static dispatch_once_t onceToken;
 }
 
 -(NSMutableArray *)getSavedArray{
-    
     if ([[NSUserDefaults standardUserDefaults]objectForKey:USER_DEFAULT_KEY]) {
         return [[NSMutableArray alloc]initWithArray:[[NSUserDefaults standardUserDefaults]objectForKey:USER_DEFAULT_KEY]];
     }else{

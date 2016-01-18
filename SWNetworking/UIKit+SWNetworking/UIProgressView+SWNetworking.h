@@ -27,8 +27,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "SWRequestOperation.h"
-#import "SWSessionManager.h"
+#import "SWRequest.h"
 /**
  *  This category created to use UIProgressView with upload and download request.
  */
@@ -39,14 +38,14 @@
  *
  *  @param request Then download request
  */
--(void)setRequestForDownload:(SWRequestOperation *) request;
+-(void)setRequestForDownload:(SWRequest *) request;
 
 /**
  *  Using this method will set Upload progress block on the SWReqeustOperation request
  *
  *  @param request Then download request
  */
--(void)setRequestForUpload:(SWRequestOperation *) request;
+-(void)setRequestForUpload:(SWRequest *) request;
 
 /**
  *  Using this method will set download progress block on the NSURLSessionDownloadTask task
@@ -61,4 +60,5 @@
  *  @param uploadTask task
  */
 -(void)setUploadTask:(NSURLSessionUploadTask *)downloadTask;
+
 @end

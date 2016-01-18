@@ -26,7 +26,7 @@
 #import "DetailViewController.h"
 #import "SWNetworking.h"
 #import "UIImageView+SWNetworking.h"
-
+#import "UIProgressView+SWNetworking.h"
 @interface DetailViewController (){
     IBOutlet UIProgressView *progressView;
 }
@@ -40,15 +40,12 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        // Update the view.
     }
 }
 
 
 - (void)viewDidLoad {
-    
     NSIndexPath *indexPath = self.detailItem;
-    
     switch (indexPath.section) {
         case 0:
         {
@@ -121,7 +118,7 @@
             [self simpleHEAD];
             break;
         }
-        case 7:
+        case 6:
         {
             switch (indexPath.row) {
                 case 0:
@@ -191,116 +188,72 @@
                     break;
                 }
                 case 14:{
-                    [self startdownloadSession];
+                    //[self startdownloadSession];
                     break;
                 }
                 case 15:{
-                    [self startUploadSession];
+                   // [self startUploadSession];
                     break;
                 }
-               
                 default:
                     break;
             }
             break;
         }
-        case 6: {
-            switch (indexPath.row) {
-                case 0:
-                {
-                    [self startdownloadSession];
-                    break;
-                }
-                case 1:{
-                    [self startUploadSession];
-
-                    break;
-                }
-                    
-                case 2:{
-                    [self startdataSession];
-                    break;
-                }
-               
-            }
-        }
         default:
-            break;
+        break;
     }
-    
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark get request
 
--(void)simpleGET{
-    
+-(void)simpleGET {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    [getRequest startWithURL:@"your URL String" parameters:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", [operation responseString]);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
-
--(void)withResponseType{
-    
-    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
-
--(void)withLoadingView{
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
    
-    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:nil parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", [operation responseString]);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
-
--(void)withParameter{
-   
-    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
-
--(void)withCacheData{
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
     
+    }];
+}
+
+-(void)withResponseType {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
+    }];
+}
+
+-(void)withLoadingView {
+    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    getRequest.responseDataType = [SWResponseJSONDataType type];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:self.view success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
+    }];
+}
+
+-(void)withParameter {
+    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    getRequest.responseDataType = [SWResponseJSONDataType type];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
+    }];
+}
+
+-(void)withCacheData {
+    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    getRequest.responseDataType = [SWResponseStringDataType type];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
-        NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 }
@@ -308,38 +261,32 @@
 
 #pragma mark post request
 
--(void)simplePOST{
-    
+-(void)simplePOST {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    
+    [postRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@"name=this is name&address=your address" parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
     
     // or can use following key value  for the parameter
     
-    
     SWPOSTRequest *postRequest2 = [[SWPOSTRequest alloc]init];
     postRequest2.responseDataType = [SWResponseJSONDataType type];
-    [postRequest2 startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest2 startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 }
 
--(void)WithMultiPart{
-    
+-(void)WithMultiPart {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
@@ -349,7 +296,6 @@
     NSData *imageData = UIImagePNGRepresentation(image);
     SWMedia *file1 = [[SWMedia alloc]initWithFileName:@"imagefile.png" key:@"image" data:imageData];
     
-    
     //create with custom mine type one
     
     SWMedia *file2 = [[SWMedia alloc]initWithFileName:@"image.jpg" key:@"image2" mineType:@"image/jpeg" data:imageData];
@@ -358,30 +304,30 @@
     
     NSArray *fileArray = @[file1, file2];
     
-    [postRequest startMultipartWithURL:@"your url" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [postRequest startUploadTaskWithURL:@"http://127.0.0.1:3000/drivers" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil
+    cachedData:^(NSCachedURLResponse *response, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
     
     // if parent view is nil you can't see any loading view
 }
 
+
 #pragma mark Put request
 
--(void)simplePUT{
-    
+-(void)simplePUT {
     SWPUTRequest *putRequest = [[SWPUTRequest alloc]init];
     putRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [putRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [putRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
+    }];}
 
 #pragma mark Patch request
 
@@ -390,12 +336,10 @@
     SWPATCHRequest *patchRequest = [[SWPATCHRequest alloc]init];
     patchRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [patchRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [patchRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 }
 
@@ -406,16 +350,13 @@
     SWDELETERequest *deleteRequest = [[SWDELETERequest alloc]init];
     deleteRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [deleteRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [deleteRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
+    }];}
 
 #pragma mark Head Request
 
@@ -424,14 +365,14 @@
     SWHEADRequest *headRequest = [[SWHEADRequest alloc]init];
     headRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [headRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [headRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-}
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
+    }];}
+
 
 #pragma mark Features
 
@@ -442,30 +383,27 @@
     SWHEADRequest *headRequest = [[SWHEADRequest alloc]init];
     headRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [headRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [headRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 }
 
 -(void)downloadProgress{
     SWGETRequest *getR = [[SWGETRequest alloc]init];
-    [getR startWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [getR startDownloadTaskWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response,  NSURL *location) {
         
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"success");
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        NSLog(@"fail %@", error);
+    } success:^(NSURLSessionDownloadTask *uploadTask,  NSURL *location) {
+        NSLog(@"location %@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"error %@", error);
     }];
     
-    [getR setDownloadProgressBlock:^(long long bytes,long long totalBytes,long long totalBytesExpected) {
-        NSLog(@"%lld -%lld -%lld", bytes, totalBytes, totalBytesExpected);
+    [getR setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"bytesWritten => %lld and totalBytesExpectedToWrite = %lld", bytesWritten, totalBytesExpectedToWrite);
     }];
     
 }
@@ -489,16 +427,14 @@
     
     NSArray *fileArray = @[file1, file2];
     
-    [postRequest startMultipartWithURL:@"your url" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [postRequest startUploadTaskWithURL:@"http://127.0.0.1:3000/drivers" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil  success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
-    
-    [postRequest setUploadProgressBlock:^(long long bytes,long long totalBytes,long long totalBytesExpected) {
-        NSLog(@"%lld -%lld -%lld", bytes, totalBytes, totalBytesExpected);
+    [postRequest setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"bytesWritten => %lld and totalBytesExpectedToWrite = %lld", bytesWritten, totalBytesExpectedToWrite);
     }];
-
 }
 
 -(void)customHeader{
@@ -507,13 +443,13 @@
     [postRequest.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -525,13 +461,13 @@
     [postRequest.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 }
@@ -542,13 +478,13 @@
     [postRequest setTimeOut:120];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 }
@@ -559,18 +495,15 @@
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view sendLaterIfOffline:YES  cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    [postRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
         
-        NSLog(@"%@", responseObject);
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
     // If you want to see evenet complete time. example on app delegate.
-
 }
 
 -(void)responseEncoding{
@@ -579,13 +512,13 @@
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -594,13 +527,13 @@
     SWPOSTRequest *postRequestXML = [[SWPOSTRequest alloc]init];
     postRequestXML.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequestXML startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequestXML startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -608,13 +541,13 @@
     SWPOSTRequest *postRequestString = [[SWPOSTRequest alloc]init];
     postRequestString.responseDataType = [SWResponseStringDataType type];
     
-    [postRequestString startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequestString startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -622,13 +555,13 @@
     SWGETRequest *getRequestImage = [[SWGETRequest alloc]init];
     getRequestImage.responseDataType = [SWResponseUIImageType type];
     
-    [getRequestImage startWithURL:@"your URL String" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
-       // responseObject will be an image
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    [getRequestImage startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
-       // responseObject will be an image
+        NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 }
@@ -638,20 +571,19 @@
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [getRequest startWithURL:@"your URL String" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [getRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-        // cahched json response will come to this block
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 }
 
 -(void)uiImageViewWithURL{
-     // few samples
+    // few samples
     
     // Please use only one method . you can see 4 methods :)
     
@@ -675,7 +607,6 @@
 }
 
 -(void)netWorkAvailibity{
-    
     if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         //connection not available.
     }
@@ -690,7 +621,7 @@
 }
 
 -(void)multipleOperations{
-    
+    /*
     SWGETRequest *getR = [[SWGETRequest alloc]init];
     getR.wantToUseQueue = YES;
     [getR startWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
@@ -716,18 +647,15 @@
     SWOperationManger *oparetaionManager = [[SWOperationManger alloc]init];
     [oparetaionManager addOperation:getR];
     [oparetaionManager addOperation:postR];
-    
+    */
 }
 
 -(void)downloadProgressWithProgressView{
     SWGETRequest *getR = [[SWGETRequest alloc]init];
-    [getR startWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"success");
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        NSLog(@"fail %@", error);
+    [getR startDownloadTaskWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil success:^(NSURLSessionDownloadTask *uploadTask,  NSURL *location) {
+        NSLog(@"%@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
     
     progressView.hidden = NO;
@@ -745,7 +673,6 @@
     NSData *imageData = UIImagePNGRepresentation(image);
     SWMedia *file1 = [[SWMedia alloc]initWithFileName:@"imagefile.png" key:@"image" data:imageData];
     
-    
     //create with custom mine type one
     
     SWMedia *file2 = [[SWMedia alloc]initWithFileName:@"image.jpg" key:@"image2" mineType:@"image/jpeg" data:imageData];
@@ -754,66 +681,13 @@
     
     NSArray *fileArray = @[file1, file2];
     
-    [postRequest startMultipartWithURL:@"your url" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
-    
-    [progressView setRequestForDownload:postRequest];
-
-}
-
-#pragma mark session method
-
--(void)startUploadSession{
-    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    sm.requestDataType = [SWRequestMulitFormData type];
-    
-    UIImage *image = [UIImage imageNamed:@"skywite.png"];
-    
-    
-    NSData *imageData = UIImagePNGRepresentation(image);
-    
-    
-    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
-    
-    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    [ts resume];
-    [ts setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
-        NSLog(@"%lld - %lld", bytesWritten, totalBytesExpectedToWrite);
-    }];
-}
-
-
--(void)startdownloadSession{
-    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    
-    NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
-        NSLog(@"%@", location);
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    
-    [ts setDownloadProgressBlock:^(long long totalBytes, long long totalBytesExpected) {
-        NSLog(@"%lld %lld", totalBytes, totalBytesExpected);
-    }];
-    [ts resume];
-}
-
-
--(void)startdataSession{
-    SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    
-    NSURLSessionDataTask *ts = [sm dataTaskWithGetURL:@"" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    [postRequest startUploadTaskWithURL:@"" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
         
     } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
-    [ts resume];
+    [progressView setRequestForUpload:postRequest];
+
 }
 @end

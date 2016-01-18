@@ -26,7 +26,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWRequestOperation.h"
+#import "SWRequest.h"
 /**
  *  THis is for category for UIImageView. IT wil help to load image from  GET request.
  */
@@ -75,4 +75,5 @@
  *  This method can use to cancle image downloading.
  */
 -(void)cancelLoading;
+
 @end

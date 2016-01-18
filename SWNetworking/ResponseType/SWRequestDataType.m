@@ -32,22 +32,24 @@ NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking--------
 
 static NSString * SWEscapedQueryStringKeyFromStringWithEncoding(NSString *string){
     
-    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    /*return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
                                                                                    NULL,
                                                                                    (CFStringRef)string,
                                                                                    NULL,
                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#",
-                                                                                   kCFStringEncodingUTF8 );
+                                                                                   kCFStringEncodingUTF8 );*/
 }
 
 static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *string){
-    
-    return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+
+    /*return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
                                                                                    NULL,
                                                                                    (CFStringRef)string,
                                                                                    NULL,
                                                                                    (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                   kCFStringEncodingUTF8 );
+                                                                                   kCFStringEncodingUTF8 );*/
 }
 
 @interface SWRequestDataType()

@@ -10,6 +10,8 @@
 [![License](https://img.shields.io/cocoapods/l/SWNetworking.svg?style=flat)](http://cocoapods.org/pods/SWNetworking)
 [![Platform](https://img.shields.io/cocoapods/p/SWNetworking.svg?style=flat)](http://cocoapods.org/pods/SWNetworking)
 [![Analytics](https://ga-beacon.appspot.com/UA-69386051-1/SWNetworking/README?pixel)](https://github.com/igrigorik/ga-beacon)
+[![Twitter](https://img.shields.io/badge/twitter-@SWframeworks-blue.svg?style=flat)](http://twitter.com/SWframeworks)
+
 
 
 SkyWite is an open-source and highly versatile multi-purpose frameworks. Clean code and sleek features make SkyWite an ideal choice. Powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
@@ -36,17 +38,26 @@ You need to add "SystemConfiguration" framework into your project before impleme
 SWNetworking is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
+### Communication
+
+- If you **need any help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/swnetworking). (Tag 'swnetworking') or you can send a mail with details ( we will provide fast feedback )
+- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking).
+- If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue or you can contribute.
+- If you **have a feature request**, send a request mail we will add as soon as possible.
+- If you **want to contribute**, submit a pull request.
+
+### Using CocoaPods
+- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.2.
+
 ```ruby
 pod "SWNetworking"
 ```
 If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetworking/wiki/CocoaPods-in-to-Xcode-Project) page.
 
 #Architecture
-* `Session`
-    - `SWSessionManager`
+
 * `SWRequest`
- - `SWOperationManger`
- - `SWRequestOperation`
+ - `SWRequest`
     - `SWGETRequest`
     - `SWPOSTRequest`
         - `SWMultiPartRequest` 
@@ -74,37 +85,40 @@ If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetwor
     - `UIProgressView+SWNetworking`
 # How to Use
 
-## Use HTTP Request Operation
-ALL Requests will be operation. So you can use those request as `NSOperationQueue` . Request creation , response serialization, network reachability handing and offline request as well.
+## Use HTTP Request will be `NSURLSession`
+ALL Requests will be NSURLSession. Session will add in to `NSOperationQueue` . Request creation , response serialization, network reachability handing and offline request as well.
 
 ### `GET` Request
 ```objective-c
-SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    [getRequest startWithURL:@"your URL String" parameters:nil success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", [operation responseString]);
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+	SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+   
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+    
     }];
 ```
 If you want send parameters you have two options
 
 ```objective-c
-SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    [getRequest startWithURL:@"your URL String" parameters:@"paramkey=paramvalue&testkey=testvalue" success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", [operation responseString]);
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    getRequest.responseDataType = [SWResponseJSONDataType type];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@"name=this is name&address=your address"  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
     }];
 ```
 If you want to encdoe parameters and values you need to pass `NSDictionary` object with keys/values.
 
 ```objective-c
-SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    [getRequest startWithURL:@"your URL String" parameters:@{@"paramkey"; @"paramvalue", @"testkey": @"testvalue"} success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", [operation responseString]);
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+	SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+    getRequest.responseDataType = [SWResponseJSONDataType type];
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
     }];
 ```
 
-We are commonoded to use second option because if you have `&` sign with parameter or value it will break sending values.
+We are recommend to use second option because if you have `&` sign with parameter or value it will break sending values.
 
 ###  `GET` with Response type 
 Available as response types
@@ -113,64 +127,57 @@ You need set `responseDataType`.
 
 ```objective-c
 // this response will be JSON
- SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+  	SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
     }];
 ```
-### `GET` with loading indigator
-If you set your parent view to mehtod, loading indigator will be displayed. 
+### `GET` with loading indicator
+If you set your parent view to method, loading indicator will be displayed. 
 ```objective-c
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:nil parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", [operation responseString]);
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:self.view success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
     }];
 ```
 
-If you want custom loading view you need to add new `nib` file to your project and name it as 'sw_loadingView'. It will be displyed on the screen.
+If you want custom loading view you need to add new `nib` file to your project and name it as 'sw_loadingView'. It will be displayed on the screen.
 ### Cache Response
-If you want to access cached data on the response. You need to use relevent method that include cache block
+If you want to access cached data on the response. You need to use relevant method that include cache block
 ```objective-c
- SWGETRequest *getRequest = [[SWGETRequest alloc]init];
+ 	SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
-    [getRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+
     }];
 ```
 ### `POST` request (simple)
-Cache, Loading view avaible for the on the relvent methos. Please check avaialbe methods
+Cache, Loading view available for the on the relevant method. Please check available methods
 ```objective-c
-SWPOSTRequest *postRequest2 = [[SWPOSTRequest alloc]init];
-    postRequest2.responseDataType = [SWResponseJSONDataType type];
-    [postRequest2 startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+	SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
+    postRequest.responseDataType = [SWResponseJSONDataType type];
+    
+    [postRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 ```
 
 ### `POST` multipart request
 It is really easy.
 ```objective-c
- SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
+ 	SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
     //need to crate files array to upload
@@ -178,74 +185,73 @@ It is really easy.
     UIImage *image = [UIImage imageNamed:@"skywite"];
     NSData *imageData = UIImagePNGRepresentation(image);
     SWMedia *file1 = [[SWMedia alloc]initWithFileName:@"imagefile.png" key:@"image" data:imageData];
-
+    
     //create with custom mine type one
     
     SWMedia *file2 = [[SWMedia alloc]initWithFileName:@"image.jpg" key:@"image2" mineType:@"image/jpeg" data:imageData];
+    
     //create an array with files
+    
     NSArray *fileArray = @[file1, file2];
     
-    [postRequest startMultipartWithURL:@"your url" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [postRequest startUploadTaskWithURL:@"http://127.0.0.1:3000/drivers" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil
+    cachedData:^(NSCachedURLResponse *response, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 ```
-### `PUT` simple reuqest
+### `PUT` simple request
 ```objective-c
-SWPUTRequest *putRequest = [[SWPUTRequest alloc]init];
+	SWPUTRequest *putRequest = [[SWPUTRequest alloc]init];
     putRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [putRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view  success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [putRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
+    }];}
 ```
 ### `PATCH` simple request
 ```objective-c
     SWPATCHRequest *patchRequest = [[SWPATCHRequest alloc]init];
     patchRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [patchRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view  success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [patchRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 
 ```
 ### `DELETE` simple request
 ```objective-c
- SWDELETERequest *deleteRequest = [[SWDELETERequest alloc]init];
+ 	SWDELETERequest *deleteRequest = [[SWDELETERequest alloc]init];
     deleteRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [deleteRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [deleteRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
 ```
 
 ### `HEAD` simple request
 ```objective-c
-SWHEADRequest *headRequest = [[SWHEADRequest alloc]init];
+	SWHEADRequest *headRequest = [[SWHEADRequest alloc]init];
     headRequest.responseDataType = [SWResponseXMLDataType type];
     
-    [headRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view success:^(SWRequestOperation *operation, id responseObject) {
-        
+    [headRequest startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
-    }];
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
+    }];}
 ```
 ## Features
 all the following features averrable on all the request types. 
@@ -254,18 +260,18 @@ eg : If you want to access you need to call relevant method that include cache b
 ### Custom headers
 If you want to add custom headers you can set to accessing request object.
 ```objective-c
-SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
+	SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     
     [postRequest.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 ```
@@ -273,17 +279,17 @@ SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
 ### Custom time out
 If you want to change request timeout , you have to change property call `timeOut`.
 ```objective-c
-  SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
+  	SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     [postRequest setTimeOut:120];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 ```
@@ -292,17 +298,17 @@ If you want to change request timeout , you have to change property call `timeOu
 You need to sent object type for the `responseDataType` on all your requests.
 
 ```objective-c
- //JSON
+ 	//JSON
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequest startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -311,13 +317,13 @@ You need to sent object type for the `responseDataType` on all your requests.
     SWPOSTRequest *postRequestXML = [[SWPOSTRequest alloc]init];
     postRequestXML.responseDataType = [SWResponseJSONDataType type];
     
-    [postRequestXML startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequestXML startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -325,13 +331,13 @@ You need to sent object type for the `responseDataType` on all your requests.
     SWPOSTRequest *postRequestString = [[SWPOSTRequest alloc]init];
     postRequestString.responseDataType = [SWResponseStringDataType type];
     
-    [postRequestString startWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequestString startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
         NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
     
@@ -339,13 +345,13 @@ You need to sent object type for the `responseDataType` on all your requests.
     SWGETRequest *getRequestImage = [[SWGETRequest alloc]init];
     getRequestImage.responseDataType = [SWResponseUIImageType type];
     
-    [getRequestImage startWithURL:@"your URL String" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
-       // responseObject will be an image
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    [getRequestImage startDataTaskWithURL:@"your URL String" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:self.view cachedData:^(NSCachedURLResponse *response, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         
-       // responseObject will be an image
+        NSLog(@"%@", responseObject);
         
-    } failure:^(SWRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
 
@@ -355,7 +361,7 @@ You need to sent object type for the `responseDataType` on all your requests.
 No need to download image and set to `UIImageView` anymore. You can set url to `UIImageView`. 
 
 ```objective-c
-// Please use only one method . you can see 4 methods :)
+	// Please use only one method . you can see 4 methods :)
     
     // from url
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 300, 300)];
@@ -367,7 +373,7 @@ No need to download image and set to `UIImageView` anymore. You can set url to `
     
     //If you want to get complete event
     [imageView loadWithURLString:@"image url" complete:^(UIImage *image) {
-        //you can set your image to your object here.
+        //you can assing your image to your object here.
     }];
     
     //if you want cache and image handle
@@ -385,63 +391,18 @@ available Status
 `SWNetworkReachabilityStatusReachableViaWiFi`
 
 ```objective-c
--(void)netWorkAvailibity{
-    
-    if ([SWReachability getCurrentNetworkStatus] == SWNetworkReachabilityStatusNotReachable) {
+	if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         //connection not available.
     }
     
     //if you want to get status change notification
     
-    [SWReachability checkCurrentStatus:^(SWNetworingReachabilityStatus currentStatus) {
+    [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
         //current status when call method
-    } statusChange:^(SWNetworingReachabilityStatus changedStatus) {
+    } statusChange:^(SWNetworkingReachabilityStatus changedStatus) {
         //every time when change status
     }];
-}
 
-```
-### Operation managare
-As you know , If you want to send multiple requests (lot of requests) at the same time, it will get performance issue. So need to use `NSOperationQueue`. We are handing 'NSOperationQueue' with `SWOperationManger`
-
-```objective-c
-  SWOperationManger *operationManager = [[SWOperationManger alloc]init];
-```
-
-You can send max operation count.
-```objective-c
-  [operationManager setMaxOperationCount:3];
-```
-You can add multiple requests to queue. Please make sure set `wantToUseQueue` as `YES`.
-
-```objective-c
-    
-    SWGETRequest *getR = [[SWGETRequest alloc]init];
-    getR.wantToUseQueue = YES;
-    [getR startWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"success");
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        NSLog(@"fail %@", error);
-    }];
-    
-     SWPOSTRequest *postR = [[SWPOSTRequest alloc]init];
-    postR.wantToUseQueue = YES;
-    [postR startWithURL:@"your send request URL" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
-        
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"success");
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        NSLog(@"fail %@", error);
-    }];
-    
-    
-    SWOperationManger *oparetaionManager = [[SWOperationManger alloc]init];
-    [oparetaionManager addOperation:getR];
-    [oparetaionManager addOperation:postR];
 ```
 
 ### Upload progress With Request
@@ -465,32 +426,31 @@ You can add multiple requests to queue. Please make sure set `wantToUseQueue` as
     
     NSArray *fileArray = @[file1, file2];
     
-    [postRequest startMultipartWithURL:@"your url" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil success:^(SWRequestOperation *operation, id responseObject) {
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        
+    [postRequest startUploadTaskWithURL:@"http://127.0.0.1:3000/drivers" files:fileArray parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil  success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"%@", error);
     }];
-    
-    [postRequest setUploadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
-        NSLog(@"%ld -%ld -%ld", bytes, totalBytes, totalBytesExpected);
+    [postRequest setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"bytesWritten => %lld and totalBytesExpectedToWrite = %lld", bytesWritten, totalBytesExpectedToWrite);
     }];
+
 ```
 
 ### Download Progress With Request
 
 ```objective-c
-SWGETRequest *getR = [[SWGETRequest alloc]init];
-    [getR startWithURL:@"url" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+	SWGETRequest *getR = [[SWGETRequest alloc]init];
+    [getR startDownloadTaskWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response,  NSURL *location) {
         
-    } success:^(SWRequestOperation *operation, id responseObject) {
-        NSLog(@"success");
-        
-    } failure:^(SWRequestOperation *operation, NSError *error) {
-        NSLog(@"fail %@", error);
+    } success:^(NSURLSessionDownloadTask *uploadTask,  NSURL *location) {
+        NSLog(@"location %@", location);
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
+        NSLog(@"error %@", error);
     }];
     
-    [getR setDownloadProgressBlock:^(long bytes, long totalBytes, long totalBytesExpected) {
-        NSLog(@"%ld -%ld -%ld", bytes, totalBytes, totalBytesExpected);
+    [getR setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"bytesWritten => %lld and totalBytesExpectedToWrite = %lld", bytesWritten, totalBytesExpectedToWrite);
     }];
 ```
 
@@ -525,110 +485,29 @@ You have methods with parameter passing `sendLaterIfOllfine`. Just pass `YES`. T
 
 ```objective-c
 	SWGETRequest *getR = [[SWGETRequest alloc]init];
-     [getR startWithURL:@"http://your url" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
+     getR.tag = 400;
+     [getR startDataTaskWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
      
-     } success:^(SWRequestOperation *operation, id responseObject) {
-     NSLog(@"suceess");
+     } success:^(NSURLSessionDataTask *operation, id responseObject) {
      
-     } failure:^(SWRequestOperation *operation, NSError *error) {
-     NSLog(@"fail");
+     } failure:^(NSURLSessionTask *operation, NSError *error) {
+
      }];
 ```
 If you want catch offline request you need to use following methods. Better to add following lines to your `AppDelegate` didFinishLaunchingWithOptions methods.
 
 ```objective-c
-[[SWOfflineRequestManger sharedInstance] requestSuccessBlock:^(SWRequestOperation *oparation, id responseObject) {
+	[[SWOfflineRequestManger sharedInstance] requestSuccessBlock:^(SWRequest *operation, id responseObject) {
         
-        NSLog(@"%@", oparation.responseString);
+        NSLog(@"%d", operation.tag);
         
-    } requestFailBlock:^(SWRequestOperation *oparation, NSError *error) {
+    } requestFailBlock:^(SWRequest *operation, NSError *error) {
         
     }];
 ```
 
-Please note you need to set `tag` or `userObject` to identify the request. `userObject` should be `'NSCordering' support object 
+Please note you need to set `tag` or `userObject` to identify the request. `userObject` should be `'NSCording' support object 
 
-### Session managare
-All the Sessions will handle using session manger. NSURLSessionUploadTask, NSURLSessionDataTask, NSURLSessionDownloadTask with many options  and blocks for progress/sucess/faileure
-
-### Add Download Task
-
-```objective-c
-SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    
-    NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
-        NSLog(@"%@", location);
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    [ts resume];
-
-```
-
-### Add Data Task
-
-```objective-c
-SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    
-    NSURLSessionDataTask *ts = [sm dataTaskWithGetURL:@"" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
-        
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    
-    [ts resume];
-```
-
-### Add Upload Task
-
-```objective-c
-SWSessionManager *sm = [[SWSessionManager alloc]initWithSessionConfiguration:nil];
-    sm.requestDataType = [SWRequestMulitFormData type];
-
-    UIImage *image = [UIImage imageNamed:@"skywite.png"];
-    NSData *imageData = UIImagePNGRepresentation(image);
-    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
-    
-    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    [ts resume];
-
-```
-
-### Set download progress block
-```objective-c
-NSURLSessionDownloadTask *ts = [sm downloadTaskWithGetURL:@"" parameters:nil dowloadURL:nil success:^(NSURLSessionDownloadTask *uploadTask, NSURL *location) {
-        NSLog(@"%@", location);
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    
-    [ts setDownloadProgressBlock:^(long long totalBytes, long long totalBytesExpected) {
-        NSLog(@"%lld %lld", totalBytes, totalBytesExpected);
-    }];
-    [ts resume];
-```
-
-### Set upload progress block
-```objective-c
-UIImage *image = [UIImage imageNamed:@"skywite.png"];
-
-    NSData *imageData = UIImagePNGRepresentation(image);
-
-    SWMedia *media = [[SWMedia alloc]initWithFileName:@"skywite.png" key:@"fileToUpload" data:imageData];
-
-    NSURLSessionUploadTask *ts = [sm uploadTaskWithPostURL:@"" parameters:nil files:@[media] success:^(NSURLSessionUploadTask *uploadTask, id responseObject) {
-    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
-        
-    }];
-    [ts resume];
-    [ts setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
-        NSLog(@"%lld - %lld", bytesWritten, totalBytesExpectedToWrite);
-    }];
-```
-these blocks can use for any task.
 
 ### Set Task for UIProgressView
 Please use following method to set task for UIProgressView

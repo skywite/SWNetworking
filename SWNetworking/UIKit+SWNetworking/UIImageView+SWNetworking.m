@@ -31,13 +31,6 @@
 @implementation UIImageView (SWNetworking)
 @dynamic complete;
 @dynamic imageRequest;
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 
 -(void)loadWithURLString:(NSString *)url{
@@ -62,27 +55,26 @@
     
     self.imageRequest = [[SWGETRequest alloc]init];
     self.imageRequest.responseDataType = [SWResponseUIImageType type];
-    
-    [self.imageRequest startWithURL:url parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [self.imageRequest startDataTaskWithURL:url parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         if (status) {
             self.image = (UIImage *)responseObject;
         }
         [activityIndicator removeFromSuperview];
-    } success:^(SWRequestOperation *operation, id responseObject) {
+    } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         [activityIndicator removeFromSuperview];
         self.image = (UIImage *)responseObject;
         if (complete) {
             complete(self.image);
         }
+    } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
-    } failure:nil];
+    }];
+    
 }
 
 -(void)cancelLoading{
     if (self.imageRequest) {
-        if (![self.imageRequest isCancelled]) {
-            [self.imageRequest cancel];
-        }
+        [self.imageRequest cancel];
     }
     for (UIView *v in self.subviews) {
         if ([v isKindOfClass:[UIActivityIndicatorView class]]) {
@@ -91,6 +83,7 @@
         }
     }
 }
+
 -(SWGETRequest *)imageRequest{
     return objc_getAssociatedObject(self, @selector(imageRequest));
 }

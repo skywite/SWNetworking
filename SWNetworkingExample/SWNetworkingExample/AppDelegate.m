@@ -40,33 +40,33 @@
     
     //[[SWOfflineRequestManger requestExpireTime:1300 ] startReachabilityStatus];
     
-    /*
+    
     [SWOfflineRequestManger requestExpireTime:1300 ];
 
     
-    [[SWOfflineRequestManger sharedInstance] requestSuccessBlock:^(SWRequestOperation *oparation, id responseObject) {
+    [[SWOfflineRequestManger sharedInstance] requestSuccessBlock:^(SWRequest *oparation, id responseObject) {
         
         NSLog(@"%d", oparation.tag);
         
-    } requestFailBlock:^(SWRequestOperation *oparation, NSError *error) {
+    } requestFailBlock:^(SWRequest *oparation, NSError *error) {
         
     }];
-     */
+    
     
     
     //[[SWOfflineRequestManger sharedInstance]removeAllRequests];
-    /*
+    
     
      SWGETRequest *getR = [[SWGETRequest alloc]init];
-    getR.tag = 400;
-     [getR startWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
+     getR.tag = 400;
+     [getR startDataTaskWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
      
-     } success:^(SWRequestOperation *operation, id responseObject) {
+     } success:^(NSURLSessionDataTask *operation, id responseObject) {
      NSLog(@"suceess");
      
-     } failure:^(SWRequestOperation *operation, NSError *error) {
+     } failure:^(NSURLSessionTask *operation, NSError *error) {
      NSLog(@"fail %@", error);
-     }];*/
+     }];
     
    /* NSURL *url = [[NSURL alloc] initWithString:@"http://www.google.com?wwww=ttt" ];
     
@@ -78,7 +78,7 @@
     NSData *u = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]objectForKey:@"url"]];
     NSLog(@"%@", u);
     */
-    NSLog(@"%lu", (unsigned long)[[[SWOfflineRequestManger sharedInstance] offlineOparations] count]);
+    NSLog(@"count -> %lu", (unsigned long)[[[SWOfflineRequestManger sharedInstance] offlineOparations] count]);
     return YES;
 }
 
