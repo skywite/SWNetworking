@@ -72,6 +72,10 @@
  *  SWRequestFormData use to generate HTTPBody as FormData on the request.
  */
 @interface SWRequestFormData : SWRequestDataType
+
+/**
+ *  SWRequestFormData use to get query string
+ */
 -(NSString *)getQueryString;
 @end
 

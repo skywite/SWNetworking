@@ -24,7 +24,7 @@
 // THE SOFTWARE.
 //https://github.com/skywite
 //
-
+ #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import "SWRequest.h"
 #import "SWOfflineRequestManger.h"
@@ -40,7 +40,12 @@
 @property (nonatomic, retain) NSString                          *method;
 @property (nonatomic, retain) NSSet                             *availableInURLMethods;
 @property (readwrite, nonatomic, strong) NSError                *error;
+
+#if TARGET_OS_IOS || TARGET_OS_TV
 @property (nonatomic, retain) UIView                            *backgroundView;
+#elif TARGET_OS_MAC
+@property (nonatomic, retain) NSView                            *backgroundView;
+#endif
 @property (nonatomic, assign) BOOL                              isMultipart;
 @property (nonatomic, retain) NSArray                           *files;
 @property (nonatomic, strong) NSURLSessionTask                  *sessionTask;
@@ -115,7 +120,7 @@
 }
 
 -(void)addLoadingView{
-    
+#if TARGET_OS_IOS || TARGET_OS_TV
     self.backgroundView = [[UIView alloc]initWithFrame:self.parentView.frame];
     self.backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     UIView *roundedView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
@@ -149,6 +154,33 @@
         [self.backgroundView addSubview:roundedView];
         [self.parentView insertSubview:self.backgroundView atIndex:1000];
     }
+#elif TARGET_OS_MAC
+    self.backgroundView = [[NSView alloc]initWithFrame:self.parentView.frame];
+    [self.backgroundView setWantsLayer:YES];
+    self.backgroundView.layer.backgroundColor = [[NSColor colorWithRed:0 green:0 blue:0 alpha:0.5]CGColor];
+    NSView *roundedView = [[NSView alloc]initWithFrame:CGRectMake((self.backgroundView.frame.size.width /2 - 50), (self.backgroundView.frame.size.height/2 - 50), 100, 100)];
+    [roundedView setWantsLayer:YES];
+
+    roundedView.layer.backgroundColor = [[NSColor blackColor]CGColor];
+    
+    [[roundedView layer] setCornerRadius:5.0];
+    [[roundedView layer] setMasksToBounds:YES];
+    [[roundedView layer] setBorderWidth:1.0];
+    [[roundedView layer] setBorderColor:[[NSColor whiteColor] CGColor]];
+    
+    NSProgressIndicator* indicator = [[NSProgressIndicator alloc] initWithFrame:NSMakeRect((roundedView.frame.size.width /2 - 15), (roundedView.frame.size.height/2 - 15), 30, 30)];
+    [indicator setStyle:NSProgressIndicatorSpinningStyle];
+    [indicator startAnimation:nil];
+    CIFilter *lighten = [CIFilter filterWithName:@"CIColorControls"];
+    [lighten setDefaults];
+    [lighten setValue:@1 forKey:@"inputBrightness"];
+    [indicator setContentFilters:[NSArray arrayWithObjects:lighten, nil]];
+    
+     [roundedView addSubview:indicator];
+    
+    [self.backgroundView addSubview:roundedView];
+    [self.parentView addSubview:self.backgroundView];
+#endif
 }
 
 -(void )startWithURL:(NSString *)url
@@ -251,17 +283,21 @@
 
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     
-    self.parentView = parentView;
+#if TARGET_OS_IOS || TARGET_OS_TV
+    self.parentView = (UIView *)parentView;
+#elif TARGET_OS_MAC
+    self.parentView = (NSView *)parentView;
+#endif
     [self startDownloadTaskWithURL:url parameters:parameters success:success failure:failure];
 }
 
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -272,7 +308,7 @@
 
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
              sendLaterIfOffline:(BOOL)offlineRequestStatus
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
@@ -302,17 +338,21 @@
 
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     
-    self.parentView = parentView;
+    #if TARGET_OS_IOS || TARGET_OS_TV
+    self.parentView = (UIView *)parentView;
+    #elif TARGET_OS_MAC
+    self.parentView = (NSView *)parentView;
+    #endif
     [self startDataTaskWithURL:url parameters:parameters success:success failure:failure];
 }
 
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -323,7 +363,7 @@
 
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
          sendLaterIfOffline:(BOOL)offlineRequestStatus
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
@@ -553,12 +593,12 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
-    
+#if TARGET_OS_IOS || TARGET_OS_TV
     self.parentView = parentView;
-    
+#endif
     [self startUploadTaskWithURL:url files:files parameters:parameters success:success failure:failure];
     
 }
@@ -567,7 +607,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -582,7 +622,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
            sendLaterIfOffline:(BOOL)sendLater
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success

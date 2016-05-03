@@ -26,9 +26,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <TargetConditionals.h>
+
+
+#if TARGET_OS_IOS || TARGET_OS_TV
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 
-
+/**
+ *  SWResponseDataType protocol
+ */
 @protocol SWResponseDataType <NSObject>
 
 @end
@@ -42,11 +51,23 @@
 /**
  *  The Response Data Type class
  *
- *  @return ResponseDataType wiill return
+ *  @return ResponseDataType will return
  */
 
 + (instancetype)type;
+
+/**
+ *  The Response Data Type class
+ *
+ *  @return ResponseDataType will return
+ */
 -(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data;
+
+/**
+ *  The Response Data Type class
+ *
+ *  @return ResponseDataType will return
+ */
 -(id)responseOjbectFromdData:(NSData *)data;
 
 @end
@@ -88,6 +109,6 @@
 /**
  This Interface type use UIImage as response type. Interface will sublass from SWresponseDataType
  */
-@interface SWResponseUIImageType : SWResponseDataType
+@interface SWResponseImageType : SWResponseDataType
 
 @end

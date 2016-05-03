@@ -25,8 +25,10 @@
 //https://github.com/skywite
 //
 
-#import "UIImageView+SWNetworking.h"
 #import <objc/runtime.h>
+
+#if TARGET_OS_IOS || TARGET_OS_TV
+#import "UIImageView+SWNetworking.h"
 
 @implementation UIImageView (SWNetworking)
 @dynamic complete;
@@ -54,7 +56,7 @@
     [self addSubview:activityIndicator];
     
     self.imageRequest = [[SWGETRequest alloc]init];
-    self.imageRequest.responseDataType = [SWResponseUIImageType type];
+    self.imageRequest.responseDataType = [SWResponseImageType type];
     [self.imageRequest startDataTaskWithURL:url parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         if (status) {
             self.image = (UIImage *)responseObject;
@@ -93,3 +95,4 @@
 }
 
 @end
+#endif

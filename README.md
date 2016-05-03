@@ -1,7 +1,7 @@
 # <p align="center" style='color:#30a1f3' >SWNetworking</p>
 
 <p align="center" >
-  <img src="http://skywite.com/wp-content/uploads/2015/05/skywite.png" alt="AFNetworking" title=“SkyWite”>
+  <img src="http://skywite.com/wp-content/uploads/2015/05/skywite.png" alt="SWNetworking" title=“SkyWite”>
 </p>
 
 

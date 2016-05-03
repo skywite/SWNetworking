@@ -62,22 +62,12 @@
      [getR startDataTaskWithURL:@"http://www.google.com" parameters:nil parentView:nil sendLaterIfOffline:YES cachedData:^(NSCachedURLResponse *response, id responseObject) {
      
      } success:^(NSURLSessionDataTask *operation, id responseObject) {
-     NSLog(@"suceess");
+     NSLog(@"suceess -- %@", getR.responseString);
      
      } failure:^(NSURLSessionTask *operation, NSError *error) {
      NSLog(@"fail %@", error);
      }];
     
-   /* NSURL *url = [[NSURL alloc] initWithString:@"http://www.google.com?wwww=ttt" ];
-    
-    NSData *personEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:url];
-    
-    [[NSUserDefaults standardUserDefaults]setObject:personEncodedObject forKey:@"url"];
-    [[NSUserDefaults standardUserDefaults]synchronize];
-    
-    NSData *u = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults]objectForKey:@"url"]];
-    NSLog(@"%@", u);
-    */
     NSLog(@"count -> %lu", (unsigned long)[[[SWOfflineRequestManger sharedInstance] offlineOparations] count]);
     return YES;
 }

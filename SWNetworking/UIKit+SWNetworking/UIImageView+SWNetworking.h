@@ -25,8 +25,11 @@
 //https://github.com/skywite
 //
 
+#if TARGET_OS_IOS || TARGET_OS_TV
+
 #import <UIKit/UIKit.h>
 #import "SWRequest.h"
+
 /**
  *  THis is for category for UIImageView. IT wil help to load image from  GET request.
  */
@@ -77,3 +80,5 @@
 -(void)cancelLoading;
 
 @end
+
+#endif

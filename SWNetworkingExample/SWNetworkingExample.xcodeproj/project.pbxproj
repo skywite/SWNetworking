@@ -7,14 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F29CAE771C4606CD00A0B197 /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE5E1C4606CC00A0B197 /* SWMedia.m */; };
-		F29CAE781C4606CD00A0B197 /* SWReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE611C4606CC00A0B197 /* SWReachability.m */; };
-		F29CAE791C4606CD00A0B197 /* SWRequestDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE641C4606CC00A0B197 /* SWRequestDataType.m */; };
-		F29CAE7A1C4606CD00A0B197 /* SWResponseDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE661C4606CC00A0B197 /* SWResponseDataType.m */; };
-		F29CAE7C1C4606CD00A0B197 /* SWOfflineRequestManger.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE6D1C4606CD00A0B197 /* SWOfflineRequestManger.m */; };
-		F29CAE7E1C4606CD00A0B197 /* SWRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE711C4606CD00A0B197 /* SWRequest.m */; };
-		F29CAE7F1C4606CD00A0B197 /* UIImageView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE741C4606CD00A0B197 /* UIImageView+SWNetworking.m */; };
-		F29CAE801C4606CD00A0B197 /* UIProgressView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F29CAE761C4606CD00A0B197 /* UIProgressView+SWNetworking.m */; };
+		F2737CF91CD7222C007ED971 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737CF81CD7222C007ED971 /* AppDelegate.m */; };
+		F2737CFC1CD7222C007ED971 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737CFB1CD7222C007ED971 /* main.m */; };
+		F2737CFF1CD7222C007ED971 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737CFE1CD7222C007ED971 /* ViewController.m */; };
+		F2737D011CD7222C007ED971 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2737D001CD7222C007ED971 /* Assets.xcassets */; };
+		F2737D041CD7222C007ED971 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2737D021CD7222C007ED971 /* Main.storyboard */; };
+		F2737D3F1CD725DA007ED971 /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D2B1CD725DA007ED971 /* SWMedia.m */; };
+		F2737D401CD725DA007ED971 /* SWMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D2B1CD725DA007ED971 /* SWMedia.m */; };
+		F2737D411CD725DA007ED971 /* SWReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D2E1CD725DA007ED971 /* SWReachability.m */; };
+		F2737D421CD725DA007ED971 /* SWReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D2E1CD725DA007ED971 /* SWReachability.m */; };
+		F2737D431CD725DA007ED971 /* SWRequestDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D311CD725DA007ED971 /* SWRequestDataType.m */; };
+		F2737D441CD725DA007ED971 /* SWRequestDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D311CD725DA007ED971 /* SWRequestDataType.m */; };
+		F2737D451CD725DA007ED971 /* SWResponseDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D331CD725DA007ED971 /* SWResponseDataType.m */; };
+		F2737D461CD725DA007ED971 /* SWResponseDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D331CD725DA007ED971 /* SWResponseDataType.m */; };
+		F2737D471CD725DA007ED971 /* SWOfflineRequestManger.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D371CD725DA007ED971 /* SWOfflineRequestManger.m */; };
+		F2737D481CD725DA007ED971 /* SWOfflineRequestManger.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D371CD725DA007ED971 /* SWOfflineRequestManger.m */; };
+		F2737D491CD725DA007ED971 /* SWRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D391CD725DA007ED971 /* SWRequest.m */; };
+		F2737D4A1CD725DA007ED971 /* SWRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D391CD725DA007ED971 /* SWRequest.m */; };
+		F2737D4B1CD725DA007ED971 /* UIImageView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D3C1CD725DA007ED971 /* UIImageView+SWNetworking.m */; };
+		F2737D4C1CD725DA007ED971 /* UIImageView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D3C1CD725DA007ED971 /* UIImageView+SWNetworking.m */; };
+		F2737D4D1CD725DA007ED971 /* UIProgressView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D3E1CD725DA007ED971 /* UIProgressView+SWNetworking.m */; };
+		F2737D4E1CD725DA007ED971 /* UIProgressView+SWNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = F2737D3E1CD725DA007ED971 /* UIProgressView+SWNetworking.m */; };
+		F2737D501CD72B00007ED971 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2737D4F1CD72B00007ED971 /* Cocoa.framework */; };
 		F2B065161B51AEC4005356F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065151B51AEC4005356F3 /* main.m */; };
 		F2B065191B51AEC4005356F3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065181B51AEC4005356F3 /* AppDelegate.m */; };
 		F2B0651C1B51AEC4005356F3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B0651B1B51AEC4005356F3 /* MasterViewController.m */; };
@@ -38,23 +52,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F29CAE5D1C4606CC00A0B197 /* SWMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMedia.h; sourceTree = "<group>"; };
-		F29CAE5E1C4606CC00A0B197 /* SWMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMedia.m; sourceTree = "<group>"; };
-		F29CAE601C4606CC00A0B197 /* SWReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWReachability.h; sourceTree = "<group>"; };
-		F29CAE611C4606CC00A0B197 /* SWReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWReachability.m; sourceTree = "<group>"; };
-		F29CAE631C4606CC00A0B197 /* SWRequestDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequestDataType.h; sourceTree = "<group>"; };
-		F29CAE641C4606CC00A0B197 /* SWRequestDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequestDataType.m; sourceTree = "<group>"; };
-		F29CAE651C4606CC00A0B197 /* SWResponseDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWResponseDataType.h; sourceTree = "<group>"; };
-		F29CAE661C4606CC00A0B197 /* SWResponseDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWResponseDataType.m; sourceTree = "<group>"; };
-		F29CAE6A1C4606CD00A0B197 /* SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWNetworking.h; sourceTree = "<group>"; };
-		F29CAE6C1C4606CD00A0B197 /* SWOfflineRequestManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWOfflineRequestManger.h; sourceTree = "<group>"; };
-		F29CAE6D1C4606CD00A0B197 /* SWOfflineRequestManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWOfflineRequestManger.m; sourceTree = "<group>"; };
-		F29CAE701C4606CD00A0B197 /* SWRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequest.h; sourceTree = "<group>"; };
-		F29CAE711C4606CD00A0B197 /* SWRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequest.m; sourceTree = "<group>"; };
-		F29CAE731C4606CD00A0B197 /* UIImageView+SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+SWNetworking.h"; sourceTree = "<group>"; };
-		F29CAE741C4606CD00A0B197 /* UIImageView+SWNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+SWNetworking.m"; sourceTree = "<group>"; };
-		F29CAE751C4606CD00A0B197 /* UIProgressView+SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+SWNetworking.h"; sourceTree = "<group>"; };
-		F29CAE761C4606CD00A0B197 /* UIProgressView+SWNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+SWNetworking.m"; sourceTree = "<group>"; };
+		F2737CF51CD7222C007ED971 /* SWNetworkingMacExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWNetworkingMacExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2737CF71CD7222C007ED971 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F2737CF81CD7222C007ED971 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F2737CFB1CD7222C007ED971 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F2737CFD1CD7222C007ED971 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F2737CFE1CD7222C007ED971 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F2737D001CD7222C007ED971 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F2737D031CD7222C007ED971 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F2737D051CD7222C007ED971 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2737D2A1CD725DA007ED971 /* SWMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMedia.h; sourceTree = "<group>"; };
+		F2737D2B1CD725DA007ED971 /* SWMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMedia.m; sourceTree = "<group>"; };
+		F2737D2D1CD725DA007ED971 /* SWReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWReachability.h; sourceTree = "<group>"; };
+		F2737D2E1CD725DA007ED971 /* SWReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWReachability.m; sourceTree = "<group>"; };
+		F2737D301CD725DA007ED971 /* SWRequestDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequestDataType.h; sourceTree = "<group>"; };
+		F2737D311CD725DA007ED971 /* SWRequestDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequestDataType.m; sourceTree = "<group>"; };
+		F2737D321CD725DA007ED971 /* SWResponseDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWResponseDataType.h; sourceTree = "<group>"; };
+		F2737D331CD725DA007ED971 /* SWResponseDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWResponseDataType.m; sourceTree = "<group>"; };
+		F2737D341CD725DA007ED971 /* SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWNetworking.h; sourceTree = "<group>"; };
+		F2737D361CD725DA007ED971 /* SWOfflineRequestManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWOfflineRequestManger.h; sourceTree = "<group>"; };
+		F2737D371CD725DA007ED971 /* SWOfflineRequestManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWOfflineRequestManger.m; sourceTree = "<group>"; };
+		F2737D381CD725DA007ED971 /* SWRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequest.h; sourceTree = "<group>"; };
+		F2737D391CD725DA007ED971 /* SWRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequest.m; sourceTree = "<group>"; };
+		F2737D3B1CD725DA007ED971 /* UIImageView+SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+SWNetworking.h"; sourceTree = "<group>"; };
+		F2737D3C1CD725DA007ED971 /* UIImageView+SWNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+SWNetworking.m"; sourceTree = "<group>"; };
+		F2737D3D1CD725DA007ED971 /* UIProgressView+SWNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+SWNetworking.h"; sourceTree = "<group>"; };
+		F2737D3E1CD725DA007ED971 /* UIProgressView+SWNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+SWNetworking.m"; sourceTree = "<group>"; };
+		F2737D4F1CD72B00007ED971 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		F2B065101B51AEC4005356F3 /* SWNetworkingExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWNetworkingExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B065141B51AEC4005356F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2B065151B51AEC4005356F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,6 +99,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F2737CF21CD7222C007ED971 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2737D501CD72B00007ED971 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2B0650D1B51AEC4005356F3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -92,67 +124,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F29CAE5B1C4606CC00A0B197 /* SWNetworking */ = {
+		F2737CF61CD7222C007ED971 /* SWNetworkingMacExample */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE5C1C4606CC00A0B197 /* File */,
-				F29CAE5F1C4606CC00A0B197 /* Reachability */,
-				F29CAE621C4606CC00A0B197 /* ResponseType */,
-				F29CAE6A1C4606CD00A0B197 /* SWNetworking.h */,
-				F29CAE6B1C4606CD00A0B197 /* SWRequest */,
-				F29CAE721C4606CD00A0B197 /* UIKit+SWNetworking */,
+				F2737CF71CD7222C007ED971 /* AppDelegate.h */,
+				F2737CF81CD7222C007ED971 /* AppDelegate.m */,
+				F2737CFD1CD7222C007ED971 /* ViewController.h */,
+				F2737CFE1CD7222C007ED971 /* ViewController.m */,
+				F2737D001CD7222C007ED971 /* Assets.xcassets */,
+				F2737D021CD7222C007ED971 /* Main.storyboard */,
+				F2737D051CD7222C007ED971 /* Info.plist */,
+				F2737CFA1CD7222C007ED971 /* Supporting Files */,
 			);
-			name = SWNetworking;
-			path = ../../SWNetworking;
+			path = SWNetworkingMacExample;
 			sourceTree = "<group>";
 		};
-		F29CAE5C1C4606CC00A0B197 /* File */ = {
+		F2737CFA1CD7222C007ED971 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE5D1C4606CC00A0B197 /* SWMedia.h */,
-				F29CAE5E1C4606CC00A0B197 /* SWMedia.m */,
+				F2737CFB1CD7222C007ED971 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2737D281CD725DA007ED971 /* SWNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				F2737D291CD725DA007ED971 /* File */,
+				F2737D2C1CD725DA007ED971 /* Reachability */,
+				F2737D2F1CD725DA007ED971 /* ResponseType */,
+				F2737D341CD725DA007ED971 /* SWNetworking.h */,
+				F2737D351CD725DA007ED971 /* SWRequest */,
+				F2737D3A1CD725DA007ED971 /* UIKit+SWNetworking */,
+			);
+			name = SWNetworking;
+			path = ../SWNetworking;
+			sourceTree = "<group>";
+		};
+		F2737D291CD725DA007ED971 /* File */ = {
+			isa = PBXGroup;
+			children = (
+				F2737D2A1CD725DA007ED971 /* SWMedia.h */,
+				F2737D2B1CD725DA007ED971 /* SWMedia.m */,
 			);
 			path = File;
 			sourceTree = "<group>";
 		};
-		F29CAE5F1C4606CC00A0B197 /* Reachability */ = {
+		F2737D2C1CD725DA007ED971 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE601C4606CC00A0B197 /* SWReachability.h */,
-				F29CAE611C4606CC00A0B197 /* SWReachability.m */,
+				F2737D2D1CD725DA007ED971 /* SWReachability.h */,
+				F2737D2E1CD725DA007ED971 /* SWReachability.m */,
 			);
 			path = Reachability;
 			sourceTree = "<group>";
 		};
-		F29CAE621C4606CC00A0B197 /* ResponseType */ = {
+		F2737D2F1CD725DA007ED971 /* ResponseType */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE631C4606CC00A0B197 /* SWRequestDataType.h */,
-				F29CAE641C4606CC00A0B197 /* SWRequestDataType.m */,
-				F29CAE651C4606CC00A0B197 /* SWResponseDataType.h */,
-				F29CAE661C4606CC00A0B197 /* SWResponseDataType.m */,
+				F2737D301CD725DA007ED971 /* SWRequestDataType.h */,
+				F2737D311CD725DA007ED971 /* SWRequestDataType.m */,
+				F2737D321CD725DA007ED971 /* SWResponseDataType.h */,
+				F2737D331CD725DA007ED971 /* SWResponseDataType.m */,
 			);
 			path = ResponseType;
 			sourceTree = "<group>";
 		};
-		F29CAE6B1C4606CD00A0B197 /* SWRequest */ = {
+		F2737D351CD725DA007ED971 /* SWRequest */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE6C1C4606CD00A0B197 /* SWOfflineRequestManger.h */,
-				F29CAE6D1C4606CD00A0B197 /* SWOfflineRequestManger.m */,
-				F29CAE701C4606CD00A0B197 /* SWRequest.h */,
-				F29CAE711C4606CD00A0B197 /* SWRequest.m */,
+				F2737D361CD725DA007ED971 /* SWOfflineRequestManger.h */,
+				F2737D371CD725DA007ED971 /* SWOfflineRequestManger.m */,
+				F2737D381CD725DA007ED971 /* SWRequest.h */,
+				F2737D391CD725DA007ED971 /* SWRequest.m */,
 			);
 			path = SWRequest;
 			sourceTree = "<group>";
 		};
-		F29CAE721C4606CD00A0B197 /* UIKit+SWNetworking */ = {
+		F2737D3A1CD725DA007ED971 /* UIKit+SWNetworking */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE731C4606CD00A0B197 /* UIImageView+SWNetworking.h */,
-				F29CAE741C4606CD00A0B197 /* UIImageView+SWNetworking.m */,
-				F29CAE751C4606CD00A0B197 /* UIProgressView+SWNetworking.h */,
-				F29CAE761C4606CD00A0B197 /* UIProgressView+SWNetworking.m */,
+				F2737D3B1CD725DA007ED971 /* UIImageView+SWNetworking.h */,
+				F2737D3C1CD725DA007ED971 /* UIImageView+SWNetworking.m */,
+				F2737D3D1CD725DA007ED971 /* UIProgressView+SWNetworking.h */,
+				F2737D3E1CD725DA007ED971 /* UIProgressView+SWNetworking.m */,
 			);
 			path = "UIKit+SWNetworking";
 			sourceTree = "<group>";
@@ -160,8 +215,11 @@
 		F2B065071B51AEC4005356F3 = {
 			isa = PBXGroup;
 			children = (
+				F2737D4F1CD72B00007ED971 /* Cocoa.framework */,
+				F2737D281CD725DA007ED971 /* SWNetworking */,
 				F2B065121B51AEC4005356F3 /* SWNetworkingExample */,
 				F2B0652F1B51AEC4005356F3 /* SWNetworkingExampleTests */,
+				F2737CF61CD7222C007ED971 /* SWNetworkingMacExample */,
 				F2B065111B51AEC4005356F3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -171,6 +229,7 @@
 			children = (
 				F2B065101B51AEC4005356F3 /* SWNetworkingExample.app */,
 				F2B0652C1B51AEC4005356F3 /* SWNetworkingExampleTests.xctest */,
+				F2737CF51CD7222C007ED971 /* SWNetworkingMacExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,7 +237,6 @@
 		F2B065121B51AEC4005356F3 /* SWNetworkingExample */ = {
 			isa = PBXGroup;
 			children = (
-				F29CAE5B1C4606CC00A0B197 /* SWNetworking */,
 				F2B065171B51AEC4005356F3 /* AppDelegate.h */,
 				F2B065181B51AEC4005356F3 /* AppDelegate.m */,
 				F2B0651A1B51AEC4005356F3 /* MasterViewController.h */,
@@ -224,6 +282,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F2737CF41CD7222C007ED971 /* SWNetworkingMacExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2737D081CD7222C007ED971 /* Build configuration list for PBXNativeTarget "SWNetworkingMacExample" */;
+			buildPhases = (
+				F2737CF11CD7222C007ED971 /* Sources */,
+				F2737CF21CD7222C007ED971 /* Frameworks */,
+				F2737CF31CD7222C007ED971 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SWNetworkingMacExample;
+			productName = SWNetworkingMacExample;
+			productReference = F2737CF51CD7222C007ED971 /* SWNetworkingMacExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		F2B0650F1B51AEC4005356F3 /* SWNetworkingExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F2B065361B51AEC4005356F3 /* Build configuration list for PBXNativeTarget "SWNetworkingExample" */;
@@ -268,6 +343,9 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Saman Kumara";
 				TargetAttributes = {
+					F2737CF41CD7222C007ED971 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					F2B0650F1B51AEC4005356F3 = {
 						CreatedOnToolsVersion = 6.3;
 					};
@@ -292,11 +370,21 @@
 			targets = (
 				F2B0650F1B51AEC4005356F3 /* SWNetworkingExample */,
 				F2B0652B1B51AEC4005356F3 /* SWNetworkingExampleTests */,
+				F2737CF41CD7222C007ED971 /* SWNetworkingMacExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F2737CF31CD7222C007ED971 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2737D011CD7222C007ED971 /* Assets.xcassets in Resources */,
+				F2737D041CD7222C007ED971 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2B0650E1B51AEC4005356F3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,22 +407,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F2737CF11CD7222C007ED971 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2737D4C1CD725DA007ED971 /* UIImageView+SWNetworking.m in Sources */,
+				F2737CFF1CD7222C007ED971 /* ViewController.m in Sources */,
+				F2737D421CD725DA007ED971 /* SWReachability.m in Sources */,
+				F2737CFC1CD7222C007ED971 /* main.m in Sources */,
+				F2737D481CD725DA007ED971 /* SWOfflineRequestManger.m in Sources */,
+				F2737D401CD725DA007ED971 /* SWMedia.m in Sources */,
+				F2737D4A1CD725DA007ED971 /* SWRequest.m in Sources */,
+				F2737CF91CD7222C007ED971 /* AppDelegate.m in Sources */,
+				F2737D441CD725DA007ED971 /* SWRequestDataType.m in Sources */,
+				F2737D4E1CD725DA007ED971 /* UIProgressView+SWNetworking.m in Sources */,
+				F2737D461CD725DA007ED971 /* SWResponseDataType.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2B0650C1B51AEC4005356F3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F2B065191B51AEC4005356F3 /* AppDelegate.m in Sources */,
-				F29CAE7C1C4606CD00A0B197 /* SWOfflineRequestManger.m in Sources */,
 				F2B0651C1B51AEC4005356F3 /* MasterViewController.m in Sources */,
-				F29CAE771C4606CD00A0B197 /* SWMedia.m in Sources */,
+				F2737D3F1CD725DA007ED971 /* SWMedia.m in Sources */,
+				F2737D4B1CD725DA007ED971 /* UIImageView+SWNetworking.m in Sources */,
 				F2B065161B51AEC4005356F3 /* main.m in Sources */,
-				F29CAE7F1C4606CD00A0B197 /* UIImageView+SWNetworking.m in Sources */,
-				F29CAE7E1C4606CD00A0B197 /* SWRequest.m in Sources */,
-				F29CAE7A1C4606CD00A0B197 /* SWResponseDataType.m in Sources */,
-				F29CAE781C4606CD00A0B197 /* SWReachability.m in Sources */,
-				F29CAE801C4606CD00A0B197 /* UIProgressView+SWNetworking.m in Sources */,
+				F2737D451CD725DA007ED971 /* SWResponseDataType.m in Sources */,
+				F2737D411CD725DA007ED971 /* SWReachability.m in Sources */,
+				F2737D4D1CD725DA007ED971 /* UIProgressView+SWNetworking.m in Sources */,
 				F2B0651F1B51AEC4005356F3 /* DetailViewController.m in Sources */,
-				F29CAE791C4606CD00A0B197 /* SWRequestDataType.m in Sources */,
+				F2737D491CD725DA007ED971 /* SWRequest.m in Sources */,
+				F2737D471CD725DA007ED971 /* SWOfflineRequestManger.m in Sources */,
+				F2737D431CD725DA007ED971 /* SWRequestDataType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +463,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		F2737D021CD7222C007ED971 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2737D031CD7222C007ED971 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		F2B065201B51AEC4005356F3 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -376,6 +490,39 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F2737D061CD7222C007ED971 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = SWNetworkingMacExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swnetworking.SWNetworkingMacExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F2737D071CD7222C007ED971 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SWNetworkingMacExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swnetworking.SWNetworkingMacExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		F2B065341B51AEC4005356F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -518,6 +665,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F2737D081CD7222C007ED971 /* Build configuration list for PBXNativeTarget "SWNetworkingMacExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2737D061CD7222C007ED971 /* Debug */,
+				F2737D071CD7222C007ED971 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F2B0650B1B51AEC4005356F3 /* Build configuration list for PBXProject "SWNetworkingExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

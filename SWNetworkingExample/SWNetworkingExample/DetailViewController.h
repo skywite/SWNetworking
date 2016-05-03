@@ -28,7 +28,6 @@
 @interface DetailViewController : UIViewController
 
 @property (nonatomic, assign) id detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
 @end
 

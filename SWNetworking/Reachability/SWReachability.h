@@ -32,6 +32,9 @@
 
 extern NSString *kSWReachabilityChangedNotification;
 
+/**
+ *  Reachamitly status, three states available.SWNetworkReachabilityStatusNotReachable,SWNetworkReachabilityStatusReachableViaWWAN,SWNetworkReachabilityStatusReachableViaWiFi are the status
+ */
 
 typedef NS_ENUM(NSInteger, SWNetworkingReachabilityStatus) {
     SWNetworkingReachabilityStatusNotReachable = 0,

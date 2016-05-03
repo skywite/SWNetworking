@@ -27,6 +27,8 @@
 
 #import "UIProgressView+SWNetworking.h"
 
+
+#if TARGET_OS_IOS || TARGET_OS_TV
 @implementation UIProgressView (SWNetworking)
 
 -(void)setRequestForDownload:(SWRequest *) request{
@@ -53,3 +55,4 @@
 }
 
 @end
+#endif

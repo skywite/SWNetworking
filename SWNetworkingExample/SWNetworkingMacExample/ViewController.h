@@ -1,10 +1,9 @@
 //
-//  SWNetworking.h
-//  SWNetworking
+//  ViewController.h
+//  SWNetworkingMacExample
 //
-//  Created by Saman Kumara on 4/6/15.
-//  Copyright (c) 2015 Saman Kumara. All rights reserved.
-//
+//  Created by Saman Kumara on 5/2/16.
+//  Copyright © 2016 Saman Kumara. All rights reserved.
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -22,25 +21,12 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//https://github.com/skywite
-//
-#if TARGET_OS_IOS || TARGET_OS_TV
-#import <UIKit/UIKit.h>
-#endif
-#import "SWRequest.h"
-#import "SWResponseDataType.h"
-#import "SWMedia.h"
-#import "SWReachability.h"
-#import "UIImageView+SWNetworking.h"
-#import "UIProgressView+SWNetworking.h"
-#import "SWOfflineRequestManger.h"
 
-//! Project version number for SWNetworking.
-FOUNDATION_EXPORT double SWNetworkingVersionNumber;
 
-//! Project version string for SWNetworking.
-FOUNDATION_EXPORT const unsigned char SWNetworkingVersionString[];
+#import <Cocoa/Cocoa.h>
 
-// In this header, you should import all the public headers of your framework using statements like #import <SWNetworking/PublicHeader.h>
+@interface ViewController : NSViewController
 
+
+@end
 

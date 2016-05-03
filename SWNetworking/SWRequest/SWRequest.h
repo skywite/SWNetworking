@@ -27,7 +27,9 @@
 
 
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IOS || TARGET_OS_TV
 #import <UIKit/UIKit.h>
+#endif
 #import "SWResponseDataType.h"
 #import "SWRequestDataType.h"
 #import "SWMedia.h"
@@ -107,11 +109,15 @@ typedef enum {
  */
 @property (nonatomic, retain) SWResponseDataType <SWResponseDataType> *responseDataType;
 
+#if TARGET_OS_IOS || TARGET_OS_TV
 /**
  *  this is only use for add loading view
  */
 @property (nonatomic, retain) UIView    *parentView;
 
+#elif TARGET_OS_MAC
+@property (nonatomic, retain) NSView    *parentView;
+#endif
 /**
  *  This time will use to save reqeuest send time
  */
@@ -213,7 +219,7 @@ typedef enum {
  */
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -229,7 +235,7 @@ typedef enum {
  */
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -247,7 +253,7 @@ typedef enum {
  */
 -(void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(UIView *)parentView
+                     parentView:(NSObject *)parentView
              sendLaterIfOffline:(BOOL)sendLater
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
@@ -280,7 +286,7 @@ typedef enum {
  */
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -296,7 +302,7 @@ typedef enum {
  */
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -314,7 +320,7 @@ typedef enum {
  */
 -(void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(UIView *)parentView
+                 parentView:(NSObject *)parentView
          sendLaterIfOffline:(BOOL)sendLater
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
@@ -367,7 +373,7 @@ typedef enum {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -385,7 +391,7 @@ typedef enum {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -405,7 +411,7 @@ typedef enum {
 -(void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(UIView *)parentView
+                   parentView:(NSObject *)parentView
            sendLaterIfOffline:(BOOL)sendLater
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success

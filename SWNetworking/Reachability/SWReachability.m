@@ -157,12 +157,13 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
                     //self.networkReachabilityStatus = SWNetworkReachabilityStatusReachableViaWiFi;
                 }
             }
-            
+            #if	TARGET_OS_IPHONE
             if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN){
                 // ... but WWAN connections are OK if the calling application
                 //     is using the CFNetwork (CFSocketStream?) APIs.
                 self.networkReachabilityStatus = SWNetworkingReachabilityStatusReachableViaWWAN;
             }
+            #endif
         }
     }
     

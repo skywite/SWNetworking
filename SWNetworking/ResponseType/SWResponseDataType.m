@@ -25,6 +25,8 @@
 //https://github.com/skywite
 //
 
+
+
 #import "SWResponseDataType.h"
 
 
@@ -148,17 +150,24 @@
 @end
 
 
-@implementation SWResponseUIImageType
+@implementation SWResponseImageType
 
 -(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
-    
     self.responseCode = (int)[response statusCode];
-    
+#if TARGET_OS_IOS || TARGET_OS_TV
     return [UIImage imageWithData:data];
+#elif TARGET_OS_MAC
+    return  [[NSImage alloc] initWithData:data];
+#endif
+    return nil;
 }
 -(id)responseOjbectFromdData:(NSData *)data{
-    
-        return [UIImage imageWithData:data];
+#if TARGET_OS_IOS || TARGET_OS_TV
+    return [UIImage imageWithData:data];
+#elif TARGET_OS_MAC
+    return  [[NSImage alloc] initWithData:data];
+#endif
+    return nil;
 }
 
 @end
