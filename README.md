@@ -38,6 +38,12 @@ You need to add "SystemConfiguration" framework into your project before impleme
 SWNetworking is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
+```ruby
+pod "SWNetworking"
+```
+
+If you are new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetworking/wiki/CocoaPods-in-to-Xcode-Project) page.
+
 ### Communication
 
 - If you **need any help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/swnetworking). (Tag 'swnetworking') or you can send a mail with details ( we will provide fast feedback )
@@ -46,15 +52,9 @@ it, simply add the following line to your Podfile:
 - If you **have a feature request**, send a request mail we will add as soon as possible.
 - If you **want to contribute**, submit a pull request.
 
-### Using CocoaPods
-- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.3
-
-```ruby
-pod "SWNetworking"
-```
-If you new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetworking/wiki/CocoaPods-in-to-Xcode-Project) page.
-
 #Architecture
+
+- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.3
 
 * `SWRequest`
  - `SWRequest`
