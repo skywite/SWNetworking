@@ -44,6 +44,8 @@ pod "SWNetworking"
 
 If you are new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNetworking/wiki/CocoaPods-in-to-Xcode-Project) page.
 
+- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.3
+
 ### Communication
 
 - If you **need any help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/swnetworking). (Tag 'swnetworking') or you can send a mail with details ( we will provide fast feedback )
@@ -54,7 +56,6 @@ If you are new to CocoaPods, please go to [Wiki](https://github.com/skywite/SWNe
 
 #Architecture
 
-- Read the [SWNetworking 1.0 Migration Guide](https://github.com//skywite/SWNetworking/wiki/SWNetworking-1.0-Migration-Guide) for an overview of the architectural changes from 0.9.3
 
 * `SWRequest`
  - `SWRequest`
