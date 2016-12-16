@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SWNetworking"
-  s.version          = "1.1"
+  s.version          = "1.2"
   s.summary          = "Open Source Request handeling/managing on iOS snf OS X"
   s.description      = "SWNetworking is a open-source and highly versatile multi-purpose frameworks. Clean code and sleek features make SkyWite an ideal choice. Powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use. Achieve your deadlines by using SkyWite. You will save Hundred hours. Start development using Skywite. Definitely you will be happy....! yeah.."
   s.homepage         = "https://github.com/skywite/SWNetworking"
