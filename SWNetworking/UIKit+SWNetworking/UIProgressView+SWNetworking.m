@@ -31,24 +31,24 @@
 #if TARGET_OS_IOS || TARGET_OS_TV
 @implementation UIProgressView (SWNetworking)
 
--(void)setRequestForDownload:(SWRequest *) request{
+- (void)setRequestForDownload:(SWRequest *) request{
     [request setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
         self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
--(void)setRequestForUpload:(SWRequest *) request{
+- (void)setRequestForUpload:(SWRequest *) request{
     [request setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
         self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
 
--(void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
+- (void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
     [downloadTask setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
         self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];
 }
 
--(void)setUploadTask:(NSURLSessionUploadTask *)downloadTask{
+- (void)setUploadTask:(NSURLSessionUploadTask *)downloadTask{
     [downloadTask setUploadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
          self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
     }];

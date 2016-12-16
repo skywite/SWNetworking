@@ -143,17 +143,24 @@ typedef enum {
  *
  *  @return response as NSString
  */
--(NSString *)responseString;
+- (NSString *)responseString;
+
+/**
+ *  When calling this method user can see response as a string
+ *  @param encoding NSStringEncoding type
+ *  @return response as NSString
+ */
+- (NSString *)responseStringWithEncoding:(NSStringEncoding) encoding;
 
 /**
  *  This method will create session task with parameters and URL
  */
--(void)createSession;
+- (void)createSession;
 
 /**
  * when calling this method task will cancel
  */
--(void)cancel;
+- (void)cancel;
 
 #pragma mark request methods
 /**
@@ -161,20 +168,20 @@ typedef enum {
  *
  *  @param uploadProgressBlock Response will be bytesWritten and total bytes expected
  */
--(void)setUploadProgressBlock:(void (^)(long long  bytesWritten,  long long totalBytesExpectedToWrite)) uploadProgressBlock;
+- (void)setUploadProgressBlock:(void (^)(long long  bytesWritten,  long long totalBytesExpectedToWrite)) uploadProgressBlock;
 /**
  *  This method can use to set Download progress block
  *
  *  @param downloadProgressBlock Response will be bytesWritten and total bytes expected
  */
--(void)setDownloadProgressBlock:(void (^)(long long  bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
+- (void)setDownloadProgressBlock:(void (^)(long long  bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
 
 /**
  *  This method can use cath the upload success and failure
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)setUploadSuccess:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
+- (void)setUploadSuccess:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                 failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
 /**
@@ -183,7 +190,7 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)setDataSuccess:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
+- (void)setDataSuccess:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
               failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
 /**
@@ -192,7 +199,7 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
+- (void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                   failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
 #pragma mark starting downloadtask
@@ -204,7 +211,7 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -217,9 +224,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -233,9 +240,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -251,9 +258,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
              sendLaterIfOffline:(BOOL)sendLater
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
@@ -271,7 +278,7 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -284,9 +291,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -300,9 +307,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -318,9 +325,9 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
          sendLaterIfOffline:(BOOL)sendLater
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
@@ -354,7 +361,7 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
@@ -370,10 +377,10 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
@@ -388,10 +395,10 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
@@ -408,10 +415,10 @@ typedef enum {
  *  @param success    success block
  *  @param failure    failure block
  */
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
            sendLaterIfOffline:(BOOL)sendLater
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
@@ -494,21 +501,21 @@ typedef enum {
  *
  *  @return SessionBlockHandler object
  */
--(SWRequest *)swRequest;
+- (SWRequest *)swRequest;
 
 /**
  *  set bockhandler method
  *
  *  @param obj SessionBlockHandler object
  */
--(void)setSwRequest:(SWRequest *)obj;
+- (void)setSwRequest:(SWRequest *)obj;
 
 /**
  *  failure block set method
  *
  *  @param failure block
  */
--(void)setFailureBlock:(void (^)(NSURLSessionTask *task, NSError *error))failure;
+- (void)setFailureBlock:(void (^)(NSURLSessionTask *task, NSError *error))failure;
 
 @end
 
@@ -522,14 +529,14 @@ typedef enum {
  *
  *  @param downloadProgressBlock block
  */
--(void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
+- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
 
 /**
  *  Using this method user can set download success block
  *
  *  @param success block
  */
--(void)setDownloadSuccessBlock:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success;
+- (void)setDownloadSuccessBlock:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success;
 
 @end
 
@@ -544,7 +551,7 @@ typedef enum {
  *
  *  @param success block
  */
--(void)setDataSuccessBlock:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success;
+- (void)setDataSuccessBlock:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success;
 
 @end
 
@@ -558,13 +565,13 @@ typedef enum {
  *
  *  @param downloadProgressBlock block
  */
--(void)setUploadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
+- (void)setUploadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
 
 /**
  *  Using this method user can set file upload success block
  *
  *  @param success block
  */
--(void)setUploadSuccessBlock:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success;
+- (void)setUploadSuccessBlock:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success;
 
 @end

@@ -348,6 +348,8 @@
 					};
 					F2B0650F1B51AEC4005356F3 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = Y32VQD3J76;
+						ProvisioningStyle = Manual;
 					};
 					F2B0652B1B51AEC4005356F3 = {
 						CreatedOnToolsVersion = 6.3;
@@ -608,10 +610,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = Y32VQD3J76;
 				INFOPLIST_FILE = SWNetworkingExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.testing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ac62b2da-19f2-468a-a5ac-efa551c2e675";
+				PROVISIONING_PROFILE_SPECIFIER = "nestle dev profile";
 			};
 			name = Debug;
 		};
@@ -619,6 +625,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SWNetworkingExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.testing.$(PRODUCT_NAME:rfc1034identifier)";
@@ -672,6 +679,7 @@
 				F2737D071CD7222C007ED971 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F2B0650B1B51AEC4005356F3 /* Build configuration list for PBXProject "SWNetworkingExample" */ = {
 			isa = XCConfigurationList;

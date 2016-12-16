@@ -49,7 +49,7 @@
  *
  *  @return Content Type an a NSString
  */
--(NSString *)getContentType;
+- (NSString *)getContentType;
 
 /**
  *  This method use set request body. If want to custom datatype user can overide this method
@@ -57,14 +57,14 @@
  *  @param array files array to submit. (this is multipart body)
  *  @param data  The parameters will me NSDictionary or NSString
  */
--(void)dataWithFile:(NSArray *)array paremeters:(id)data;
+- (void)dataWithFile:(NSArray *)array paremeters:(id)data;
 
 /**
  *  Calling this method can get HTTPBody data
  *
  *  @return BodyData as NSData
  */
--(NSData *)getRequestBodyData;
+- (NSData *)getRequestBodyData;
 
 @end
 
@@ -76,7 +76,7 @@
 /**
  *  SWRequestFormData use to get query string
  */
--(NSString *)getQueryString;
+- (NSString *)getQueryString;
 @end
 
 /**

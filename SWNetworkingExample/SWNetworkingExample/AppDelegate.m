@@ -40,7 +40,7 @@
     
     //[[SWOfflineRequestManger requestExpireTime:1300 ] startReachabilityStatus];
     
-    
+    /*
     [SWOfflineRequestManger requestExpireTime:1300 ];
 
     
@@ -52,7 +52,7 @@
         
     }];
     
-    
+   
     
     //[[SWOfflineRequestManger sharedInstance]removeAllRequests];
     
@@ -67,8 +67,27 @@
      } failure:^(NSURLSessionTask *operation, NSError *error) {
      NSLog(@"fail %@", error);
      }];
+     
+     */
     
-    NSLog(@"count -> %lu", (unsigned long)[[[SWOfflineRequestManger sharedInstance] offlineOparations] count]);
+    if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusReachableViaWiFi) {
+        NSLog(@"got it");
+    }else {
+        NSLog(@"conneting it");
+
+    }
+    
+    [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
+        //current status when call method
+        NSLog(@"current status %ld", (long)currentStatus);
+
+    } statusChange:^(SWNetworkingReachabilityStatus changedStatus) {
+        //every time when change status
+        NSLog(@"change status %ld", (long)changedStatus);
+
+    }];
+    
+    
     return YES;
 }
 

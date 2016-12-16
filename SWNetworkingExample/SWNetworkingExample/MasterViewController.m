@@ -26,6 +26,11 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
+#import "SWNetworking.h"
+#import "UIImageView+SWNetworking.h"
+#import "UIProgressView+SWNetworking.h"
+#import "SWResponseDataType.h"
+
 @interface MasterViewController ()<UITableViewDelegate>
 
 @property NSArray *objects;
@@ -55,7 +60,7 @@
 
 #pragma mark - Table View
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return [[[self.objects objectAtIndex:section]allKeys] objectAtIndex:0];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

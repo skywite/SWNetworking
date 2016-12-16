@@ -61,14 +61,14 @@
  *
  *  @return ResponseDataType will return
  */
--(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data;
+- (id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data;
 
 /**
  *  The Response Data Type class
  *
  *  @return ResponseDataType will return
  */
--(id)responseOjbectFromdData:(NSData *)data;
+- (id)responseOjbectFromdData:(NSData *)data;
 
 @end
 
@@ -102,6 +102,22 @@
  This Interface type use NSString as response type. Interface will sublass from SWresponseDataType
  */
 @interface SWResponseStringDataType : SWResponseDataType
+
+
+/**
+If someone want to change encoding method this is the method the set the encoding
+ */
+@property (nonatomic, assign) NSStringEncoding encoding;
+
+/**
+ *  The Response Data Type class
+ *
+ *  @param encoding typeWithEncoding type need to pass
+ *
+ *  @return ResponseDataType will return
+ */
+
++ (instancetype)typeWithEncoding:(NSStringEncoding)encoding;
 
 @end
 

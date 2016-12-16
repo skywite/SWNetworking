@@ -48,14 +48,14 @@
  *
  *  @param url      The url that user want to downlaod.
  */
--(void)loadWithURLString:(NSString *)url;
+- (void)loadWithURLString:(NSString *)url;
 /**
  *  This method will help to downlaod image without complete block.
  *
  *  @param url      The url that user want to downlaod.
  *  @param status   IF yes, image will load from cache first. Then will load from downloading.
  */
--(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status;
+- (void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status;
 
 /**
  *  This method will help to downlaod image with complete block. Block response will be an image.
@@ -63,7 +63,7 @@
  *  @param url      The url that user want to downlaod.
  *  @param complete Complete block as an image
  */
--(void)loadWithURLString:(NSString *)url complete:(void(^)(UIImage *image))complete;
+- (void)loadWithURLString:(NSString *)url complete:(void(^)(UIImage *image))complete;
 
 /**
  *  This method will help to downlaod image with complete block. Block response will be an image.
@@ -72,12 +72,12 @@
  *  @param status   IF yes, image will load from cache first. Then will load from downloading.
  *  @param complete Complete block as an image
  */
--(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status complete:(void(^)(UIImage *image))complete;
+- (void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status complete:(void(^)(UIImage *image))complete;
 
 /**
  *  This method can use to cancle image downloading.
  */
--(void)cancelLoading;
+- (void)cancelLoading;
 
 @end
 

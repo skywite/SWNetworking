@@ -47,7 +47,7 @@ static dispatch_once_t onceToken;
 
 @implementation SWOfflineRequestManger
 
-+ (instancetype)requestExpireTime:(long) seconds{
++ (instancetype)requestExpireTime:(long) seconds {
     dispatch_once(&onceToken, ^{
         instance = [[SWOfflineRequestManger alloc] init];
     });
@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
     return instance;
 }
 
-+ (instancetype)sharedInstance{
++ (instancetype)sharedInstance {
     dispatch_once(&onceToken, ^{
         instance = [[SWOfflineRequestManger alloc] init];
     });
@@ -64,11 +64,11 @@ static dispatch_once_t onceToken;
 }
 
 
--(void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail{
-    self.requestSuccessBlock = success;
-    self.requestFailBlock = fail;
+- (void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail {
+    self.requestSuccessBlock    = success;
+    self.requestFailBlock       = fail;
 }
--(void)startReachabilityStatus{
+- (void)startReachabilityStatus {
     [SWReachability checkCurrentStatus:^(SWNetworkingReachabilityStatus currentStatus) {
         if (currentStatus != SWNetworkingReachabilityStatusNotReachable) {
             [self createOperations];
@@ -81,7 +81,7 @@ static dispatch_once_t onceToken;
     }];
 }
 
--(void)createOperations{
+- (void)createOperations {
     for (SWRequest *operetion in [self offlineOparations]) {
          __weak SWRequest *weakOperation = operetion;
         [operetion createSession];
@@ -122,7 +122,7 @@ static dispatch_once_t onceToken;
     }
 }
 
--(void)removeRequest:(SWRequest *)requestOperation{
+- (void)removeRequest:(SWRequest *)requestOperation {
     NSData *selectedData;
     for (NSData *data in [self getSavedArray]) {
         SWRequest * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -140,7 +140,7 @@ static dispatch_once_t onceToken;
         [[NSUserDefaults standardUserDefaults]synchronize];
     }
 }
--(NSArray *)offlineOparations{
+- (NSArray *)offlineOparations {
     NSMutableArray  *array = [[NSMutableArray alloc]init];
     for (NSData *data in [self getSavedArray]) {
         SWRequest * operation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -153,10 +153,10 @@ static dispatch_once_t onceToken;
     return array;
 }
 
--(void)removeAllRequests{
+- (void)removeAllRequests {
     [self saveRequests:[[NSMutableArray alloc]init]];
 }
--(void)saveRequests:(NSMutableArray *)list{
+- (void)saveRequests:(NSMutableArray *)list {
     NSMutableArray  *array = [[NSMutableArray alloc]init];
     for (SWRequest *operation in list) {
         NSData* archivedOperation = [NSKeyedArchiver archivedDataWithRootObject:operation];
@@ -166,7 +166,7 @@ static dispatch_once_t onceToken;
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
--(BOOL)addRequestForSendLater:(SWRequest *)requestOperation{
+- (BOOL)addRequestForSendLater:(SWRequest *)requestOperation {
     requestOperation.requestSavedDate = [NSDate new];
     NSMutableArray *array = [self getSavedArray];
     NSData* archivedOperation = [NSKeyedArchiver archivedDataWithRootObject:requestOperation];
@@ -176,7 +176,7 @@ static dispatch_once_t onceToken;
     return [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
--(NSMutableArray *)getSavedArray{
+- (NSMutableArray *)getSavedArray {
     if ([[NSUserDefaults standardUserDefaults]objectForKey:USER_DEFAULT_KEY]) {
         return [[NSMutableArray alloc]initWithArray:[[NSUserDefaults standardUserDefaults]objectForKey:USER_DEFAULT_KEY]];
     }else{

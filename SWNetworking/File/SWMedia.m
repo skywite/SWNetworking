@@ -42,7 +42,7 @@
 
 @implementation SWMedia
 
--(void)createMinetypes{
+- (void)createMinetypes{
     self.mineTypes = [[NSMutableArray alloc]init];
     [self.mineTypes addObject:@{@"extention": @"3gp", @"type": @"video/3gpp"}];
     [self.mineTypes addObject:@{@"extention": @"3g2", @"type": @"video/3gpp2"}];
@@ -68,15 +68,15 @@
     [self.mineTypes addObject:@{@"extention": @"tar", @"type": @"application/x-tar"}];
     [self.mineTypes addObject:@{@"extention": @"txt", @"type": @"text/plain"}];
 }
--(id)initWithFileName:(NSString*)name key:(NSString*)key data:(NSData *)data{
+- (id)initWithFileName:(NSString*)name key:(NSString*)key data:(NSData *)data {
     
-    self = [super init];
+    self            = [super init];
     
     [self createMinetypes];
     
-    self.fileName = name;
-    self.key = key;
-    self.data = data;
+    self.fileName   = name;
+    self.key        = key;
+    self.data       = data;
     
     NSString *extention = [self.fileName pathExtension];
     if (extention) {
@@ -91,9 +91,9 @@
     return self;
 }
 
--(id)initWithFileName:(NSString *)name key:(NSString *)key mineType:(NSString *)type data:(NSData *)data{
-    self = [self initWithFileName:name key:key data:data];
-    self.MIMEType = type;
+- (id)initWithFileName:(NSString *)name key:(NSString *)key mineType:(NSString *)type data:(NSData *)data {
+    self            = [self initWithFileName:name key:key data:data];
+    self.MIMEType   = type;
     return self;
 }
 

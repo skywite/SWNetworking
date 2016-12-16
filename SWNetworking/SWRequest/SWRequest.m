@@ -59,20 +59,20 @@
 @property(nonatomic, copy) void (^dataSuccessBlock)(NSURLSessionDataTask *dataTask, id responseObject);
 @property(nonatomic, copy) void (^cacheBlock)(NSCachedURLResponse *response,  id responseObject);
 
--(NSString *)responseString;
+- (NSString *)responseString;
 
 @end
 
 @implementation SWRequest
 
 
--(void)cancel {
+- (void)cancel {
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
     }
 }
 
--(id)init{
+- (id)init{
     if(self = [super init]){
         self.request = [[NSMutableURLRequest alloc] init];
         self.responseData = [NSMutableData data];
@@ -98,7 +98,7 @@
     #endif
 }
 
--(void)createSession{
+- (void)createSession{
 	[self showNetworkActivityIndicator:YES];
     
     SharedManager * manager = [SharedManager sharedManager];
@@ -119,7 +119,7 @@
     [manager.runningTasks setObject:self.sessionTask forKey:@(self.sessionTask.taskIdentifier)];
 }
 
--(void)addLoadingView{
+- (void)addLoadingView {
 #if TARGET_OS_IOS || TARGET_OS_TV
     self.backgroundView = [[UIView alloc]initWithFrame:self.parentView.frame];
     self.backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -183,8 +183,8 @@
 #endif
 }
 
--(void )startWithURL:(NSString *)url
-          parameters:(id)parameters{
+- (void )startWithURL:(NSString *)url
+          parameters:(id)parameters {
     
     [self.request setHTTPMethod:self.method];
     
@@ -260,30 +260,30 @@
 
 #pragma mark starting download task
 
--(void)setUploadSuccess:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
-                failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure{
+- (void)setUploadSuccess:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
+                failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     self.uploadSuccessBlock = success;
-    self.failBlock           = failure;
+    self.failBlock          = failure;
 }
--(void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
-                  failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure{
+- (void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
+                  failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     self.downloadSuccessBlock   = success;
-    self.failBlock      = failure;
+    self.failBlock              = failure;
 }
 
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
-                        failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure{
+                        failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     
     [self setDownloadSuccess:success failure:failure];
     self.taskType = DownloadTask;
     [self startWithURL:url parameters:parameters];
 }
 
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     
@@ -295,9 +295,9 @@
     [self startDownloadTaskWithURL:url parameters:parameters success:success failure:failure];
 }
 
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                         failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -306,9 +306,9 @@
     [self startDownloadTaskWithURL:url parameters:parameters parentView:parentView success:success failure:failure];
 }
 
--(void)startDownloadTaskWithURL:(NSString *)url
+- (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
-                     parentView:(NSObject *)parentView
+                     parentView:(id)parentView
              sendLaterIfOffline:(BOOL)offlineRequestStatus
                      cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                         success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
@@ -320,14 +320,14 @@
 
 #pragma mark starting data task
 
--(void)setDataSuccess:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
-              failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure{
-    self.dataSuccessBlock = success;
-    self.failBlock = failure;
+- (void)setDataSuccess:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
+              failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
+    self.dataSuccessBlock   = success;
+    self.failBlock          = failure;
 }
 
 
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -336,9 +336,9 @@
     [self startWithURL:url parameters:parameters];
 }
 
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     
@@ -350,9 +350,9 @@
     [self startDataTaskWithURL:url parameters:parameters success:success failure:failure];
 }
 
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
                     failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -361,9 +361,9 @@
     [self startDataTaskWithURL:url parameters:parameters parentView:parentView success:success failure:failure];
 }
 
--(void)startDataTaskWithURL:(NSString *)url
+- (void)startDataTaskWithURL:(NSString *)url
                  parameters:(id)parameters
-                 parentView:(NSObject *)parentView
+                 parentView:(id)parentView
          sendLaterIfOffline:(BOOL)offlineRequestStatus
                  cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                     success:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success
@@ -373,9 +373,29 @@
     [self startDataTaskWithURL:url parameters:parameters parentView:parentView cachedData:cache success:success failure:failure];
 }
 
+- (int)statusCode {
+    if (self.responseDataType) {
+        return self.responseDataType.responseCode;
+    }
+    
+    return 0;
+}
 
--(NSString *)responseString{
-    return[[NSString alloc]initWithData:self.responseData encoding:NSUTF8StringEncoding];
+- (NSString *)responseString {
+    NSString *responseString = @"";
+    if (self.responseData) {
+        responseString = [[NSString alloc]initWithData:self.responseData encoding:NSUTF8StringEncoding];
+    }
+    
+    if (!responseString) {
+        responseString = @"NSUTF8StringEncoding doens't support for your response. Please use esponseStringWithEncoding:(NSStringEncoding) encoding";
+    }
+    
+    return responseString;
+}
+
+- (NSString *)responseStringWithEncoding:(NSStringEncoding) encoding {
+    return[[NSString alloc]initWithData:self.responseData encoding:encoding];
 }
 
 #pragma mark NSCordering
@@ -529,11 +549,11 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
                 }
             }
             if (task.swRequest && task.swRequest.dataSuccessBlock) {
-                task.swRequest.dataSuccessBlock((NSURLSessionDataTask *)task, [task.swRequest.responseDataType responseOjbectFromdData:task.swRequest.responseData]);
+                task.swRequest.dataSuccessBlock((NSURLSessionDataTask *)task, [task.swRequest.responseDataType responseOjbect:(NSHTTPURLResponse *)task.response data:task.swRequest.responseData]);
                 task.swRequest.dataSuccessBlock = nil;
             }
             if (task.swRequest && task.swRequest.uploadSuccessBlock) {
-                task.swRequest.uploadSuccessBlock((NSURLSessionUploadTask *)task, [task.swRequest.responseDataType responseOjbectFromdData:task.swRequest.responseData]);
+                task.swRequest.uploadSuccessBlock((NSURLSessionUploadTask *)task, [task.swRequest.responseDataType responseOjbect:(NSHTTPURLResponse *)task.response data:task.swRequest.responseData]);
                 task.swRequest.uploadProgressBlock = nil;
             }
         }
@@ -550,7 +570,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 @implementation SWGETRequest
 
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
 
     self.method = @"GET";
@@ -567,14 +587,14 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWMultPartRequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     [super startWithURL:url parameters:parameters];
 }
 
 
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
@@ -590,10 +610,10 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     [self startWithURL:url parameters:parameters];
 }
 
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -604,10 +624,10 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 }
 
 
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                       failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
@@ -619,10 +639,10 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 }
 
 
--(void)startUploadTaskWithURL:(NSString *)url
+- (void)startUploadTaskWithURL:(NSString *)url
                         files:(NSArray *)files
                    parameters:(id)parameters
-                   parentView:(NSObject *)parentView
+                   parentView:(id)parentView
            sendLaterIfOffline:(BOOL)sendLater
                    cachedData:(void (^)(NSCachedURLResponse *response, id responseObject))cache
                       success:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
@@ -638,7 +658,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWPOSTRequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     self.method = @"POST";
@@ -650,7 +670,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWPUTRequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     self.method = @"PUT";
@@ -663,7 +683,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWHEADRequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     self.method = @"HEAD";
@@ -676,7 +696,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWDELETERequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     self.method = @"DELETE";
@@ -690,7 +710,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 @implementation SWPATCHRequest
 
--(void )startWithURL:(NSString *)url
+- (void )startWithURL:(NSString *)url
           parameters:(id)parameters {
     
     self.method = @"PATCH";
@@ -727,7 +747,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 
 
 @implementation NSObject (SessionDownloadCategory)
--(void)setFailureBlock:(void (^)(NSURLSessionTask *task, NSError *error))failure {
+- (void)setFailureBlock:(void (^)(NSURLSessionTask *task, NSError *error))failure {
     
     NSURLSessionTask *task = (NSURLSessionTask *)self;
     if(task.swRequest){
@@ -738,7 +758,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
         task.swRequest = handler;
     }
 }
--(void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock {
+- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock {
     
     NSURLSessionDownloadTask *task = (NSURLSessionDownloadTask *)self;
     if(task.swRequest){
@@ -751,7 +771,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
 }
 
 
--(void)setDownloadSuccessBlock:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success {
+- (void)setDownloadSuccessBlock:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success {
     
     NSURLSessionDataTask *task = (NSURLSessionDataTask *)self;
     if(task.swRequest){
@@ -763,7 +783,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     }
 }
 
--(void)setDataSuccessBlock:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success {
+- (void)setDataSuccessBlock:(void (^)(NSURLSessionDataTask *uploadTask, id responseObject))success {
     
     NSURLSessionDataTask *task = (NSURLSessionDataTask *)self;
     if(task.swRequest){
@@ -775,7 +795,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     }
 }
 
--(void)setUploadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) uploadProgressBlock {
+- (void)setUploadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) uploadProgressBlock {
     
     NSURLSessionUploadTask *task = (NSURLSessionUploadTask *)self;
     if(task.swRequest){
@@ -787,7 +807,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     }
 }
 
--(void)setUploadSuccessBlock:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success {
+- (void)setUploadSuccessBlock:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success {
     
     NSURLSessionUploadTask *task = (NSURLSessionUploadTask *)self;
     if(task.swRequest){
@@ -799,7 +819,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     }
 }
 
--(void)setUploadFailureBlock:(void (^)(NSURLSessionUploadTask *task, NSError *error))failure {
+- (void)setUploadFailureBlock:(void (^)(NSURLSessionUploadTask *task, NSError *error))failure {
     NSURLSessionUploadTask *task = (NSURLSessionUploadTask *)self;
     if(task.swRequest){
         task.swRequest.uploadFailureBlock = failure;
@@ -810,11 +830,11 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     }
 }
 
--(SWRequest *)swRequest {
+- (SWRequest *)swRequest {
     return objc_getAssociatedObject(self, @selector(swRequest));
 }
 
--(void)setSwRequest:(SWRequest *)obj {
+- (void)setSwRequest:(SWRequest *)obj {
     objc_setAssociatedObject(self, @selector(swRequest), obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

@@ -59,7 +59,7 @@
  *
  *  @return SWMedia object will return
  */
--(id)initWithFileName:(NSString*)name key:(NSString*)key data:(NSData *)data;
+- (id)initWithFileName:(NSString*)name key:(NSString*)key data:(NSData *)data;
 
 /**
  *  When user create with custom file types user can use this method.
@@ -71,5 +71,5 @@
  *
  *  @return SWMedia object will return
  */
--(id)initWithFileName:(NSString *)name key:(NSString *)key mineType:(NSString *)type  data:(NSData *)data;
+- (id)initWithFileName:(NSString *)name key:(NSString *)key mineType:(NSString *)type  data:(NSData *)data;
 @end

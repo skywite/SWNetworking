@@ -44,10 +44,8 @@
 @implementation SWReachabilityHandler
 
 
-- (void) checkNetworkStatus:(NSNotification *)notice{
-    
+- (void) checkNetworkStatus:(NSNotification *)notice {
     self.changedStatus([SWReachability getCurrentNetworkStatus]);
-    
 }
 
 
@@ -56,43 +54,38 @@
 NSString *kSWReachabilityChangedNotification = @"kSWReachabilityChangedNotification";
 static const char KConnectionHandler;
 
-static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
-
-{
+static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info) {
     
     NSCAssert(info != NULL, @"info was NULL in SWReachabilityCallback");
-    
     [[NSNotificationCenter defaultCenter] postNotificationName: kSWReachabilityChangedNotification object: nil];
-    
 }
 
 
 
-@interface SWReachability(){
-}
+@interface SWReachability() {}
+
 @property (nonatomic, assign)  SCNetworkReachabilityRef reachability;
-;
 @property (readwrite, nonatomic, assign) SWNetworkingReachabilityStatus networkReachabilityStatus;
 
 @end
+
 @implementation SWReachability
 
-+(SWNetworkingReachabilityStatus)getCurrentNetworkStatus{
++ (SWNetworkingReachabilityStatus)getCurrentNetworkStatus {
     SWReachability *reachability = [[SWReachability alloc]init];
     return [reachability getCurrentNetworkStatus];
 }
 
-+(BOOL)connected{
++ (BOOL)connected {
     SWReachability *reachability = [[SWReachability alloc]init];
     return [reachability connected];
 }
 
-+(void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus{
++ (void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus
+             statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus {
     
     SWReachabilityHandler *handler = [[SWReachabilityHandler alloc]init];
-    
     objc_setAssociatedObject(self, &KConnectionHandler, handler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
     handler.changedStatus = changedStatus;
     
     [[NSNotificationCenter defaultCenter] addObserver:handler
@@ -100,33 +93,26 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     
 
     SWReachability *reachability = [[SWReachability alloc]init];
-
     currentStatus([reachability getCurrentNetworkStatus]);
-    
-
     [reachability startNotifying];
-
 }
 
--(BOOL)connected{
+- (BOOL)connected {
     if ([self getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         return NO;
     }
     return YES;
 }
 
--(SWNetworkingReachabilityStatus)getCurrentNetworkStatus{
+- (SWNetworkingReachabilityStatus)getCurrentNetworkStatus {
     
     struct sockaddr_in zeroAddress;
     
     bzero(&zeroAddress, sizeof(zeroAddress));
-    
     zeroAddress.sin_len = sizeof(zeroAddress);
-    
     zeroAddress.sin_family = AF_INET;
     
     self.reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr*)&zeroAddress);
-    
     
     if(self.reachability != NULL) {
         //NetworkStatus retVal = NotReachable;
@@ -135,7 +121,7 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
             if ((flags & kSCNetworkReachabilityFlagsReachable) == 0){
                 // if target host is not reachable
                 self.networkReachabilityStatus = SWNetworkingReachabilityStatusNotReachable;
-                //return self.networkReachabilityStatus;
+                return self.networkReachabilityStatus;
             }
             
             self.networkReachabilityStatus = SWNetworkingReachabilityStatusNotReachable;
@@ -154,7 +140,7 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
                 
                 if ((flags & kSCNetworkReachabilityFlagsInterventionRequired) == 0){
                     // ... and no [user] intervention is needed wifi
-                    //self.networkReachabilityStatus = SWNetworkReachabilityStatusReachableViaWiFi;
+                    self.networkReachabilityStatus = SWNetworkingReachabilityStatusReachableViaWiFi;
                 }
             }
             #if	TARGET_OS_IPHONE
@@ -170,24 +156,17 @@ static void SWReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkRea
     return self.networkReachabilityStatus;
 }
 
--(void)startNotifying{
-    
-
+- (void)startNotifying {
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
         
-    if (SCNetworkReachabilitySetCallback(self.reachability, SWReachabilityCallback, &context)){
-        
+    if (SCNetworkReachabilitySetCallback(self.reachability, SWReachabilityCallback, &context)) {
         SCNetworkReachabilityScheduleWithRunLoop(self.reachability, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
 }
-- (void)stopNotifying
-
-{
-    if (self.reachability != NULL){
-        
+- (void)stopNotifying {
+    if (self.reachability != NULL) {
         SCNetworkReachabilityUnscheduleFromRunLoop(self.reachability, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
-    
 }
 
 
