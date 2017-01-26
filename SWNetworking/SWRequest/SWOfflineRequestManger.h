@@ -51,7 +51,7 @@
  *
  *  @return return NSArray will return NSArray object
  */
--(NSArray *)offlineOparations;
+- (NSArray *)offlineOparations;
 
 /**
  *  If you want to request to send later you can use this method
@@ -60,19 +60,19 @@
  *
  *  @return return BOOL will return operation save status
  */
--(BOOL)addRequestForSendLater:(SWRequest *)requestOperation;
+- (BOOL)addRequestForSendLater:(SWRequest *)requestOperation;
 
 /**
  *  if you want to delete reqeust from saved list you need to call this method
  *
  *  @param requestOperation requestOperation the operation request that you want to delete
  */
--(void)removeRequest:(SWRequest *)requestOperation;
+- (void)removeRequest:(SWRequest *)requestOperation;
 
 /**
  *  Calling this method all the saved request will be deleted
  */
--(void)removeAllRequests;
+- (void)removeAllRequests;
 
 /**
  *  If you want to catch request when success/fail you need to call this method. you need to set tag relevent reqeust to identify request
@@ -80,5 +80,5 @@
  *  @param success success success block
  *  @param fail    fail fail block
  */
--(void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail;
+- (void)requestSuccessBlock:(void (^)(SWRequest *oparation, id responseObject))success requestFailBlock:(void (^)(SWRequest *oparation,  NSError *error))fail;
 @end

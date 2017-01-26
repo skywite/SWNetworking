@@ -30,26 +30,16 @@
 
 NSString * const SW_MULTIPART_REQUEST_BOUNDARY = @"boundary-swnetworking-----------14737809831466499882746641449";
 
-static NSString * SWEscapedQueryStringKeyFromStringWithEncoding(NSString *string){
-    
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    /*return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
-                                                                                   NULL,
-                                                                                   (CFStringRef)string,
-                                                                                   NULL,
-                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#",
-                                                                                   kCFStringEncodingUTF8 );*/
+static NSString * SWEscapedQueryStringKeyFromStringWithEncoding(NSString *string) {
+    NSMutableCharacterSet *charset = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [charset removeCharactersInString:@"!*'();:@&=+$,/?%#"];
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:charset];
 }
 
-static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *string){
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-
-    /*return (__bridge_transfer  NSString *) CFURLCreateStringByAddingPercentEscapes(
-                                                                                   NULL,
-                                                                                   (CFStringRef)string,
-                                                                                   NULL,
-                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                                                   kCFStringEncodingUTF8 );*/
+static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *string) {
+    NSMutableCharacterSet *charset = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [charset removeCharactersInString:@"!*'();:@&=+$,/?%#[]"];
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:charset];
 }
 
 @interface SWRequestDataType()
@@ -60,37 +50,36 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
 @end
 @implementation SWRequestDataType
 
--(id)init{
-    if(self = [super init]){
+- (id)init {
+    if(self = [super init]) {
     }
     return self;
 }
-+ (instancetype)type{
++ (instancetype)type {
     
     return [[self alloc] init];
 }
 
--(void)dataWithFile:(NSArray *)array paremeters:(id)data{
+- (void)dataWithFile:(NSArray *)array paremeters:(id)data {
  
 }
 
--(NSData *)getRequestBodyData{
+- (NSData *)getRequestBodyData {
     return self.bodyData;
 }
 
--(NSString *)getContentType{
+- (NSString *)getContentType {
     return nil;
 }
 
--(NSString *)getQueryString{
+- (NSString *)getQueryString {
     return nil;
 }
 
 #pragma mark serialize
 
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super init])
     {
         self.bodyData = [aDecoder decodeObjectForKey:@"bodyData"];
@@ -99,8 +88,7 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
     return self ;
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
+- (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:self.bodyData forKey:@"bodyData"];
 }
 
@@ -126,16 +114,17 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
  */
 @implementation SWRequestFormData
 
--(NSString *)getContentType{
+- (NSString *)getContentType {
     return @"application/x-www-form-urlencoded";
 }
--(void)dataWithFile:(NSArray *)array paremeters:(id)data{
+
+- (void)dataWithFile:(NSArray *)array paremeters:(id)data {
     self.parameters = data;
-    self.bodyData = [(NSString *)[self getQueryString] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    self.bodyData   = [(NSString *)[self getQueryString] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
 }
 
 
--(NSString *)getQueryString{
+- (NSString *)getQueryString {
     
     NSString *retunString = nil;
     if ([self.parameters isKindOfClass:[NSDictionary class]]) {
@@ -166,18 +155,18 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
 
 @implementation SWRequestMulitFormData
 
--(void)dataWithFile:(NSArray *)array paremeters:(id)data{
+- (void)dataWithFile:(NSArray *)array paremeters:(id)data {
     
-    self.files = array;
-    self.bodyData = [self getBodyDataWithParameters:data];
+    self.files      = array;
+    self.bodyData   = [self getBodyDataWithParameters:data];
  
 }
 
--(NSString *)getContentType{
+- (NSString *)getContentType {
     return [NSString stringWithFormat:@"multipart/form-data; boundary=%@", SW_MULTIPART_REQUEST_BOUNDARY];
 }
 
--(NSMutableData *)getBodyDataWithParameters:(NSDictionary *)parameters{
+- (NSMutableData *)getBodyDataWithParameters:(NSDictionary *)parameters {
     
     
     NSMutableData *body = [NSMutableData data];
@@ -225,11 +214,11 @@ static NSString * SWEscapedQueryStringValueFromStringWithEncoding(NSString *stri
 @implementation SWRequestJSONData
 
 
--(NSString *)getContentType{
+- (NSString *)getContentType {
     return @"application/json";
 }
 
--(void)dataWithFile:(NSArray *)array paremeters:(id)data{
+- (void)dataWithFile:(NSArray *)array paremeters:(id)data {
     NSError *error = nil;
     self.bodyData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&error];
     if (error) {

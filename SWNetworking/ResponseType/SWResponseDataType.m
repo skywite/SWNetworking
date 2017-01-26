@@ -33,7 +33,7 @@
 @implementation SWResponseDataType
 
 
-- (instancetype)init{
+- (instancetype)init {
     self = [super init];
     if (!self) {
         return nil;
@@ -41,16 +41,19 @@
     return self;
 }
 
-+ (instancetype)type{
++ (instancetype)type {
 
     return [[self alloc] init];
 }
 
--(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
+- (id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
+    if (response) {
+        self.responseCode = (int)[response statusCode];
+    }
     return data;
 }
 
--(id)responseOjbectFromdData:(NSData *)data{
+- (id)responseOjbectFromdData:(NSData *)data{
     return data;
 }
 
@@ -60,16 +63,14 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    if(self = [super init])
-    {
+    if(self = [super init]) {
         self.responseCode = [aDecoder decodeIntForKey:@"responseCode"];
     }
     
     return self ;
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
+- (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeInt:self.responseCode forKey:@"responseCode"];
 }
 
@@ -96,33 +97,30 @@
 @implementation SWResponseJSONDataType
 
 
-- (instancetype)initWithJSONResponseWithReadingOptions:(NSJSONReadingOptions)readingOptions removeNullValueKeys:(BOOL)removeStatus{
+- (instancetype)initWithJSONResponseWithReadingOptions:(NSJSONReadingOptions)readingOptions removeNullValueKeys:(BOOL)removeStatus {
     
-    self = [SWResponseJSONDataType type];
-    self.removeNullValues = removeStatus;
-    self.readingOptions = readingOptions;
+    self                    = [SWResponseJSONDataType type];
+    self.removeNullValues   = removeStatus;
+    self.readingOptions     = readingOptions;
     
     return self;
 }
-- (instancetype)initWithJSONResponseWithReadingOptions:(NSJSONReadingOptions)readingOptions{
+- (instancetype)initWithJSONResponseWithReadingOptions:(NSJSONReadingOptions)readingOptions {
     
     return [self initWithJSONResponseWithReadingOptions:readingOptions removeNullValueKeys:NO];
-    
 }
 
--(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
+- (id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data {
     
-    self.responseCode = (int)[response statusCode];
+    if (response) {
+        self.responseCode = (int)[response statusCode];
+    }
     
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:nil];
-
-    return jsonObject;
+    return [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:nil];
 }
--(id)responseOjbectFromdData:(NSData *)data{
+- (id)responseOjbectFromdData:(NSData *)data {
     
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:nil];
-    
-    return jsonObject;
+    return [NSJSONSerialization JSONObjectWithData:data options: NSJSONReadingMutableContainers error:nil];
 }
 
 @end
@@ -135,25 +133,82 @@
 
 @implementation SWResponseStringDataType
 
--(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
-    
-    self.responseCode = (int)[response statusCode];
-    
-    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.encoding = NSUTF8StringEncoding;
+    return self;
 }
--(id)responseOjbectFromdData:(NSData *)data{
++ (instancetype)typeWithEncoding:(NSStringEncoding)encoding {
+    SWResponseStringDataType *stringType    = [[self alloc] init];
+    stringType.encoding                     = encoding;
     
-    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    return stringType;
 }
+
+- (NSString *)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data {
+    
+    if (response) {
+        self.responseCode = (int)[response statusCode];
+    }
+
+    NSString *responseString = @"";
+    if (data) {
+        responseString = [[NSString alloc]initWithData:data encoding:self.encoding];
+    }
+    
+    if (!responseString) {
+        responseString = @"NSUTF8StringEncoding doens't support for your response. Please use esponseStringWithEncoding:(NSStringEncoding) encoding";
+    }
+    return responseString;
+}
+- (NSString *)responseOjbectFromdData:(NSData *)data{
+    
+    NSString *responseString = @"";
+    if (data) {
+        responseString = [[NSString alloc]initWithData:data encoding:self.encoding];
+    }
+    
+    if (!responseString) {
+        responseString = @"NSUTF8StringEncoding doens't support for your response. Please use esponseStringWithEncoding:(NSStringEncoding) encoding";
+    }
+    
+    return responseString;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        self.encoding = [aDecoder decodeIntForKey:@"encoding"];
+    }
+    
+    return self ;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [super encodeWithCoder:encoder];
+    [encoder encodeInt64:self.encoding forKey:@"encoding"];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    SWResponseStringDataType *responseDataType = [super copyWithZone:zone];
+    responseDataType->_encoding = self.encoding;
+    
+    return responseDataType;
+}
+
 
 @end
 
 
 @implementation SWResponseImageType
 
--(id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data{
-    self.responseCode = (int)[response statusCode];
+- (id)responseOjbect:(NSHTTPURLResponse *) response data:(NSData *)data {
+    
+    if (response) {
+        self.responseCode = (int)[response statusCode];
+    }
 #if TARGET_OS_IOS || TARGET_OS_TV
     return [UIImage imageWithData:data];
 #elif TARGET_OS_MAC
@@ -161,7 +216,7 @@
 #endif
     return nil;
 }
--(id)responseOjbectFromdData:(NSData *)data{
+- (id)responseOjbectFromdData:(NSData *)data {
 #if TARGET_OS_IOS || TARGET_OS_TV
     return [UIImage imageWithData:data];
 #elif TARGET_OS_MAC

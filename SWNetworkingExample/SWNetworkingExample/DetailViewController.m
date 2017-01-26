@@ -208,9 +208,9 @@
 
 #pragma mark get request
 
--(void)simpleGET {
+- (void)simpleGET {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
-    [getRequest startDataTaskWithURL:@"https://www.google.lk/" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"response as String %@", getRequest.responseString);
 
     } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
@@ -218,7 +218,7 @@
     }];
 }
 
--(void)withResponseType {
+- (void)withResponseType {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
     [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
@@ -228,7 +228,7 @@
     }];
 }
 
--(void)withLoadingView {
+- (void)withLoadingView {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
     [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:nil parentView:self.view success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
@@ -238,7 +238,7 @@
     }];
 }
 
--(void)withParameter {
+- (void)withParameter {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
     [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
@@ -248,12 +248,13 @@
     }];
 }
 
--(void)withCacheData {
+- (void)withCacheData {
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseStringDataType type];
-    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [getRequest startDataTaskWithURL:@"http://127.0.0.1:3000" parameters:@{@"name": @"this is name", @"address": @"your  address"}  parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+        NSLog(@"cache");
     } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
-        
+        NSLog(@"success");
     } failure:^(NSURLSessionTask *uploadTask, NSError *error) {
         
     }];
@@ -262,7 +263,7 @@
 
 #pragma mark post request
 
--(void)simplePOST {
+- (void)simplePOST {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
@@ -278,7 +279,7 @@
     
     SWPOSTRequest *postRequest2 = [[SWPOSTRequest alloc]init];
     postRequest2.responseDataType = [SWResponseJSONDataType type];
-    [postRequest2 startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name": @"this is name", @"address": @"your address"} parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
+    [postRequest2 startDataTaskWithURL:@"http://127.0.0.1:3000/drivers" parameters:@{@"name[]": @"this is name", @"address": @"your address"} parentView:nil cachedData:^(NSCachedURLResponse *response, id responseObject) {
         NSLog(@"%@", responseObject);
     } success:^(NSURLSessionDataTask *uploadTask, id responseObject) {
         NSLog(@"%@", responseObject);
@@ -287,7 +288,7 @@
     }];
 }
 
--(void)WithMultiPart {
+- (void)WithMultiPart {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
@@ -320,7 +321,7 @@
 
 #pragma mark Put request
 
--(void)simplePUT {
+- (void)simplePUT {
     SWPUTRequest *putRequest = [[SWPUTRequest alloc]init];
     putRequest.responseDataType = [SWResponseXMLDataType type];
     
@@ -332,7 +333,7 @@
 
 #pragma mark Patch request
 
--(void)simplePatch{
+- (void)simplePatch {
     
     SWPATCHRequest *patchRequest = [[SWPATCHRequest alloc]init];
     patchRequest.responseDataType = [SWResponseXMLDataType type];
@@ -346,7 +347,7 @@
 
 #pragma mark Delete request
 
--(void)simpleDELETE{
+- (void)simpleDELETE {
     
     SWDELETERequest *deleteRequest = [[SWDELETERequest alloc]init];
     deleteRequest.responseDataType = [SWResponseXMLDataType type];
@@ -361,7 +362,7 @@
 
 #pragma mark Head Request
 
--(void)simpleHEAD{
+- (void)simpleHEAD {
     
     SWHEADRequest *headRequest = [[SWHEADRequest alloc]init];
     headRequest.responseDataType = [SWResponseXMLDataType type];
@@ -377,7 +378,7 @@
 
 #pragma mark Features
 
--(void)autoLoadingView{
+- (void)autoLoadingView {
     
     // you only need to pass your parent view . framework will and loading view to parent view. If you want to custormize view you can create nib file inssdie your project and that nib file name shoud be "sw_loadingView"
     
@@ -393,7 +394,7 @@
     }];
 }
 
--(void)downloadProgress{
+- (void)downloadProgress {
     SWGETRequest *getR = [[SWGETRequest alloc]init];
     [getR startDownloadTaskWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil cachedData:^(NSCachedURLResponse *response,  NSURL *location) {
         
@@ -409,7 +410,7 @@
     
 }
 
--(void)uploadProgress{
+- (void)uploadProgress {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];
     
@@ -438,7 +439,7 @@
     }];
 }
 
--(void)customHeader{
+- (void)customHeader {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     
     [postRequest.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -456,7 +457,7 @@
     
 }
 
--(void)customContentType{
+- (void)customContentType {
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     
     [postRequest.request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -473,7 +474,7 @@
     }];
 }
 
--(void)customTimeOut{
+- (void)customTimeOut {
     
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     [postRequest setTimeOut:120];
@@ -490,7 +491,7 @@
     }];
 }
 
--(void)offlineRequest{
+- (void)offlineRequest {
     // only you need to call relevent methods. it's available for every reqest time.
     
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
@@ -507,7 +508,7 @@
     // If you want to see evenet complete time. example on app delegate.
 }
 
--(void)responseEncoding{
+- (void)responseEncoding {
     
     //JSON
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
@@ -567,7 +568,7 @@
     }];
 }
 
--(void)accessCacheData{
+- (void)accessCacheData {
     
     SWGETRequest *getRequest = [[SWGETRequest alloc]init];
     getRequest.responseDataType = [SWResponseJSONDataType type];
@@ -583,7 +584,7 @@
     }];
 }
 
--(void)uiImageViewWithURL{
+- (void)uiImageViewWithURL {
     // few samples
     
     // Please use only one method . you can see 4 methods :)
@@ -607,7 +608,7 @@
     }];
 }
 
--(void)netWorkAvailibity{
+- (void)netWorkAvailibity {
     if ([SWReachability getCurrentNetworkStatus] == SWNetworkingReachabilityStatusNotReachable) {
         //connection not available.
     }
@@ -621,7 +622,7 @@
     }];
 }
 
--(void)multipleOperations{
+- (void)multipleOperations {
     /*
     SWGETRequest *getR = [[SWGETRequest alloc]init];
     getR.wantToUseQueue = YES;
@@ -651,7 +652,7 @@
     */
 }
 
--(void)downloadProgressWithProgressView{
+- (void)downloadProgressWithProgressView {
     SWGETRequest *getR = [[SWGETRequest alloc]init];
     [getR startDownloadTaskWithURL:@"http://samples.mplayerhq.hu/A-codecs/ACELP.net/2001-04-11.asf" parameters:nil parentView:nil success:^(NSURLSessionDownloadTask *uploadTask,  NSURL *location) {
         NSLog(@"%@", location);
@@ -663,7 +664,7 @@
     [progressView setRequestForDownload:getR];
 }
 
--(void)uploadProgressWithProgressView{
+- (void)uploadProgressWithProgressView {
     
     SWPOSTRequest *postRequest = [[SWPOSTRequest alloc]init];
     postRequest.responseDataType = [SWResponseJSONDataType type];

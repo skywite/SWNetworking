@@ -35,16 +35,16 @@
 @dynamic imageRequest;
 
 
--(void)loadWithURLString:(NSString *)url{
+- (void)loadWithURLString:(NSString *)url{
     [self loadWithURLString:url loadFromCacheFirst:NO];
 }
--(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status{
+- (void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status {
     [self loadWithURLString:url loadFromCacheFirst:status complete:nil];
 }
--(void)loadWithURLString:(NSString *)url complete:(void(^)(UIImage *image))complete{
+- (void)loadWithURLString:(NSString *)url complete:(void(^)(UIImage *image))complete {
     [self loadWithURLString:url loadFromCacheFirst:NO complete:complete];
 }
--(void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status complete:(void(^)(UIImage *image))complete{
+- (void)loadWithURLString:(NSString *)url loadFromCacheFirst:(BOOL)status complete:(void(^)(UIImage *image))complete {
     
     //self.complete = complete;
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -74,7 +74,7 @@
     
 }
 
--(void)cancelLoading{
+- (void)cancelLoading {
     if (self.imageRequest) {
         [self.imageRequest cancel];
     }
@@ -86,11 +86,11 @@
     }
 }
 
--(SWGETRequest *)imageRequest{
+- (SWGETRequest *)imageRequest {
     return objc_getAssociatedObject(self, @selector(imageRequest));
 }
 
--(void)setImageRequest:(SWGETRequest *)obj{
+- (void)setImageRequest:(SWGETRequest *)obj {
     objc_setAssociatedObject(self, @selector(imageRequest), obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

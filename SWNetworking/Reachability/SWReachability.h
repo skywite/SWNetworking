@@ -54,14 +54,14 @@ typedef NS_ENUM(NSInteger, SWNetworkingReachabilityStatus) {
  *
  *  @return Currnt Status
  */
-+(SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
++ (SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
 
 /**
  *  Check simply network availabily - Class methods
  *
  *  @return If network available will return YES, else NO
  */
-+(BOOL)connected;
++ (BOOL)connected;
 
 /**
  *  This will work like notification. When Change states this will automatically comes to the block - Class methods
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, SWNetworkingReachabilityStatus) {
  *  @param currentStatus current network status
  *  @param changedStatus changed network status
  */
-+(void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus;
++ (void)checkCurrentStatus:(void (^)(SWNetworkingReachabilityStatus currentStatus)) currentStatus statusChange:(void (^)(SWNetworkingReachabilityStatus changedStatus))changedStatus;
 
 
 /**
@@ -77,18 +77,18 @@ typedef NS_ENUM(NSInteger, SWNetworkingReachabilityStatus) {
  *
  *  @return If network available will return YES, else NO
  */
--(BOOL)connected;
+- (BOOL)connected;
 
 /**
  *  Calling this current status will return - Instance methods
  *
  *  @return Currnt Status
  */
--(SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
+- (SWNetworkingReachabilityStatus)getCurrentNetworkStatus;
 
 /**
  *  calling this method will start notification will start .
  */
--(void)startNotifying;
+- (void)startNotifying;
 
 @end
