@@ -69,6 +69,7 @@
 - (void)cancel {
     if (self.sessionTask.state == NSURLSessionTaskStateRunning) {
         [self.sessionTask cancel];
+        self.responseData = [NSMutableData data];
     }
 }
 
@@ -89,7 +90,7 @@
 }
 
 - (void)showNetworkActivityIndicator:(BOOL)show {
-    #if !TARGET_OS_TV
+    #if TARGET_OS_IOS || TARGET_OS_WATCH
 	if ( ![[UIApplication class] respondsToSelector:@selector(sharedApplication) ] ) {
 		return;
 	}
@@ -114,6 +115,7 @@
     }else {
         self.sessionTask = [manager.session dataTaskWithRequest:self.request];
     }
+    self.responseData = [NSMutableData data];
     [self.sessionTask setSwRequest:self];
     [self.sessionTask resume];
     [manager.runningTasks setObject:self.sessionTask forKey:@(self.sessionTask.taskIdentifier)];

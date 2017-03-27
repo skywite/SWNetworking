@@ -147,9 +147,7 @@ static dispatch_once_t onceToken;
         if ([operation.requestSavedDate timeIntervalSinceReferenceDate] > self.expireTime){
             [array addObject:operation];
         }
-    }
-    [self saveRequests:array];
-    
+    }    
     return array;
 }
 
