@@ -52,7 +52,7 @@
 @property (readwrite, nonatomic, assign) TaskType               taskType;
 
 @property(nonatomic, copy) void (^uploadProgressBlock)(long long  bytesWritten,  long long totalBytesExpectedToWrite);
-@property(nonatomic, copy) void (^downloadProgressBlock)(long long  bytesWritten,  long long totalBytesExpectedToWrite);
+@property(nonatomic, copy) void (^downloadProgressBlock)(long long  bytesWritten, long long totalBytesWritten,  long long totalBytesExpectedToWrite);
 @property(nonatomic, copy) void (^failBlock)(NSURLSessionTask *dataTask,  NSError *error);
 @property(nonatomic, copy) void (^downloadSuccessBlock)(NSURLSessionDownloadTask *uploadTask, NSURL *location);
 @property(nonatomic, copy) void (^uploadSuccessBlock)(NSURLSessionUploadTask *uploadTask, id responseObject);
@@ -104,6 +104,10 @@
     
     SharedManager * manager = [SharedManager sharedManager];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    if (manager.configuration) {
+        configuration = manager.configuration;
+    }
     if (!manager.session) {
         manager.session = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:manager.operationQueue];
     }
@@ -260,18 +264,36 @@
 }
 
 
-#pragma mark starting download task
 
 - (void)setUploadSuccess:(void (^)(NSURLSessionUploadTask *uploadTask, id responseObject))success
                 failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     self.uploadSuccessBlock = success;
     self.failBlock          = failure;
 }
+#pragma mark starting download task
+
 - (void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                   failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
     self.downloadSuccessBlock   = success;
     self.failBlock              = failure;
 }
+
+- (void)startDownloadwithResumeData:(NSData *) resumeData
+                            success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
+                            failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure {
+    self.taskType               = DownloadTask;
+    [self setDownloadSuccess:success failure:failure];
+    [self showNetworkActivityIndicator:YES];
+    
+    SharedManager * manager = [SharedManager sharedManager];
+    if (!manager.session) {
+        manager.session = [NSURLSession sessionWithConfiguration:manager.configuration delegate:self delegateQueue:manager.operationQueue];
+    }
+    self.sessionTask            = [[[SharedManager sharedManager] session] downloadTaskWithResumeData:resumeData];
+    [self.sessionTask setSwRequest:self];
+    
+    [self.sessionTask resume];
+    [manager.runningTasks setObject:self.sessionTask forKey:@(self.sessionTask.taskIdentifier)];}
 
 - (void)startDownloadTaskWithURL:(NSString *)url
                      parameters:(id)parameters
@@ -487,16 +509,16 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     
     if (downloadTask.swRequest && downloadTask.swRequest.downloadProgressBlock) {
-        downloadTask.swRequest.downloadProgressBlock(bytesWritten, totalBytesExpectedToWrite);
+        downloadTask.swRequest.downloadProgressBlock(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     }
 }
 
 - (void)URLSession:(__unused NSURLSession *)session downloadTask:(__unused NSURLSessionDownloadTask *)downloadTask
- didResumeAtOffset:(__unused int64_t)bytesWritten
+ didResumeAtOffset:(__unused int64_t)fileOffset
 expectedTotalBytes:(int64_t)totalBytesExpectedToWrite {
     
     if (downloadTask.swRequest && downloadTask.swRequest.downloadProgressBlock) {
-        downloadTask.swRequest.downloadProgressBlock(bytesWritten, totalBytesExpectedToWrite);
+        downloadTask.swRequest.downloadProgressBlock(0, 0, totalBytesExpectedToWrite);
     }
 }
 
@@ -730,13 +752,16 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
     static SharedManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedManager = [[self alloc] init];
-        sharedManager.operationQueue = [[NSOperationQueue alloc] init];
-        sharedManager.operationQueue.maxConcurrentOperationCount = 1;
+        sharedManager                   = [[self alloc] init];
+        sharedManager.operationQueue    = [[NSOperationQueue alloc] init];
+        sharedManager.configuration     = [NSURLSessionConfiguration defaultSessionConfiguration];
     });
     return sharedManager;
 }
 
+-(void)setMaxConcurrentRequestCount:(int)maxRequestCount {
+    self.configuration.HTTPMaximumConnectionsPerHost = maxRequestCount;
+}
 
 @end
 
@@ -761,7 +786,7 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask * )downloadTask {
         task.swRequest = handler;
     }
 }
-- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock {
+- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten, long long totalBytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock {
     
     NSURLSessionDownloadTask *task = (NSURLSessionDownloadTask *)self;
     if(task.swRequest){

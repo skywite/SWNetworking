@@ -172,9 +172,9 @@ typedef enum {
 /**
  *  This method can use to set Download progress block
  *
- *  @param downloadProgressBlock Response will be bytesWritten and total bytes expected
+ *  @param downloadProgressBlock Response will be bytesWritten , totalBytesWritten and total bytes expected
  */
-- (void)setDownloadProgressBlock:(void (^)(long long  bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
+- (void)setDownloadProgressBlock:(void (^)(long long  bytesWritten, long long totalBytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
 
 /**
  *  This method can use cath the upload success and failure
@@ -202,7 +202,18 @@ typedef enum {
 - (void)setDownloadSuccess:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
                   failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
 
-#pragma mark starting downloadtask
+
+/**
+ *  This method will help to generate request with different parameters
+ *
+ *  @param resumeData The resume Data
+ *  @param success    success block
+ *  @param failure    failure block
+ */
+- (void)startDownloadwithResumeData:(NSData *) resumeData
+                            success:(void (^)(NSURLSessionDownloadTask *uploadTask, NSURL *location))success
+                            failure:(void (^)(NSURLSessionTask *uploadTask, NSError *error))failure;
+
 /**
  *  This method will help to generate request with different parameters
  *
@@ -486,6 +497,16 @@ typedef enum {
 @property (nonatomic, strong) NSOperationQueue              *operationQueue;
 
 /**
+ The Session Configuration for Session
+ */
+@property (nonatomic, strong) NSURLSessionConfiguration       *configuration;
+
+/**
+ The maxium request count
+ */
+@property (nonatomic, assign) int                             maxConcurrentRequestCount;
+
+/**
  Singletons object will retrun when call this method 
  */
 + (id)sharedManager;
@@ -529,7 +550,7 @@ typedef enum {
  *
  *  @param downloadProgressBlock block
  */
-- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
+- (void)setDownloadProgressBlock:(void (^)(long long bytesWritten,long long totalBytesWritten,  long long totalBytesExpectedToWrite)) downloadProgressBlock;
 
 /**
  *  Using this method user can set download success block

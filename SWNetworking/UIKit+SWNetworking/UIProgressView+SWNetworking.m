@@ -32,8 +32,14 @@
 @implementation UIProgressView (SWNetworking)
 
 - (void)setRequestForDownload:(SWRequest *) request{
-    [request setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
-        self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
+    [request setDownloadProgressBlock:^(long long bytesWritten,long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        if ([NSThread isMainThread]) {
+            self.progress = ((float)totalBytesWritten / totalBytesExpectedToWrite);
+        }else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.progress = ((float)totalBytesWritten / totalBytesExpectedToWrite);
+            });
+        }
     }];
 }
 - (void)setRequestForUpload:(SWRequest *) request{
@@ -43,8 +49,15 @@
 }
 
 - (void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
-    [downloadTask setDownloadProgressBlock:^(long long bytesWritten, long long totalBytesExpectedToWrite) {
-        self.progress = ((float)bytesWritten / totalBytesExpectedToWrite);
+    
+    [downloadTask setDownloadProgressBlock:^(long long  bytesWritten, long long totalBytesWritten,  long long totalBytesExpectedToWrite) {
+        if ([NSThread isMainThread]) {
+            self.progress = ((float)totalBytesWritten / totalBytesExpectedToWrite);
+        }else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.progress = ((float)totalBytesWritten / totalBytesExpectedToWrite);
+            });
+        }
     }];
 }
 
