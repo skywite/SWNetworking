@@ -108,16 +108,16 @@
     if (manager.configuration) {
         configuration = manager.configuration;
     }
-    if (!manager.session) {
-        manager.session = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:manager.operationQueue];
+    if (!manager.currentSession) {
+        manager.currentSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:manager.operationQueue];
     }
     
     if (self.taskType == UploadTask) {
-        self.sessionTask = [manager.session uploadTaskWithRequest:self.request fromData:[self.requestDataType getRequestBodyData]];
+        self.sessionTask = [manager.currentSession uploadTaskWithRequest:self.request fromData:[self.requestDataType getRequestBodyData]];
     }else if (self.taskType == DownloadTask) {
-        self.sessionTask = [manager.session downloadTaskWithRequest:self.request];
+        self.sessionTask = [manager.currentSession downloadTaskWithRequest:self.request];
     }else {
-        self.sessionTask = [manager.session dataTaskWithRequest:self.request];
+        self.sessionTask = [manager.currentSession dataTaskWithRequest:self.request];
     }
     self.responseData = [NSMutableData data];
     [self.sessionTask setSwRequest:self];
@@ -286,10 +286,10 @@
     [self showNetworkActivityIndicator:YES];
     
     SharedManager * manager = [SharedManager sharedManager];
-    if (!manager.session) {
-        manager.session = [NSURLSession sessionWithConfiguration:manager.configuration delegate:self delegateQueue:manager.operationQueue];
+    if (!manager.currentSession) {
+        manager.currentSession = [NSURLSession sessionWithConfiguration:manager.configuration delegate:self delegateQueue:manager.operationQueue];
     }
-    self.sessionTask            = [[[SharedManager sharedManager] session] downloadTaskWithResumeData:resumeData];
+    self.sessionTask            = [[[SharedManager sharedManager] currentSession] downloadTaskWithResumeData:resumeData];
     [self.sessionTask setSwRequest:self];
     
     [self.sessionTask resume];

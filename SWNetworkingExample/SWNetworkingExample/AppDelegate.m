@@ -36,6 +36,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
+    NSURLSessionDownloadTask *task = [[NSURLSession sharedSession] downloadTaskWithResumeData:nil];
+    
     // Override point for customization after application launch.
     
     //[[SWOfflineRequestManger requestExpireTime:1300 ] startReachabilityStatus];

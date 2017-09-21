@@ -486,7 +486,7 @@ typedef enum {
 /**
  The session object that can shared
  */
-@property (nonatomic, strong) NSURLSession                  *session;
+@property (nonatomic, strong) NSURLSession                  *currentSession;
 /**
  The runnig task dictionaray
  */

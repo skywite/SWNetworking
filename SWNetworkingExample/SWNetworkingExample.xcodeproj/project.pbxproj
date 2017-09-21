@@ -39,6 +39,7 @@
 		F2B065331B51AEC4005356F3 /* SWNetworkingExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B065321B51AEC4005356F3 /* SWNetworkingExampleTests.m */; };
 		F2B0653D1B51AEEF005356F3 /* sw_loadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2B0653C1B51AEEF005356F3 /* sw_loadingView.xib */; };
 		F2B0653F1B51AEF8005356F3 /* skywite.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B0653E1B51AEF8005356F3 /* skywite.png */; };
+		F2DB48701F73A0D5009194E6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2DB486F1F73A0D5009194E6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		F2B065321B51AEC4005356F3 /* SWNetworkingExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWNetworkingExampleTests.m; sourceTree = "<group>"; };
 		F2B0653C1B51AEEF005356F3 /* sw_loadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = sw_loadingView.xib; sourceTree = "<group>"; };
 		F2B0653E1B51AEF8005356F3 /* skywite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skywite.png; sourceTree = "<group>"; };
+		F2DB486F1F73A0D5009194E6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2DB48701F73A0D5009194E6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +224,7 @@
 				F2B0652F1B51AEC4005356F3 /* SWNetworkingExampleTests */,
 				F2737CF61CD7222C007ED971 /* SWNetworkingMacExample */,
 				F2B065111B51AEC4005356F3 /* Products */,
+				F2DB486E1F73A0D5009194E6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +281,14 @@
 				F2B065311B51AEC4005356F3 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2DB486E1F73A0D5009194E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2DB486F1F73A0D5009194E6 /* Foundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
